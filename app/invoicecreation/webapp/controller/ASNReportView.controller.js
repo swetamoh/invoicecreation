@@ -55,12 +55,14 @@ sap.ui.define([
 			//this.endDate = dateFormat.format(this.endDate);
 			//this.getView().byId("endDateId").setValue(this.curDate);
 			//this.getView().byId("startDateId").setValue(this.curDate);
-			this.searhFilters = this.statusFilters = [];
+			//this.searhFilters = this.statusFilters = [];
 			var that = this;
-			this.AddressCode = sessionStorage.getItem("AddressCode") || 'PAI-01-03';
+			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
+			this.getView().byId("PlantId").setValue(this.unitCode);
+			this.getView().byId("InvStatusId").setSelectedKey("Pending");
 			var oModel = this.getOwnerComponent().getModel();
-			oModel.read("/GetASNHeaderList?AddressCode=" + this.AddressCode,{
-				success : function (oData) {
+			oModel.read("/GetASNHeaderList?AddressCode=" + this.AddressCode, {
+				success: function (oData) {
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
 				},
@@ -69,7 +71,7 @@ sap.ui.define([
 					var value = JSON.parse(oError.response.body);
 					MessageBox.error(value.error.message.value);
 				}
-		});
+			});
 
 			//var datePicker = this.getView().byId("startDateId");
 
@@ -107,6 +109,38 @@ sap.ui.define([
 			var that = this;
 			var data = this.localModel.getData();
 			var path = "/AsnSet?$filter=";
+			if (data.POStartDate) {
+				var date = data.POStartDate.substring(4, 6) + "/" + data.POStartDate.substring(6, 8) + "/" + data.POStartDate.substring(0, 4);
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+				});
+				data.POStartDate = dateFormat.format(DateInstance);
+			}
+			if (data.POEndDate) {
+				var date = data.POEndDate.substring(4, 6) + "/" + data.POEndDate.substring(6, 8) + "/" + data.POEndDate.substring(0, 4);
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+				});
+				data.POEndDate = dateFormat.format(DateInstance);
+			}
+			if (data.MRNStartDate) {
+				var date = data.MRNStartDate.substring(4, 6) + "/" + data.MRNStartDate.substring(6, 8) + "/" + data.MRNStartDate.substring(0, 4);
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+				});
+				data.MRNStartDate = dateFormat.format(DateInstance);
+			}
+			if (data.MRNEndDate) {
+				var date = data.MRNEndDate.substring(4, 6) + "/" + data.MRNEndDate.substring(6, 8) + "/" + data.MRNEndDate.substring(0, 4);
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+				});
+				data.MRNEndDate = dateFormat.format(DateInstance);
+			}
 			Object.keys(data).forEach(function (key, index) {
 				if (data[key]) {
 					if (index > 0) {
@@ -511,21 +545,21 @@ sap.ui.define([
 			// var INVFilterKey = "";
 			if (this.statusType === "Asn Status") {
 				switch (this.byId("selectFilterId").getText().toLowerCase().trim()) {
-				case "new":
-					ASNFilterKey = "01";
-					break;
-				case "in transit":
-					ASNFilterKey = "02";
-					break;
-				case "reached plant":
-					ASNFilterKey = "03";
-					break;
-				case "unloading started":
-					ASNFilterKey = "04";
-					break;
-				case "completed":
-					ASNFilterKey = "05";
-					break;
+					case "new":
+						ASNFilterKey = "01";
+						break;
+					case "in transit":
+						ASNFilterKey = "02";
+						break;
+					case "reached plant":
+						ASNFilterKey = "03";
+						break;
+					case "unloading started":
+						ASNFilterKey = "04";
+						break;
+					case "completed":
+						ASNFilterKey = "05";
+						break;
 				}
 				path = path + " and AsnStatus eq '" + ASNFilterKey + "'";
 			}
@@ -656,15 +690,15 @@ sap.ui.define([
 			this.statusFilters = [];
 			if (sValue) {
 				switch (this.statusType) {
-				case "Asn Status":
-					this.statusFilters.push(new sap.ui.model.Filter("AsnStatusText", sap.ui.model.FilterOperator.EQ, sValue));
-					break;
-				case "Gr Status":
-					this.statusFilters.push(new sap.ui.model.Filter("GrStatus", sap.ui.model.FilterOperator.EQ, sValue));
-					break;
-				case "Inv. Status":
-					this.statusFilters.push(new sap.ui.model.Filter("InvStatus", sap.ui.model.FilterOperator.EQ, sValue));
-					break;
+					case "Asn Status":
+						this.statusFilters.push(new sap.ui.model.Filter("AsnStatusText", sap.ui.model.FilterOperator.EQ, sValue));
+						break;
+					case "Gr Status":
+						this.statusFilters.push(new sap.ui.model.Filter("GrStatus", sap.ui.model.FilterOperator.EQ, sValue));
+						break;
+					case "Inv. Status":
+						this.statusFilters.push(new sap.ui.model.Filter("InvStatus", sap.ui.model.FilterOperator.EQ, sValue));
+						break;
 				}
 				// 	if (ID.includes("AsnStatusId")) {
 				// 		that.StatusFilterId = "AsnId";
@@ -735,11 +769,11 @@ sap.ui.define([
 		},
 
 		onFromDateChange: function (oEvent) {
-			var FromDate = this.getView().byId("startDateId").getDateValue();
-			var ToDate = this.getView().byId("endDateId").getDateValue();
-			this.getView().byId("endDateId").setMinDate(FromDate);
+			var FromDate = this.getView().byId("postartDateId").getDateValue();
+			var ToDate = this.getView().byId("poendDateId").getDateValue();
+			this.getView().byId("poendDateId").setMinDate(FromDate);
 			if (ToDate <= FromDate) {
-				this.getView().byId("endDateId").setDateValue(new Date(FromDate));
+				this.getView().byId("poendDateId").setDateValue(new Date(FromDate));
 			}
 			oEvent.getSource().$().find('INPUT').attr('disabled', true).css('color', '#000000');
 		}
