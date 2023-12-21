@@ -1,0 +1,137 @@
+_schema-version: "3.1"
+ID: invoicecreation
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: invoicecreation-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: invoicecreation-db
+  - name: uaa_invoicecreation
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: invoicecreation-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: invoicecreation-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: invoicecreation-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: invoicecreation-destination-service
+    parameters:
+      content-target: true
+  - name: invoicecreation_html_repo_host
+    parameters:
+      service-key:
+        name: invoicecreation_html_repo_host-key
+  - name: uaa_invoicecreation
+    parameters:
+      service-key:
+        name: uaa_invoicecreation-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: invoicecreation_invoicecreation_html_repo_host
+          ServiceInstanceName: invoicecreation-html5-app-host-service
+          ServiceKeyName: invoicecreation_html_repo_host-key
+          sap.cloud.service: invoicecreation
+        - Authentication: OAuth2UserTokenExchange
+          Name: invoicecreation_uaa_invoicecreation
+          ServiceInstanceName: invoicecreation-xsuaa-service
+          ServiceKeyName: uaa_invoicecreation-key
+          sap.cloud.service: invoicecreation
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: invoicecreation-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: invoicecreation_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - sapfioriinvoicecreationinvoicecreation.zip
+      name: sapfioriinvoicecreationinvoicecreation
+      target-path: resources/
+- name: sapfioriinvoicecreationinvoicecreation
+  type: html5
+  path: app/invoicecreation
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: invoicecreation-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: invoicecreation-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: invoicecreation-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: invoicecreation-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: invoicecreation_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: invoicecreation-html5-app-host-service
+    service-plan: app-host
+- name: uaa_invoicecreation
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: invoicecreation-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: invoicecreation-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production

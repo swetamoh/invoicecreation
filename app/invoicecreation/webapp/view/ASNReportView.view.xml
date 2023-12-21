@@ -1,0 +1,224 @@
+<mvc:View controllerName="sap.fiori.invoicecreation.controller.ASNReportView" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
+		<Page showHeader="false" enableScrolling="false">
+			<content>
+				<l:VerticalLayout width="100%">
+					<fb:FilterBar useToolbar="false" showFilterConfiguration="false" search="onFilterGoPress" showClearOnFB="true" clear="onFilterClear">
+						<fb:filterItems>
+							<fb:FilterItem name="A" label="ASN Start Date" mandatory="true">
+								<fb:control>
+									<DatePicker id="startDateId" valueFormat="yyyyMMdd" value="{localModel>/StartDate}" class="disablekb" change="onFromDateChange"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="B" label="End Date" mandatory="true">
+								<fb:control>
+									<DatePicker id="endDateId" valueFormat="yyyyMMdd" value="{localModel>/EndDate}" class="disablekb"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="C" label="Supplier"
+								visible="{path: 'loginModel>/type', formatter:'sap.fiori.invoicecreation.controller.formatter.vendorVisible'}">
+								<fb:control>
+									<Input id="vendorCodeId" showValueHelp="true" valueHelpRequest="handleVendorCodeHelp" placeholder="Select Supplier"
+										value="{localModel>/Supplier}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="D" label="Material">
+								<fb:control>
+									<Input id="materialId" showValueHelp="true" valueHelpRequest="handleMaterialHelp" placeholder="Select Material"
+										value="{localModel>/Material}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="E" label="Invoice Number">
+								<fb:control>
+									<Input id="vendorNumId" showValueHelp="true" valueHelpRequest="handleInvNumHelp" placeholder="Select Invoice Number"
+										value="{localModel>/VendorInvoice}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="F" label="Reference Document">
+								<fb:control>
+									<Input id="baseDocId" showValueHelp="true" valueHelpRequest="handleBaseDocHelp" placeholder="Select Reference Doc."
+										value="{localModel>/BaseDocument}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="G" label="Plant">
+								<fb:control>
+									<Input id="PlantId" showValueHelp="true" valueHelpRequest="handlePlantHelp" placeholder="Select Plant" value="{localModel>/Plant}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="H" label="ASN Number">
+								<fb:control>
+									<Input id="AsnNumId" showValueHelp="true" valueHelpRequest="handleAsnNumHelp" placeholder="Select ASN Number"
+										value="{localModel>/AsnNumber}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="I" label="Status">
+								<fb:control>
+									<MenuButton id="selectFilterId" text="Select Status">
+										<menu>
+											<Menu itemSelected="onMenuAction">
+												<MenuItem text="Asn Status">
+													<items>
+														<MenuItem text="New"/>
+														<MenuItem text="In Transit"/>
+														<MenuItem text="Reached Plant"/>
+														<MenuItem text="Uploading Started"/>
+														<MenuItem text="Completed"/>
+													</items>
+												</MenuItem>
+												<MenuItem text="Gr Status">
+													<items>
+														<MenuItem text="Completed"/>
+														<MenuItem text="Pending"/>
+													</items>
+												</MenuItem>
+												<MenuItem text="Inv. Status">
+													<items>
+														<MenuItem id="InvCompId" text="Completed"/>
+														<MenuItem id="InvPendingId" text="Pending"/>
+													</items>
+												</MenuItem>
+											</Menu>
+										</menu>
+									</MenuButton>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="J" label="Search">
+								<fb:control>
+									<SearchField id="search" liveChange="onSearch" search="onSearch" tooltip="Purchase Group, Shipment Number, IBD &amp; Plant"/>
+								</fb:control>
+							</fb:FilterItem>
+						</fb:filterItems>
+					</fb:FilterBar>
+				</l:VerticalLayout>
+				<ScrollContainer horizontal="true" vertical="true" height="65%">
+					<Table id="TableDataId" itemPress="onItempress" items="{DataModel>/results}" updateFinished="onupdateFinished" mode="SingleSelectMaster"
+						sticky="ColumnHeaders">
+						<columns>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Plant"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Invoice Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Supplier Batch No"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Invoice Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="IBD No."/>
+							</Column>
+							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="ASN Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Shipment No."/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Created On"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Shipment Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Order No. &amp; Type" wrapping="true"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="18rem"
+								visible="{path: 'loginModel>/type', formatter:'sap.fiori.invoicecreation.controller.formatter.vendorVisible'}">
+								<Text text="Vendor"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Purchase Group"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="ASN Status"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="GR Status"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Inv. Status"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Value"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Total Invoice Amount"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Label text="IGST"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Label text="CGST"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="7rem">
+								<Label text="SGST/UTGST"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Eway Bill No."/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Eway Bill Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Reached Plant Date"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="tableTempId" type="Navigation">
+								<cells>
+									<Text text="{DataModel>PlantDesc} ({DataModel>Plant})"></Text>
+									<GenericTag design="StatusIconHidden" text="{DataModel>VendorInvoice}" status="Success" visible="{= ${DataModel>VendorInvoice} !== ''}"/>
+									<Text text="{DataModel>Batch}"/>
+									<Text text="{path:'DataModel>InvDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text text="{DataModel>Ibd}">
+										<customData>
+											<core:CustomData key="highlight" value="true" writeToDom="true"/>
+										</customData>
+									</Text>
+									<ObjectIdentifier title="{DataModel>AsnNumber}/{DataModel>Year}"
+										titleActive="{path:'DataModel>AttachmentFlag', formatter:'sap.fiori.invoicecreation.controller.formatter.titleActive'}" titlePress="onAsnPress"></ObjectIdentifier>
+									<Text text="{DataModel>Shipment}">
+										<customData>
+											<core:CustomData key="highlight" value="true" writeToDom="true"/>
+										</customData>
+									</Text>
+									<Text text="{path:'DataModel>CreatedOn', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text text="{path:'DataModel>ShipmentDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text text="{DataModel>BaseDocument} ({DataModel>BaseDocType})"></Text>
+									<Text text="{DataModel>Name} ({DataModel>Supplier})"></Text>
+									<Text text="{DataModel>PurGrp}">
+										<customData>
+											<core:CustomData key="highlight" value="true" writeToDom="true"/>
+										</customData>
+									</Text>
+									<Text text="{path: 'DataModel>AsnStatusText', formatter: 'sap.fiori.invoicecreation.controller.formatter.StatusColorClass'}"></Text>
+									<ObjectStatus text="{DataModel>GrStatus}" state="{=${DataModel>GrStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
+									<ObjectStatus text="{DataModel>InvStatus}" state="{=${DataModel>InvStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
+									<Text text="{DataModel>NetAmount} {DataModel>Currency}"/>
+									<Text text="{DataModel>Totinvamt} {DataModel>Currency}"/>
+									<Text
+										text="{DataModel>IgstAmount} {parts:['DataModel>IgstAmount','DataModel>Currency'], formatter:'sap.fiori.invoicecreation.controller.formatter.gstCurrency'}"/>
+									<Text
+										text="{DataModel>CgstAmount} {parts:['DataModel>CgstAmount','DataModel>Currency'], formatter:'sap.fiori.invoicecreation.controller.formatter.gstCurrency'}"/>
+									<Text
+										text="{DataModel>SgstAmount} {parts:['DataModel>SgstAmount','DataModel>Currency'], formatter:'sap.fiori.invoicecreation.controller.formatter.gstCurrency'}"/>
+									<Text text="{DataModel>EwayBill}"></Text>
+									<Text text="{path:'DataModel>EwayBillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text text="{path:'DataModel>RchPlantDt', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+			</content>
+			<footer>
+				<Bar>
+					<contentRight>
+						<Button text="Download" icon="sap-icon://download" press="onDataExport" type="Emphasized"/>
+					</contentRight>
+				</Bar>
+			</footer>
+		</Page>
+</mvc:View>

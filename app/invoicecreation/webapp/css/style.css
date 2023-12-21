@@ -1,0 +1,11 @@
+.disablekb input,
+.disablekb.sapMInputBaseInner {
+    pointer-events: none;
+    color: #000000 !important;
+    text-shadow: 0 0 0 gray;
+}
+
+.sapMGHLITitle {
+    color: #000000 !important;
+    font-weight: bold !important;
+}
