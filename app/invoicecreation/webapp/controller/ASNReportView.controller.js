@@ -59,9 +59,20 @@ sap.ui.define([
 			var that = this;
 			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
 			this.getView().byId("PlantId").setValue(this.unitCode);
-			this.getView().byId("InvStatusId").setSelectedKey("Pending");
+			this.getView().byId("InvStatusId").setSelectedKey("PENDING");
+			this.InvoiceStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
-			oModel.read("/GetASNHeaderList?AddressCode=" + this.AddressCode, {
+			oModel.read("/GetASNHeaderList", {
+				urlParameters: {
+					UnitCode: this.unitCode,
+					PoNum: '',
+					MrnNumber: '',
+					FromPOdate: '',
+					ToPOdate: '',
+					FromMrndate: '',
+					ToMrndate: '',
+					Status: this.InvoiceStatus
+				},
 				success: function (oData) {
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
@@ -98,71 +109,89 @@ sap.ui.define([
 			data.Supplier = "";
 			data.Plant = "";
 			this.localModel.refresh(true);
-			this.byId("selectFilterId").setText();
-			// var oView = this.getView();
-			// oView.byId("vendorNumId").setValue("");
-			// oView.byId("baseDocId").setValue("");
-			// oView.byId("AsnNumId").setValue("");
+			 var oView = this.getView();
+			oView.byId("vendorNumId").setValue("");
+			oView.byId("baseDocId").setValue("");
+			oView.byId("AsnNumId").setValue("");
+			oView.byId("vendorNumId").setValue("");
+			oView.byId("baseDocId").setValue("");
+			oView.byId("AsnNumId").setValue("");
 		},
 
 		onFilterGoPress: function () {
+			sap.ui.core.BusyIndicator.show();
 			var that = this;
 			var data = this.localModel.getData();
-			var path = "/AsnSet?$filter=";
-			if (data.POStartDate) {
-				var date = data.POStartDate.substring(4, 6) + "/" + data.POStartDate.substring(6, 8) + "/" + data.POStartDate.substring(0, 4);
-				var DateInstance = new Date(date);
-				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-				});
-				data.POStartDate = dateFormat.format(DateInstance);
-			}
-			if (data.POEndDate) {
-				var date = data.POEndDate.substring(4, 6) + "/" + data.POEndDate.substring(6, 8) + "/" + data.POEndDate.substring(0, 4);
-				var DateInstance = new Date(date);
-				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-				});
-				data.POEndDate = dateFormat.format(DateInstance);
-			}
-			if (data.MRNStartDate) {
-				var date = data.MRNStartDate.substring(4, 6) + "/" + data.MRNStartDate.substring(6, 8) + "/" + data.MRNStartDate.substring(0, 4);
-				var DateInstance = new Date(date);
-				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-				});
-				data.MRNStartDate = dateFormat.format(DateInstance);
-			}
-			if (data.MRNEndDate) {
-				var date = data.MRNEndDate.substring(4, 6) + "/" + data.MRNEndDate.substring(6, 8) + "/" + data.MRNEndDate.substring(0, 4);
-				var DateInstance = new Date(date);
-				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-				});
-				data.MRNEndDate = dateFormat.format(DateInstance);
-			}
-			Object.keys(data).forEach(function (key, index) {
-				if (data[key]) {
-					if (index > 0) {
-						path += " and ";
-					}
-					path += key + " eq '" + data[key] + "'";
-				}
+			var oModel = this.getOwnerComponent().getModel();
+			var dateFormat1 = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "ddMMMyyyy"
 			});
-
-			this.oDataModel.read(path, null, null, false,
-				function (oData) {
+			
+			this.POEndDate = this.getView().byId("poendDateId").getDateValue();
+			this.POStartDate = this.getView().byId("postartDateId").getDateValue();
+			if(this.POEndDate){
+				this.POEndDate = dateFormat1.format(this.POEndDate);
+				this.POEndDate = this.POEndDate.substring(0, 2) + " " + this.POEndDate.substring(2, 5) + " " + this.POEndDate.substring(5, 9);
+			}
+			if(this.POStartDate){
+			this.POStartDate = dateFormat1.format(this.POStartDate);
+			this.POStartDate = this.POStartDate.substring(0, 2) + " " + this.POStartDate.substring(2, 5) + " " + this.POStartDate.substring(5, 9);
+			}
+			this.MRNEndDate = this.getView().byId("mrnendDateId").getDateValue();
+			this.MRNStartDate = this.getView().byId("mrnstartDateId").getDateValue();
+			if(this.MRNEndDate){
+				this.MRNEndDate = dateFormat1.format(this.MRNEndDate);
+				this.MRNEndDate = this.MRNEndDate.substring(0, 2) + " " + this.MRNEndDate.substring(2, 5) + " " + this.MRNEndDate.substring(5, 9);
+			}
+			if(this.MRNStartDate){
+			this.MRNStartDate = dateFormat1.format(this.MRNStartDate);
+			this.MRNStartDate = this.MRNStartDate.substring(0, 2) + " " + this.MRNStartDate.substring(2, 5) + " " + this.MRNStartDate.substring(5, 9);
+			}
+			if(!data.PONum){
+				data.PONum = "";
+			}
+			if(!data.MRNNumber){
+				data.MRNNumber = "";
+			}
+			if(!data.Plant){
+				this.Plant = this.unitCode;
+			}else if(data.Plant){
+				this.Plant = data.Plant;
+			}
+			if(!data.POStartDate){
+				this.POStartDate = "";
+			}
+			if(!data.POEndDate){
+				this.POEndDate = "";
+			}
+			if(!data.MRNStartDate){
+				this.MRNStartDate = "";
+			}
+			if(!data.MRNEndDate){
+				this.MRNEndDate = "";
+			}
+			oModel.read("/GetASNHeaderList" ,{
+				urlParameters: {
+					UnitCode: this.Plant,
+					PoNum: data.PONum,
+					MrnNumber: data.MRNNumber,
+					FromPOdate: this.POStartDate,
+					ToPOdate: this.POEndDate,
+					FromMrndate: this.MRNStartDate,
+					ToMrndate: this.MRNEndDate,
+					Status: data.InvoiceStatus
+				},
+				success : function (oData) {
+					sap.ui.core.BusyIndicator.hide();
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
-					that.getView().byId("TableDataId").getBinding("items").filter();
-					that.byId("selectFilterId").setText();
 				},
-				function (oError) {
+				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
 					var value = JSON.parse(oError.response.body);
 					MessageBox.error(value.error.message.value);
-				});
-			this.StatusFlag = false;
+				}
+		});
 		},
 
 		onItempress: function (oEvent) {

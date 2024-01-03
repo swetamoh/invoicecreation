@@ -7,14 +7,12 @@
 						<fb:filterItems>
 						<fb:FilterItem name="A" label="PO Number">
 								<fb:control>
-									<Input id="poNumId" placeholder="Select PO Number"
-										value="{localModel>/PONum}"/>
+									<Input id="poNumId" value="{localModel>/PONum}"/>
 								</fb:control>
 							</fb:FilterItem>
 							<fb:FilterItem name="B" label="MRN Number">
 								<fb:control>
-									<Input id="MrnNumId" placeholder="Select MRN Number"
-										value="{localModel>/MRNNumber}"/>
+									<Input id="MrnNumId" value="{localModel>/MRNNumber}"/>
 								</fb:control>
 							</fb:FilterItem>
 							<fb:FilterItem name="C" label="PO Start Date" >
@@ -39,16 +37,16 @@
 							</fb:FilterItem>
 							<fb:FilterItem name="G" label="Plant" mandatory="true">
 								<fb:control>
-									<Input id="PlantId" placeholder="Select Plant" value="{localModel>/Plant}"/>
+									<Input id="PlantId" value="{localModel>/Plant}"/>
 								</fb:control>
 							</fb:FilterItem>
 							
 							<fb:FilterItem name="H" label="Invoice Status" mandatory="true">
 								<fb:control>
 											<Select id="InvStatusId" selectedKey="{path:'localModel>/InvStatus',type:'sap.ui.model.type.String'}" forceSelection="false">
-												<core:Item id="InvPendingId" key="Pending" text="Pending"/>
-												<core:Item id="InvCompId" key="Completed" text="Completed"/>
-												<core:Item id="InvCancelledId" key="Cancelled" text="Cancelled"/>
+												<core:Item id="InvPendingId" key="PENDING" text="PENDING"/>
+												<core:Item id="InvCompId" key="COMPLETED" text="COMPLETED"/>
+												<core:Item id="InvCancelledId" key="CANCELLED" text="CANCELLED"/>
 											</Select>
 								</fb:control>
 							</fb:FilterItem>
@@ -117,7 +115,8 @@
 									<Text text="{DataModel>MRNNumber}"/>
 									<Text text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
 									<Text text="{DataModel>MRNQuantity}"/>
-									<Text text="{DataModel>MRNQuantityReceived}"/>
+									<Text text=""/>
+									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
 									<Text text="{DataModel>MRNQuantityReceivedLocation}"/>
 									<ObjectStatus text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
 								</cells>
