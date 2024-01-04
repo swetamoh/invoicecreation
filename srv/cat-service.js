@@ -6,8 +6,8 @@ module.exports = (srv) => {
     const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice } = srv.entities;
     
     srv.on('READ', GetPendingInvoiceList, async (req) => {
-        const { UnitCode } = req._queryOptions
-        const results = await getPendingInvoiceList(UnitCode);
+        const params = req._queryOptions;
+        const results = await getPendingInvoiceList(params);
         if (!results) throw new Error('Unable to fetch Pending Invoice List.');
         return results
 
@@ -31,11 +31,19 @@ module.exports = (srv) => {
     
 };
 
-async function getPendingInvoiceList(UnitCode) {
+async function getPendingInvoiceList(params) {
     try {
+        const {
+            UnitCode, PoNum, MrnNumber, FromPOdate, ToPOdate,
+            FromMrndate, ToMrndate, Status
+        } = params;
+
+        const url = `https://imperialauto.co:84/IAIAPI.asmx/GetPendingInvoiceList?RequestBy='Manikandan'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MrnNumber='${MrnNumber}'&FromPOdate='${FromPOdate}'&ToPOdate='${ToPOdate}'&FromMrndate='${FromMrndate}'&ToMrndate='${ToMrndate}'&Status='${Status}'`;
+        
+
         const response = await axios({
             method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetPendingInvoiceList?RequestBy='Manikandan'&UnitCode='${UnitCode}'`,
+            url: url,
             headers: {
                 'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
                 'Content-Type': 'application/json'
