@@ -115,7 +115,15 @@
 					"name": "ASNReportView",
 					"view": "ASNReportView",
 					"targetAggregation": "pages",
-					"targetControl": "appId"
+					"targetControl": "appId",
+          "subroutes": [
+						{
+							"pattern": "detail/:UnitCode:/:PoNum:/:MRNnumber:/:AddressCode:",
+							"name": "ASNReportDetail",
+							"view": "ASNReportDetail",
+							"targetAggregation": "pages"
+						}
+					]
 				}
       ]
     },

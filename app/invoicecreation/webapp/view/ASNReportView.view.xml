@@ -1,6 +1,8 @@
 <mvc:View controllerName="sap.fiori.invoicecreation.controller.ASNReportView" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
-		<Page showHeader="false" enableScrolling="false">
+		<Page title="Pending Invoice List" titleAlignment="Center"
+        showNavButton="true" navButtonPress="sap.fiori.invoicecreation.controller.formatter.onNavBack"
+        class="sapUiSizeCompact">
 			<content>
 				<l:VerticalLayout width="100%">
 					<fb:FilterBar useToolbar="false" showFilterConfiguration="false" search="onFilterGoPress" showClearOnFB="true" clear="onFilterClear">

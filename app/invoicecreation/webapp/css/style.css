@@ -9,3 +9,7 @@
     color: #000000 !important;
     font-weight: bold !important;
 }
+.sapMPanel .sapMPanelHdr,
+.sapMPanelWrappingDiv {
+    background-color: #abe7b9e3;
+}

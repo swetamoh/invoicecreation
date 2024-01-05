@@ -5,7 +5,7 @@ sap.fiori.invoicecreation.controller.formatter = {
 			//var date = oDate.substring(4, 6) + "/" + oDate.substring(6, 8) + "/" + oDate.substring(0, 4);
 			return sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "MMM dd, yyyy"
-			}).format(new Date(date));
+			}).format(new Date(oDate));
 		} else {
 			return "";
 		}
