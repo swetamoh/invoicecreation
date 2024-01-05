@@ -1,0 +1,176 @@
+<mvc:View controllerName="sap.fiori.invoicecreation.controller.ASNReportDetail" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
+		<Page id="pageId" title="Invoice Creation" titleAlignment="Center" showHeader="true" showNavButton="true" navButtonPress="onNavPress">
+			<OverflowToolbar id="_IDGenOverflowToolbar1">
+               <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                <Button
+                    id="submitBtnId"
+                    text="Submit"
+                    tooltip="Submit"
+                    type="Emphasized"
+                    press="onSubmitPress"
+                />
+            </OverflowToolbar>
+			<content>
+				<Panel
+                id="_IDGenPanel1"
+                headerText="PO Details"
+                expandable="true"
+                expanded="true"
+            >
+                <f:SimpleForm
+                    id="_IDGenSimpleForm1"
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="2"
+                    columnsXL="2"
+                >
+                    <f:content>
+                        <Label id="_IDGenLabel1" design="Bold" text="PO Number"/>
+                        <Text id="_IDGenText1" text="{detailModel>/PONumber}"/>
+						<Label id="_IDGenLabel2" design="Bold" text="PO Date"/>
+                        <Text id="_IDGenText2" text="{detailModel>/PODate}"/>
+						<Label id="_IDGenLabel3" design="Bold" text="Vendor Code"/>
+                        <Text id="_IDGenText3" text="{detailModel>/VendorCode}"/>
+						<Label id="_IDGenLabel4" design="Bold" text="Vendor Number"/>
+                        <Text id="_IDGenText4" text="{detailModel>/VendorName}"/>
+						<Label id="_IDGenLabel5" design="Bold" text="Vendor Address"/>
+                        <Text id="_IDGenText5" text="{detailModel>/VendorAddress}"/>
+						<Label id="_IDGenLabel6" design="Bold" text="Vendor Phone Number"/>
+                        <Text id="_IDGenText6" text="{detailModel>/VendorPhoneNumber}"/>
+						<Label id="_IDGenLabel7" design="Bold" text="Vendor Email"/>
+                        <Text id="_IDGenText7" text="{detailModel>/VendorEMail}"/>
+						<Label id="_IDGenLabel8" design="Bold" text="Vendor GSTIN Number"/>
+                        <Text id="_IDGenText8" text="{detailModel>/VendorGstNumber}"/>
+						<Label id="_IDGenLabel9" design="Bold" text="Vendor Pan Number"/>
+                        <Text id="_IDGenText9" text="{detailModel>/VendorPanNumber}"/>
+						<Label id="_IDGenLabel10" design="Bold" text="Vendor MSME Indicator"/>
+                        <Text id="_IDGenText10" text="{detailModel>/VendorMSMEIndiactor}"/>
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+			<Panel
+                id="_IDGenPanel2"
+                headerText="MRN Details"
+                expandable="true"
+                expanded="true"
+            >
+                <f:SimpleForm
+                    id="_IDGenSimpleForm2"
+                    editable="true"
+                    layout="ColumnLayout"
+                    columnsM="2"
+                    columnsL="2"
+                    columnsXL="2"
+                >
+                    <f:content>
+                        <Label id="_IDGenLabel11" design="Bold" text="MRN Number"/>
+                        <Text id="_IDGenText11" text="{detailModel>/MRNnumber}"/>
+						<Label id="_IDGenLabel12" design="Bold" text="MRN Date"/>
+                        <Text id="_IDGenText12" text="{detailModel>/MRNDate}"/>
+						<Label id="_IDGenLabel13" design="Bold" text="MRN Created By"/>
+                        <Text id="_IDGenText13" text="{detailModel>/VendorCode}"/>
+						<Label id="_IDGenLabel14" design="Bold" text="MRN Delivery Location"/>
+                        <Text id="_IDGenText14" text="{detailModel>/MRNDeliveryLocation}"/>
+						<Label id="_IDGenLabel15" design="Bold" text="Total MRN Amount As Per PO"/>
+                        <Text id="_IDGenText15" text="{detailModel>/TotalMRNAmountAsperPO}"/>
+						<Label id="_IDGenLabel16" design="Bold" text="Total MRN Quantity"/>
+                        <Text id="_IDGenText16" text="{detailModel>/TotalMRNQuantity}"/>
+                    </f:content>
+                </f:SimpleForm>
+            </Panel>
+			<Panel
+                id="_IDGenPanel3"
+                headerText="Item Details"
+                expandable="true"
+                expanded="true"
+            >
+				<ScrollContainer horizontal="true" vertical="true" height="65%">
+					<Table id="TableDataId" itemPress="onItempress" items="{detailModel>/DocumentRows/results}" mode="SingleSelectMaster"
+						sticky="ColumnHeaders">
+						<columns>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Item Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Material Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Material Description"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Batch Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Quantity Received"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="UOM"/>
+							</Column>
+							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="PO Amt as per Received Qty"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Tax Amount"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Other Charges"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Freight Amount"/>
+							</Column>
+							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Packing Amount"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Amount"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Actual Tax Amount"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Other Charges as per Invoice"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Freight Amount as per Invoice"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Packing Amount as per Invoice"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="tableTempId">
+								<cells>
+									<Text text="{detailModel>ItemNumber}"/>
+									<Text text="{detailModel>MaterialCode}"/>
+									<Text text="{detailModel>MaterialDescription}"/>
+									<Text text="{detailModel>BatchNumber}"/>
+									<Text text="{detailModel>QuantityReceived}"/>
+									<Text text="{detailModel>UOM}"/>
+									<Text text="{detailModel>POAmount}"/>
+									<Text text="{detailModel>TaxAmount}"/>
+									<Text text="{detailModel>OtherCharges}"/>
+									<Text text="{detailModel>FrieghtAmount}"/>
+									<Text text="{detailModel>Packing}"/>
+									<Input value="{detailModel>InvoiceAmount}"/>
+									<Input value="{detailModel>ActualTaxAmount}"/>
+									<Input value="{detailModel>ActualOtherCharges}"/>
+									<Input value="{detailModel>ActualFrieghtAmount}"/>
+									<Input value="{detailModel>ActualPacking}"/>
+									</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+				</Panel>
+			</content>
+			<!-- <footer>
+				<Bar>
+					<contentRight>
+						<Button text="Download" icon="sap-icon://download" press="onDataExport" type="Emphasized"/>
+					</contentRight>
+				</Bar>
+			</footer> -->
+		</Page>
+</mvc:View>

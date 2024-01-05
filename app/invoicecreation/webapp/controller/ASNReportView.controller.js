@@ -60,9 +60,9 @@ sap.ui.define([
 			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
 			this.getView().byId("PlantId").setValue(this.unitCode);
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING");
-			this.InvoiceStatus = this.getView().byId("InvStatusId").getSelectedKey();
+			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
-			oModel.read("/GetASNHeaderList", {
+			oModel.read("/GetPendingInvoiceList", {
 				urlParameters: {
 					UnitCode: this.unitCode,
 					PoNum: '',
@@ -71,7 +71,7 @@ sap.ui.define([
 					ToPOdate: '',
 					FromMrndate: '',
 					ToMrndate: '',
-					Status: this.InvoiceStatus
+					Status: this.InvStatus
 				},
 				success: function (oData) {
 					that.DataModel.setData(oData);
@@ -102,20 +102,20 @@ sap.ui.define([
 		},
 		onFilterClear: function () {
 			var data = this.localModel.getData();
-			data.VendorInvoice = "";
-			data.BaseDocument = "";
-			data.AsnNumber = "";
-			data.Material = "";
-			data.Supplier = "";
-			data.Plant = "";
+			data.PONum = "";
+			data.MRNNumber = "";
+			data.POStartDate = "";
+			data.POEndDate = "";
+			data.MRNStartDate = "";
+			data.MRNEndDate = "";
 			this.localModel.refresh(true);
 			 var oView = this.getView();
-			oView.byId("vendorNumId").setValue("");
-			oView.byId("baseDocId").setValue("");
-			oView.byId("AsnNumId").setValue("");
-			oView.byId("vendorNumId").setValue("");
-			oView.byId("baseDocId").setValue("");
-			oView.byId("AsnNumId").setValue("");
+			oView.byId("poNumId").setValue("");
+			oView.byId("MrnNumId").setValue("");
+			oView.byId("postartDateId").setValue("");
+			oView.byId("poendDateId").setValue("");
+			oView.byId("mrnstartDateId").setValue("");
+			oView.byId("mrnendDateId").setValue("");
 		},
 
 		onFilterGoPress: function () {
@@ -170,7 +170,7 @@ sap.ui.define([
 			if(!data.MRNEndDate){
 				this.MRNEndDate = "";
 			}
-			oModel.read("/GetASNHeaderList" ,{
+			oModel.read("/GetPendingInvoiceList" ,{
 				urlParameters: {
 					UnitCode: this.Plant,
 					PoNum: data.PONum,
@@ -179,7 +179,7 @@ sap.ui.define([
 					ToPOdate: this.POEndDate,
 					FromMrndate: this.MRNStartDate,
 					ToMrndate: this.MRNEndDate,
-					Status: data.InvoiceStatus
+					Status: data.InvStatus
 				},
 				success : function (oData) {
 					sap.ui.core.BusyIndicator.hide();
@@ -196,10 +196,14 @@ sap.ui.define([
 
 		onItempress: function (oEvent) {
 			var data = oEvent.getParameter("listItem").getBindingContext("DataModel").getProperty();
-			this.detailModel.setData(data);
+			//this.detailModel.setData(data);
+			this.PoNum = data.PONumber.replace(/\//g, '-');
+			this.MRNnumber = data.MRNNumber.replace(/\//g, '-');
 			this.router.navTo("ASNReportDetail", {
-				"AsnNumber": data.AsnNumber,
-				"Year": data.Year
+				"UnitCode": data.PlantCode,
+				"PoNum": this.PoNum,
+				"MRNnumber": this.MRNnumber,
+				"AddressCode": data.VendorCode
 			});
 		},
 
