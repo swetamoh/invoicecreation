@@ -24,6 +24,7 @@ sap.ui.define([
                 this.PoNum = data.PoNum.replace(/-/g, '/');
 				this.MRNnumber = data.MRNnumber.replace(/-/g, '/');
                 this.AddressCode = data.AddressCode;
+				this.InvoiceStatus = data.Status;
 				//this.getView().byId("pageId").setTitle("ASN Number - " + this.AsnNumber);
                 var request = "/GetPoDetailstoCreateInvoice";
 				oModel.read(request, {
@@ -38,6 +39,7 @@ sap.ui.define([
 						var filteredPurchaseOrder = oData.results.find(po => po.PONumber === that.PoNum);
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
+							that.detailModel.getData().InvoiceStatus = that.InvoiceStatus;
 							that.detailModel.refresh(true);
 						} else {
 							MessageBox.error("Data not found");

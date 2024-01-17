@@ -60,20 +60,23 @@
 						</fb:filterItems>
 					</fb:FilterBar>
 				</l:VerticalLayout>
-				<ScrollContainer horizontal="true" vertical="true" height="65%">
+				<ScrollContainer horizontal="true" height="65%">
 					<Table id="TableDataId" itemPress="onItempress" items="{DataModel>/results}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="PO Number"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Date"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Status"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Vendor Code"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="Vendor Name"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
@@ -91,7 +94,7 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Date"/>
 							</Column>
-							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+							<Column width="6rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="MRN Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
@@ -100,19 +103,17 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Qty Rcvd Loc."/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Status"/>
-							</Column>
 						</columns>
 						<items>
 							<ColumnListItem id="tableTempId" type="Navigation">
 								<cells>
 									<Text text="{DataModel>PONumber}"/>
 									<Text text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<ObjectStatus text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
 									<Text text="{DataModel>VendorCode}"/>
 									<Text text="{DataModel>VendorName}"/>
 									<Text text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
-									<Text text="{DataModel>POTotalAmount}"/>
+									<Text text="{path:'DataModel>POTotalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{DataModel>POTotalQuantity}"/>
 									<Text text="{DataModel>MRNNumber}"/>
 									<Text text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
@@ -120,7 +121,6 @@
 									<Text text=""/>
 									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
 									<Text text="{DataModel>MRNQuantityReceivedLocation}"/>
-									<ObjectStatus text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
 								</cells>
 							</ColumnListItem>
 						</items>
