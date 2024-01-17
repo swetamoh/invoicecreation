@@ -2,6 +2,7 @@
 	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
 		<Page id="pageId" title="Invoice Creation" titleAlignment="Center" showHeader="true" showNavButton="true" navButtonPress="onNavPress">
 			<OverflowToolbar id="_IDGenOverflowToolbar1">
+			<ObjectStatus text="STATUS : {detailModel>/InvoiceStatus}" state="{=${detailModel>/InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                 <Button
                     id="submitBtnId"
@@ -86,7 +87,7 @@
                 expandable="true"
                 expanded="true"
             >
-				<ScrollContainer horizontal="true" vertical="true" height="65%">
+				<ScrollContainer horizontal="true" height="65%">
 					<Table id="TableDataId" itemPress="onItempress" items="{detailModel>/DocumentRows/results}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
@@ -99,35 +100,35 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
 								<Text text="Material Description"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Batch Number"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Quantity Received"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="UOM"/>
-							</Column>
-							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+							</Column> -->
+							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="PO Amt as per Received Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Tax Amount"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Other Charges"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Freight Amount"/>
 							</Column>
-							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
+							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="Packing Amount"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Amount"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Actual Tax Amount"/>
+								<Text text="Actual Tax Rate"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Other Charges as per Invoice"/>
@@ -146,8 +147,8 @@
 									<Text text="{detailModel>MaterialCode}"/>
 									<Text text="{detailModel>MaterialDescription}"/>
 									<Text text="{detailModel>BatchNumber}"/>
-									<Text text="{detailModel>QuantityReceived}"/>
-									<Text text="{detailModel>UOM}"/>
+									<Text text="{detailModel>QuantityReceived} {detailModel>UOM}"/>
+									<!-- <Text text="{detailModel>UOM}"/> -->
 									<Text text="{detailModel>POAmount}"/>
 									<Text text="{detailModel>TaxAmount}"/>
 									<Text text="{detailModel>OtherCharges}"/>

@@ -203,7 +203,8 @@ sap.ui.define([
 				"UnitCode": data.PlantCode,
 				"PoNum": this.PoNum,
 				"MRNnumber": this.MRNnumber,
-				"AddressCode": data.VendorCode
+				"AddressCode": data.VendorCode,
+				"Status": data.InvoiceStatus
 			});
 		},
 
