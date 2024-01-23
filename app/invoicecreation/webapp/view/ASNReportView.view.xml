@@ -46,9 +46,12 @@
 							<fb:FilterItem name="H" label="Invoice Status" mandatory="true">
 								<fb:control>
 											<Select id="InvStatusId" selectedKey="{path:'localModel>/InvStatus',type:'sap.ui.model.type.String'}" forceSelection="false">
-												<core:Item id="InvPendingId" key="PENDING" text="PENDING"/>
-												<core:Item id="InvCompId" key="COMPLETED" text="COMPLETED"/>
-												<core:Item id="InvCancelledId" key="CANCELLED" text="CANCELLED"/>
+												<core:Item id="InvStat1Id" key="PENDING MRN" text="PENDING MRN"/>
+												<core:Item id="InvStat2Id" key="PENDING FOR SEND TO ACCOUNT" text="PENDING FOR SEND TO ACCOUNT"/>
+												<core:Item id="InvStat3Id" key="PENDING FOR BILL PASSING" text="PENDING FOR BILL PASSING"/>
+												<core:Item id="InvStat4Id" key="PENDING FOR VOUCHER GENERATION" text="PENDING FOR VOUCHER GENERATION"/>
+												<core:Item id="InvStat5Id" key="PENDING FOR VOUCHER POSTING" text="PENDING FOR VOUCHER POSTING"/>
+												<core:Item id="InvStat6Id" key="VOUCHER POSTING DONE" text="VOUCHER POSTING DONE"/>
 											</Select>
 								</fb:control>
 							</fb:FilterItem>
