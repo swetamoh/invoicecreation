@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = (srv) => {
 
     const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice } = srv.entities;
-    
+
     srv.on('READ', GetPendingInvoiceList, async (req) => {
         const params = req._queryOptions;
         const results = await getPendingInvoiceList(params);
@@ -14,7 +14,7 @@ module.exports = (srv) => {
     });
 
     srv.on('READ', GetPoDetailstoCreateInvoice, async (req) => {
-        const {UnitCode, PoNum, MRNnumber, AddressCode} = req._queryOptions
+        const { UnitCode, PoNum, MRNnumber, AddressCode } = req._queryOptions
         const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode);
         if (!results) throw new Error('Unable to fetch PoDetailstoCreateInvoice.');
 
@@ -25,10 +25,10 @@ module.exports = (srv) => {
             });
         }
 
-       return results.poDetailstoCreateInvoice;
+        return results.poDetailstoCreateInvoice;
     });
 
-    
+
 };
 
 async function getPendingInvoiceList(params) {
@@ -39,7 +39,7 @@ async function getPendingInvoiceList(params) {
         } = params;
 
         const url = `https://imperialauto.co:84/IAIAPI.asmx/GetPendingInvoiceList?RequestBy='Manikandan'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MrnNumber='${MrnNumber}'&FromPOdate='${FromPOdate}'&ToPOdate='${ToPOdate}'&FromMrndate='${FromMrndate}'&ToMrndate='${ToMrndate}'&Status='${Status}'`;
-        
+
 
         const response = await axios({
             method: 'get',
@@ -80,9 +80,9 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
 
             const poDetailstoCreateInvoice = dataArray.map(data => {
                 return {
-                    PONumber : data.PONumber,
-                    PODate  : data.PODate,
-                    VendorCode  : data.VendorCode,
+                    PONumber: data.PONumber,
+                    PODate: data.PODate,
+                    VendorCode: data.VendorCode,
                     VendorName: data.VendorName,
                     VendorAddress: data.VendorAddress,
                     VendorPhoneNumber: data.VendorPhoneNumber,
@@ -92,6 +92,7 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
                     VendorMSMEIndiactor: data.VendorMSMEIndiactor,
                     MRNnumber: data.MRNnumber,
                     MRNDate: data.MRNDate,
+                    MRNCreatedBy: data.MRNCreatedBy,
                     MRNDeliveryLocation: data.MRNDeliveryLocation,
                     TotalMRNAmountAsperPO: data.TotalMRNAmountAsperPO,
                     TotalMRNQuantity: data.TotalMRNQuantity,
@@ -106,13 +107,20 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
                         MaterialCode: row.MaterialCode,
                         MaterialDescription: row.MaterialDescription,
                         BatchNumber: row.BatchNumber,
+                        ItemRate: row.ItemRate,
+                        MRNQty: row.MRNQty,
                         QuantityReceived: row.QuantityReceived,
+                        RejectedQty: row.RejectedQty,
                         UOM: row.UOM,
+                        Currency: row.Currency,
                         POAmount: row.POAmount,
-                        TaxAmount: row.TaxAmount,
                         OtherCharges: row.OtherCharges,
                         FrieghtAmount: row.FrieghtAmount,
                         Packing: row.Packing,
+                        TaxPercentage: row.TaxPercentage,
+                        TaxAmount: row.TaxAmount,
+                        MRNLineValue: row.MRNLineValue,
+                        InvoiceStatus: row.InvoiceStatus,
                         PNum_PONumber: data.PONumber  // associating with the current GetPoDetailstoCreateInvoice
                     };
                 })

@@ -39,7 +39,6 @@ sap.ui.define([
 						var filteredPurchaseOrder = oData.results.find(po => po.PONumber === that.PoNum);
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
-							that.detailModel.getData().InvoiceStatus = that.InvoiceStatus;
 							that.detailModel.refresh(true);
 						} else {
 							MessageBox.error("Data not found");
