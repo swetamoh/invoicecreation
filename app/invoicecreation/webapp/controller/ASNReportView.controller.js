@@ -59,7 +59,7 @@ sap.ui.define([
 			var that = this;
 			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
 			this.getView().byId("PlantId").setValue(this.unitCode);
-			this.getView().byId("InvStatusId").setSelectedKey("PENDING");
+			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
 			oModel.read("/GetPendingInvoiceList", {
@@ -79,8 +79,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					var value = JSON.parse(oError.response.body);
-					MessageBox.error(value.error.message.value);
+					//var value = JSON.parse(oError.response.body);
+					//MessageBox.error(value.error.message.value);
+					MessageBox.error(oError.message);
 				}
 			});
 
@@ -188,8 +189,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					var value = JSON.parse(oError.response.body);
-					MessageBox.error(value.error.message.value);
+					// var value = JSON.parse(oError.response.body);
+					// MessageBox.error(value.error.message.value);
+					MessageBox.error(oError.message);
 				}
 		});
 		},

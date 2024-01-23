@@ -5,11 +5,28 @@
 			<ObjectStatus text="STATUS : {detailModel>/DocumentRows/results/0/InvoiceStatus}" state="{=${detailModel>/InvoiceStatus} === 'VOUCHER POSTING DONE' ? 'Success' : 'Warning' }"></ObjectStatus>
                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                 <Button
-                    id="submitBtnId"
-                    text="Submit"
-                    tooltip="Submit"
+                    id="billBookingBtnId"
+                    text="Bill Booking"
+                    tooltip="Bill Booking"
                     type="Emphasized"
-                    press="onSubmitPress"
+                    press="onBillBookingPress"
+					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}"
+                />
+				<Button
+                    id="postToAccountingBtnId"
+                    text="Post to Accounting"
+                    tooltip="Post to Accounting"
+                    type="Emphasized"
+                    press="onPosttoAccountingPress"
+					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER GENERATION'}"
+                />
+				<Button
+                    id="completeInvoiceBtnId"
+                    text="Complete Invoice"
+                    tooltip="Complete Invoice "
+                    type="Emphasized"
+                    press="onCompleteInvoicePress"
+					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER POSTING'}"
                 />
             </OverflowToolbar>
 			<content>
