@@ -12,8 +12,11 @@ entity GetPendingInvoiceList {
       MRNNumber                   : String;
       MRNDate                     : String;
       MRNQuantity                 : String;
+      MRNCurrency                 : String;
       MRNQuantityReceived         : String;
+      MRNQuantityRejected         : String;
       MRNQuantityReceivedLocation : String;
+      ASNQuantity                 : String;
       InvoiceStatus               : String;
 }
 
