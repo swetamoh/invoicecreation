@@ -203,10 +203,130 @@ sap.ui.define([
 				"UnitCode": data.PlantCode,
 				"PoNum": this.PoNum,
 				"MRNnumber": this.MRNnumber,
-				"AddressCode": data.VendorCode,
-				"Status": data.InvoiceStatus
+				"AddressCode": data.VendorCode
 			});
 		},
+		/////////////////////////////////////////Table Personalization////////////////////////////////
+		onColumnSelection: function (event) {
+			var that = this;
+			var List = that.byId("List");
+			var popOver = this.byId("popOver");
+			if (List !== undefined) {
+				List.destroy();
+			}
+			if (popOver !== undefined) {
+				popOver.destroy();
+			}
+			/*----- PopOver on Clicking ------ */
+			var popover = new sap.m.Popover(this.createId("popOver"), {
+				showHeader: true,
+				// showFooter: true,
+				placement: sap.m.PlacementType.Bottom,
+				content: []
+			}).addStyleClass("sapMOTAPopover sapTntToolHeaderPopover sapUiResponsivePadding--header sapUiResponsivePadding--footer");
+
+			/*----- Adding List to the PopOver -----*/
+			var oList = new sap.m.List(this.createId("List"), {});
+			this.byId("popOver").addContent(oList);
+			var openAssetTable = this.getView().byId("TableDataId"),
+				columnHeader = openAssetTable.getColumns();
+			var openAssetColumns = [];
+			for (var i = 0; i < columnHeader.length; i++) {
+				var hText = columnHeader[i].getAggregation("header").getProperty("text");
+				var columnObject = {};
+				columnObject.column = hText;
+				openAssetColumns.push(columnObject);
+			}
+			var oModel1 = new sap.ui.model.json.JSONModel({
+				list: openAssetColumns
+			});
+			var itemTemplate = new sap.m.StandardListItem({
+				title: "{oList>column}"
+			});
+			oList.setMode("MultiSelect");
+			oList.setModel(oModel1);
+			sap.ui.getCore().setModel(oModel1, "oList");
+			var oBindingInfo = {
+				path: 'oList>/list',
+				template: itemTemplate
+			};
+			oList.bindItems(oBindingInfo);
+			var footer = new sap.m.Bar({
+				contentLeft: [],
+				contentMiddle: [new sap.m.Button({
+					text: "Cancel",
+					press: function () {
+						that.onCancel();
+					}
+				})],
+				contentRight: [new sap.m.Button({
+					text: "Save",
+					press: function () {
+						that.onSave();
+					}
+				})
+				]
+
+			});
+
+			this.byId("popOver").setFooter(footer);
+			var oList1 = this.byId("List");
+			var table = this.byId("TableDataId").getColumns();
+			/*=== Update finished after list binded for selected visible columns ==*/
+			oList1.attachEventOnce("updateFinished", function () {
+				var a = [];
+				for (var j = 0; j < table.length; j++) {
+					var list = oList1.oModels.undefined.oData.list[j].column;
+					a.push(list);
+					var Text = table[j].getHeader().getProperty("text");
+					var v = table[j].getProperty("visible");
+					if (v === true) {
+						if (a.indexOf(Text) > -1) {
+							var firstItem = oList1.getItems()[j];
+							oList1.setSelectedItem(firstItem, true);
+						}
+					}
+				}
+			});
+			popover.openBy(event.getSource());
+		},
+		/*================ Closing the PopOver =================*/
+		onCancel: function () {
+			this.byId("popOver").close();
+		},
+		/*============== Saving User Preferences ==================*/
+		onSave: function () {
+			var that = this;
+			var oList = this.byId("List");
+			var array = [];
+			var items = oList.getSelectedItems();
+
+			// Getting the Selected Columns header Text.
+			for (var i = 0; i < items.length; i++) {
+				var item = items[i];
+				var context = item.getBindingContext("oList");
+				var obj = context.getProperty(null, context);
+				var column = obj.column;
+				array.push(column);
+			}
+			/*---- Displaying Columns Based on the selection of List ----*/
+			var table = this.byId("TableDataId").getColumns();
+			for (var j = 0; j < table.length; j++) {
+				var Text = table[j].getHeader().getProperty("text");
+				var Column = table[j].getId();
+				var columnId = this.getView().byId(Column);
+				if (array.indexOf(Text) > -1) {
+					columnId.setVisible(true);
+				} else {
+					columnId.setVisible(false);
+				}
+			}
+
+			this.byId("popOver").close();
+
+		},
+		/////////////////////////////////////////Table Personalization////////////////////////////////
+
 
 		// Invoice Number f4 
 

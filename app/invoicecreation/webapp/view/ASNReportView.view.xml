@@ -60,67 +60,79 @@
 						</fb:filterItems>
 					</fb:FilterBar>
 				</l:VerticalLayout>
-				<ScrollContainer horizontal="true" height="65%">
-					<Table id="TableDataId" itemPress="onItempress" items="{DataModel>/results}" mode="SingleSelectMaster"
+				<OverflowToolbar asyncMode="true">
+                    <ToolbarSpacer/>
+                    <Button icon="sap-icon://action-settings" id="CreateButton" type="Emphasized" press="onColumnSelection" tooltip="Settings"/>
+                </OverflowToolbar>
+				<ScrollContainer horizontal="true">
+					<Table id="TableDataId" itemPress="onItempress" items="{path:'DataModel>/results'}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column id="poNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="PO Number"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="poDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Date"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="invoiceStatus_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Status"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="vendorCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Vendor Code"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column id="vendorName_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="Vendor Name"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="plantCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Plant"/>
 							</Column>
-							<Column width="10rem" minScreenWidth="Tablet" demandPopin="true">
-								<Text text="PO Total Amount"/>
+							<Column id="poTotAmt_col" width="10rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="PO Total Amount ()"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="poTotQty_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Total Qty "/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column id="mrnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="MRN Number"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="mrnDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Date"/>
 							</Column>
-							<Column width="6rem" minScreenWidth="Tablet" demandPopin="true">
+							<Column id="mrnQty_col" width="6rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="MRN Qty"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="MRN Qty Rcvd "/>
+							<Column id="mrnQtyRcvd_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Qty Rcvd"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<Column id="mrnQtyRej_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Qty Rejected"/>
+							</Column>
+							<Column id="mrnQtyLoc_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Qty Rcvd Loc."/>
+							</Column>
+							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="ASN Qty"/>
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem id="tableTempId" type="Navigation">
 								<cells>
-									<Text text="{DataModel>PONumber}"/>
-									<Text text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
-									<ObjectStatus text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
-									<Text text="{DataModel>VendorCode}"/>
-									<Text text="{DataModel>VendorName}"/>
-									<Text text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
-									<Text text="{path:'DataModel>POTotalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{DataModel>POTotalQuantity}"/>
-									<Text text="{DataModel>MRNNumber}"/>
-									<Text text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
-									<Text text="{DataModel>MRNQuantity}"/>
-									<Text text=""/>
+									<Text id="poNumber" text="{DataModel>PONumber}"/>
+									<Text id="poDate" text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<ObjectStatus id="invoiceStatus" text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
+									<Text id="vendorCode" text="{DataModel>VendorCode}"/>
+									<Text id="vendorName" text="{DataModel>VendorName}"/>
+									<Text id="plantCode" text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
+									<Text id="poTotAmt" text="{path:'DataModel>POTotalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text id="poTotQty" text="{DataModel>POTotalQuantity}"/>
+									<Text id="mrnNumber" text="{DataModel>MRNNumber}"/>
+									<Text id="mrnDate" text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="mrnQty" text="{DataModel>MRNQuantity}"/>
+									<Text id="mrnQtyRcvd" text=""/>
+									<Text id="mrnQtyRej" text=""/>
 									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
-									<Text text="{DataModel>MRNQuantityReceivedLocation}"/>
+									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
+									<Text id="asnQty" text=""/>
 								</cells>
 							</ColumnListItem>
 						</items>
