@@ -87,7 +87,7 @@
 								<Text text="Plant"/>
 							</Column>
 							<Column id="poTotAmt_col" width="10rem" minScreenWidth="Tablet" demandPopin="true">
-								<Text text="PO Total Amount ()"/>
+								<Text text="PO Total Amount ({DataModel>/results/0/MRNCurrency})"/>
 							</Column>
 							<Column id="poTotQty_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Total Qty "/>
@@ -128,11 +128,11 @@
 									<Text id="mrnNumber" text="{DataModel>MRNNumber}"/>
 									<Text id="mrnDate" text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
 									<Text id="mrnQty" text="{DataModel>MRNQuantity}"/>
-									<Text id="mrnQtyRcvd" text=""/>
-									<Text id="mrnQtyRej" text=""/>
+									<Text id="mrnQtyRcvd" text="{DataModel>MRNQuantityReceived}"/>
+									<Text id="mrnQtyRej" text="{DataModel>MRNQuantityRejected}"/>
 									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
 									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
-									<Text id="asnQty" text=""/>
+									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
 								</cells>
 							</ColumnListItem>
 						</items>
