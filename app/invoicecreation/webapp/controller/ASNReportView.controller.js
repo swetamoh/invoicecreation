@@ -62,7 +62,7 @@ sap.ui.define([
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
-			oModel.read("/GetPendingInvoiceList", {
+			/*oModel.read("/GetPendingInvoiceList", {
 				urlParameters: {
 					UnitCode: this.unitCode,
 					PoNum: '',
@@ -83,7 +83,7 @@ sap.ui.define([
 					//MessageBox.error(value.error.message.value);
 					//MessageBox.error(oError.message);
 				}
-			});
+			});*/
 
 			//var datePicker = this.getView().byId("startDateId");
 
@@ -127,7 +127,16 @@ sap.ui.define([
 			var dateFormat1 = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "ddMMMyyyy"
 			});
-			
+			if(!data.MRNStartDate){
+				sap.ui.core.BusyIndicator.hide();
+				MessageBox.error("Please enter MRN start date");
+				return;
+			}
+			if(!data.MRNEndDate){
+				sap.ui.core.BusyIndicator.hide();
+				MessageBox.error("Please enter MRN end date");
+				return;
+			}
 			this.POEndDate = this.getView().byId("poendDateId").getDateValue();
 			this.POStartDate = this.getView().byId("postartDateId").getDateValue();
 			if(this.POEndDate){
@@ -165,12 +174,13 @@ sap.ui.define([
 			if(!data.POEndDate){
 				this.POEndDate = "";
 			}
-			if(!data.MRNStartDate){
-				this.MRNStartDate = "";
-			}
-			if(!data.MRNEndDate){
-				this.MRNEndDate = "";
-			}
+			// if(!data.MRNStartDate){
+			// 	this.MRNStartDate = "";
+			// }
+			// if(!data.MRNEndDate){
+			// 	this.MRNEndDate = "";
+			// }
+			
 			oModel.read("/GetPendingInvoiceList" ,{
 				urlParameters: {
 					UnitCode: this.Plant,

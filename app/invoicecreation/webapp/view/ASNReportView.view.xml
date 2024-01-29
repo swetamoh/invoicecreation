@@ -27,19 +27,19 @@
 									<DatePicker id="poendDateId" valueFormat="yyyyMMdd" value="{localModel>/POEndDate}" class="disablekb"/>
 								</fb:control>
 							</fb:FilterItem>
-							<fb:FilterItem name="E" label="MRN Start Date" >
+							<fb:FilterItem name="E" label="MRN Start Date" mandatory="true">
 								<fb:control>
 									<DatePicker id="mrnstartDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNStartDate}" class="disablekb" change="onFromDateChange"/>
 								</fb:control>
 							</fb:FilterItem>
-							<fb:FilterItem name="F" label="MRN End Date">
+							<fb:FilterItem name="F" label="MRN End Date" mandatory="true">
 								<fb:control>
 									<DatePicker id="mrnendDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNEndDate}" class="disablekb"/>
 								</fb:control>
 							</fb:FilterItem>
 							<fb:FilterItem name="G" label="Plant" mandatory="true">
 								<fb:control>
-									<Input id="PlantId" value="{localModel>/Plant}"/>
+									<Input id="PlantId" value="{localModel>/Plant}" enabled="false"/>
 								</fb:control>
 							</fb:FilterItem>
 							
