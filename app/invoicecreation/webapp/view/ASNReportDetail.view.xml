@@ -91,10 +91,10 @@
                         <Text id="_IDGenText13" text="{detailModel>/MRNCreatedBy}"/>
 						<Label id="_IDGenLabel14" design="Bold" text="MRN Delivery Location"/>
                         <Text id="_IDGenText14" text="{detailModel>/MRNDeliveryLocation}"/>
-						<Label id="_IDGenLabel15" design="Bold" text="Total MRN Amount As Per PO ({detailModel>/DocumentRows/results/0/Currency})"/>
+						<Label id="_IDGenLabel15" design="Bold" text="Total MRN Amount As Per PO ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
                         <Text id="_IDGenText15" text="{path:'detailModel>/TotalMRNAmountAsperPO',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 						<Label id="_IDGenLabel16" design="Bold" text="Total MRN Quantity"/>
-                        <Text id="_IDGenText16" text="{detailModel>/TotalMRNQuantity} {detailModel>/DocumentRows/results/0/UOM}"/>
+                        <Text id="_IDGenText16" text="{detailModel>/TotalMRNQuantity} {detailModel>/DocumentRows/results/0/ItemUOM}"/>
                     </f:content>
                 </f:SimpleForm>
             </Panel>
@@ -109,6 +109,12 @@
 						sticky="ColumnHeaders">
 						<columns>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="TRN Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="MRN Line Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="Item Number"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
@@ -117,64 +123,166 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
 								<Text text="Material Description"/>
 							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Item Group Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Group Account Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Group Account Description"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Batch Number"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Quantity Received"/>
 							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Quantity Rejected"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Total Quantity"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Quantity"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="TRN Line Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="TRN Type"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="HSN Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Material value"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="IGST %"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="CGST %"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="SGST %"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="IGST Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="CGST Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="SGST Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="CDT"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="CRT"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="TCS %"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Exchange Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem" visible="false">
+								<Text text="FRM Year"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Current PO Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
 							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="UOM"/>
 							</Column> -->
 							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
-								<Text text="PO Amt as per Received Qty ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="PO Amt as per Received Qty ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Tax Rate %"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Tax Amount ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Tax Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Other Charges ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Other Charges ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Freight Amount ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Freight Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
-								<Text text="Packing Amount ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Packing Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Amount ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Actual Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Actual Tax Amount ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Invoice Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Other Charges as per Invoice ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Actual Tax Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Freight Amount as per Invoice ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Other Charges as per Invoice ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Packing Amount as per Invoice ({detailModel>/DocumentRows/results/0/Currency})"/>
+								<Text text="Freight Amount as per Invoice ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Packing Amount as per Invoice ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 						</columns>
 						<items>
 							<ColumnListItem id="tableTempId">
 								<cells>
+									<Text text="{detailModel>TRNCode}"/>
+									<Text text="{detailModel>MRNLineNumber}"/>
 									<Text text="{detailModel>ItemNumber}"/>
 									<Text text="{detailModel>MaterialCode}"/>
 									<Text text="{detailModel>MaterialDescription}"/>
+									<Text text="{detailModel>ItemGroupCode}"/>
+									<Text text="{detailModel>GroupAccountCode}"/>
+									<Text text="{detailModel>GroupAccountDescription}"/>
+									<Text text="{path:'detailModel>ItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>BatchNumber}"/>
-									<Text text="{detailModel>QuantityReceived} {detailModel>UOM}"/>
-									<!-- <Text text="{detailModel>UOM}"/> -->
-									<Text text="{path:'detailModel>POAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{detailModel>AcceptedQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>RejectedQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>ActualQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>InvoiceQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>TRNLineNumber}"/>
+									<Text text="{detailModel>TRNType}"/>
+									<Text text="{detailModel>HSNCode}"/>
+									<Text text="{detailModel>MaterialValue}"/>
+									<Text text="{detailModel>IGP}"/>
+									<Text text="{detailModel>CGP}"/>
+									<Text text="{detailModel>SGP}"/>
+									<Text text="{path:'detailModel>IGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>CGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>SGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{detailModel>CDT}"/>
+									<Input value="{detailModel>CRT}"/>
+									<Input value="{detailModel>TCS}"/>
+									<Input value="{path:'detailModel>ExchangeRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{detailModel>FRMyear}" visible="false"/>
+									<Text text="{path:'detailModel>InvoiceRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>CurrPORate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<!-- <Text text="{detailModel>ItemUOM}"/> -->
+									<Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>TaxPercentage}"/>
-									<Text text="{path:'detailModel>TaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>OtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>FrieghtAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>Tax',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>ItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualOtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
