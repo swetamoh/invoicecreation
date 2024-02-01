@@ -10,6 +10,8 @@ sap.ui.define([
 			//this._tableTemp = this.getView().byId("tableTempId").clone();
 			this.detailModel = new sap.ui.model.json.JSONModel();
 			this.getView().setModel(this.detailModel, "detailModel");
+			this.accdetailModel = new sap.ui.model.json.JSONModel();
+			this.getView().setModel(this.accdetailModel, "accdetailModel");
 			this.router = sap.ui.core.UIComponent.getRouterFor(this);
 			this.router.attachRouteMatched(this.handleRouteMatched, this);
 		},
@@ -40,6 +42,7 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
+							that.getAccDetails();
 						} else {
 							MessageBox.error("Data not found");
 						}
@@ -52,6 +55,26 @@ sap.ui.define([
 				});
 
 			}
+		},
+		getAccDetails: function(){
+			var that = this;
+            var oModel = this.getOwnerComponent().getModel();
+			var request = "/GetAccountDetailsagainstMrn";
+				oModel.read(request, {
+                    urlParameters: {
+                        UnitCode: this.UnitCode,
+                        MRNnumber: this.MRNnumber,
+                    },
+					success: function (oData) {
+						that.accdetailModel.setData(oData);
+						that.accdetailModel.refresh(true);
+					},
+					error: function (oError) {
+						// var value = JSON.parse(oError.response.body);
+						// MessageBox.error(value.error.message.value);
+						MessageBox.error(oError.message);
+					}
+				});
 		},
 		onNavPress: function() {
 			history.go(-1);
