@@ -19,7 +19,7 @@
 							</fb:FilterItem>
 							<fb:FilterItem name="C" label="PO Start Date" >
 								<fb:control>
-									<DatePicker id="postartDateId" valueFormat="yyyyMMdd" value="{localModel>/POStartDate}" class="disablekb" change="onFromDateChange"/>
+									<DatePicker id="postartDateId" valueFormat="yyyyMMdd" value="{localModel>/POStartDate}" class="disablekb"/>
 								</fb:control>
 							</fb:FilterItem>
 							<fb:FilterItem name="D" label="PO End Date">
@@ -29,7 +29,7 @@
 							</fb:FilterItem>
 							<fb:FilterItem name="E" label="MRN Start Date" mandatory="true">
 								<fb:control>
-									<DatePicker id="mrnstartDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNStartDate}" class="disablekb" change="onFromDateChange"/>
+									<DatePicker id="mrnstartDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNStartDate}" class="disablekb"/>
 								</fb:control>
 							</fb:FilterItem>
 							<fb:FilterItem name="F" label="MRN End Date" mandatory="true">
