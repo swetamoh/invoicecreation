@@ -90,3 +90,21 @@ entity DocumentRowItems {
   BatchNumber             : String;
   PNum                    : Association to GetPoDetailstoCreateInvoice;
 }
+
+entity GetAccountDetailsagainstMrn{
+  AccountCode: String;
+  AccountDescription: String;
+  BalanceAmount: String;
+  AccountType: String;
+  BillNumber: String;
+  Billdate: String;
+  VoucherNumber: String;
+  Trndate: String;
+  RefAmount: String;
+  Particulars: String;
+  Flag: String;
+  Type: String;
+  Gst: String;
+  ItemHead: String;
+  Reversecharge: String;
+}

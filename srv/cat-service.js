@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = (srv) => {
 
-    const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice } = srv.entities;
+    const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice, GetAccountDetailsagainstMrn } = srv.entities;
 
     srv.on('READ', GetPendingInvoiceList, async (req) => {
         const params = req._queryOptions;
@@ -28,7 +28,12 @@ module.exports = (srv) => {
         return results.poDetailstoCreateInvoice;
     });
 
-
+    srv.on('READ', GetAccountDetailsagainstMrn, async (req) => {
+        const { UnitCode, MRNnumber } = req._queryOptions
+        const results = await getAccountDetailsagainstMrn(UnitCode, MRNnumber);
+        if (!results) throw new Error('Unable to fetch GetAccountDetailsagainstMrn');
+        return results
+    });
 };
 
 async function getPendingInvoiceList(params) {
@@ -162,5 +167,28 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
     } catch (error) {
         console.error('Error in get Pending Invoice List API call:', error);
         throw new Error('Unable to fetch Pending Invoice List.');
+    }
+}
+
+async function getAccountDetailsagainstMrn(UnitCode, MRNnumber){
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetAccountDetailsagainstMrn?RequestBy='Manikandan'&UnitCode='${UnitCode}'&MRNnumber='${MRNnumber}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.data && response.data.d) {
+            return JSON.parse(response.data.d);
+        } else {
+            console.error('Error parsing response:', response.data);
+            throw new Error('Error parsing the response from the API.');
+        }
+    } catch (error) {
+        console.error('Error in GetAccountDetailsagainstMrn API call:', error);
+        throw new Error('Unable to fetch GetAccountDetailsagainstMrn List.');
     }
 }
