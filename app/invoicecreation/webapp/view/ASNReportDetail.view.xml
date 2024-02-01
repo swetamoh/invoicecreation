@@ -99,6 +99,86 @@
                 </f:SimpleForm>
             </Panel>
 			<Panel
+                id="_IDGenPanel4"
+                headerText="Account Details"
+                expandable="true"
+                expanded="true"
+            >
+				<ScrollContainer horizontal="true" height="65%">
+					<Table id="AccTableDataId" items="{accdetailModel>/results}" mode="SingleSelectMaster"
+						sticky="ColumnHeaders">
+						<columns>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Account Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Account Desc"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Balance Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Account Type"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Bill Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Bill Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="Voucher Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
+								<Text text="TRN Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Ref. Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Particulars"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Flag"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Type"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Gst"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Item Head"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Reverse Charge"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="acctableTempId">
+								<cells>
+									<Text text="{accdetailModel>AccountCode}"/>
+									<Text text="{path:'accdetailModel>AccountDescription',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>BalanceAmount}"/>
+									<Text text="{accdetailModel>AccountType}"/>
+									<Text text="{accdetailModel>BillNumber}"/>
+									<Text text="{accdetailModel>Billdate}"/>
+									<Text text="{accdetailModel>VoucherNumber}"/>
+									<Text text="{accdetailModel>Trndate}"/>
+									<Text text="{path:'accdetailModel>RefAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>Particulars}"/>
+									<Text text="{accdetailModel>Flag}"/>
+									<Text text="{accdetailModel>Type}"/>
+									<Text text="{accdetailModel>Gst}"/>
+									<Text text="{accdetailModel>ItemHead}"/>
+									<Text text="{accdetailModel>Reversecharge}"/>
+									</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+				</Panel>
+			<Panel
                 id="_IDGenPanel3"
                 headerText="Item Details"
                 expandable="true"
