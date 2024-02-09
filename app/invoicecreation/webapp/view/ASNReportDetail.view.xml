@@ -311,7 +311,7 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Actual Tax Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Other Charges as per Invoice ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
@@ -319,7 +319,7 @@
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Packing Amount as per Invoice ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
+							</Column> -->
 						</columns>
 						<items>
 							<ColumnListItem id="tableTempId">
@@ -359,15 +359,15 @@
 									<Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>TaxPercentage}"/>
 									<Text text="{path:'detailModel>Tax',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>ItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>ActualOtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<!-- <Input value="{path:'detailModel>ActualOtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualFrieghtAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>ActualPacking',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>ActualPacking',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
 									</cells>
 							</ColumnListItem>
 						</items>
