@@ -108,3 +108,28 @@ entity GetAccountDetailsagainstMrn {
   ItemHead           : String;
   Reversecharge      : String;
 }
+
+entity GetMRNAccountDetails {
+  Sno: String;
+  AccountCode: String;
+  AccountDescription: String;
+  Particulars: String;
+  Amount: String;
+  AccType: String;
+  DedTds: String;
+  TdsAmount: String;
+  BillNumber: String;
+  BillDate: String;
+  Billamount: String;
+  RefVoucherS1Number: String;
+  Onlineflag: String;
+  Flag2: String;
+  BalAmount: String;
+  Otheramount: String;
+  ChequeNumber: String;
+  ChequeDate: String;
+  RefNumber: String;
+  RefDate: String;
+  CurrVal: String;
+  RefAmount: String;
+}
