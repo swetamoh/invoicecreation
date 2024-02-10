@@ -108,17 +108,29 @@
 					<Table id="AccTableDataId" items="{accdetailModel>/results}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="2rem">
+								<Text text="S No"/>
+							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Account Code"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="Account Desc"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
-								<Text text="Balance Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Particulars"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Account Type"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Ded Tds"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Tds Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Bill Number"/>
@@ -126,52 +138,60 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Bill Date"/>
 							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Bill Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
-								<Text text="Voucher Number"/>
+								<Text text="Ref Voucher Sl Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Online Flag"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Flag2"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Balance Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="TRN Date"/>
+								<Text text="Other Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Ref Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Ref Date"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Ref. Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Particulars"/>
+								<Text text="Curr. Value"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Flag"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Type"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Gst"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Item Head"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Reverse Charge"/>
-							</Column>
-						</columns>
+							</columns>
 						<items>
 							<ColumnListItem id="acctableTempId">
 								<cells>
+									<Text text="{accdetailModel>Sno}"/>
 									<Text text="{accdetailModel>AccountCode}"/>
 									<Text text="{accdetailModel>AccountDescription}"/>
-									<Text text="{path:'accdetailModel>BalanceAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>AccountType}"/>
+									<Text text="{accdetailModel>Particulars}"/>
+									<Text text="{path:'accdetailModel>Amount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>AccType}"/>
+									<Text text="{accdetailModel>DedTds}"/>
+									<Text text="{path:'accdetailModel>TdsAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{accdetailModel>BillNumber}"/>
 									<Text text="{accdetailModel>Billdate}"/>
-									<Text text="{accdetailModel>VoucherNumber}"/>
-									<Text text="{accdetailModel>Trndate}"/>
+									<Text text="{path:'accdetailModel>Billamount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>RefVoucherSlNumber}"/>
+									<Text text="{accdetailModel>Onlineflag}"/>
+									<Text text="{accdetailModel>Flag2}"/>
+									<Text text="{path:'accdetailModel>BalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'accdetailModel>Otheramount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>RefNumber}"/>
+									<Text text="{accdetailModel>RefDate}"/>
 									<Text text="{path:'accdetailModel>RefAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>Particulars}"/>
-									<Text text="{accdetailModel>Flag}"/>
-									<Text text="{accdetailModel>Type}"/>
-									<Text text="{accdetailModel>Gst}"/>
-									<Text text="{accdetailModel>ItemHead}"/>
-									<Text text="{accdetailModel>Reversecharge}"/>
+									<Text text="{accdetailModel>CurrVal}"/>
 									</cells>
 							</ColumnListItem>
 						</items>
