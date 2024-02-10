@@ -12,14 +12,14 @@
                     press="onBillBookingPress"
 					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}"
                 />
-				<Button
+				<!-- <Button
                     id="postToAccountingBtnId"
                     text="Post to Accounting"
                     tooltip="Post to Accounting"
                     type="Emphasized"
                     press="onPosttoAccountingPress"
 					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER GENERATION'}"
-                />
+                /> -->
 				<Button
                     id="completeInvoiceBtnId"
                     text="Complete Invoice"
@@ -348,10 +348,10 @@
 									<Text text="{path:'detailModel>IGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>CGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>SGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{detailModel>CDT}"/>
-									<Input value="{detailModel>CRT}"/>
-									<Input value="{detailModel>TCS}"/>
-									<Input value="{path:'detailModel>ExchangeRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{detailModel>CDT}" change="onCDTChange"/>
+									<Input value="{detailModel>CRT}" change="onCRTChange"/>
+									<Input value="{detailModel>TCS}" change="onTCSChange"/>
+									<Input value="{path:'detailModel>ExchangeRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onExchRateChange"/>
 									<Text text="{detailModel>FRMyear}" visible="false"/>
 									<Text text="{path:'detailModel>InvoiceRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>CurrPORate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
@@ -359,12 +359,12 @@
 									<Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>TaxPercentage}"/>
 									<Text text="{path:'detailModel>Tax',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onOthChange"/>
+									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onFreightChange"/>
+									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onPackChange"/>
+									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onRateChange"/>
+									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onTotalChange"/>
+									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onTaxAmtChange"/>
 									<!-- <Input value="{path:'detailModel>ActualOtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualFrieghtAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualPacking',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
