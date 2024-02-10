@@ -42,7 +42,7 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
-							that.MRNDate = that.detailModel.MRNDate;
+							that.MRNDate = that.detailModel.getData().MRNDate;
 							that.getAccDetails();
 						} else {
 							MessageBox.error("Data not found");
@@ -61,9 +61,9 @@ sap.ui.define([
 			var that = this;
             var oModel = this.getOwnerComponent().getModel();
 			this.MRNDate =  sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "MMM dd, yyyy"
+				pattern: "dd MMM yyyy"
 			}).format(new Date(this.MRNDate));
-			var request = "/GetAccountDetailsagainstMrn";
+			var request = "/GetMRNAccountDetails";
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
