@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = (srv) => {
 
-    const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice, GetAccountDetailsagainstMrn } = srv.entities;
+    const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice, GetAccountDetailsagainstMrn, GetMRNAccountDetails } = srv.entities;
 
     srv.on('READ', GetPendingInvoiceList, async (req) => {
         const params = req._queryOptions;
@@ -59,6 +59,13 @@ module.exports = (srv) => {
             console.error('Error in PostVoucher API call:', error);
             throw new Error(`Error Voucher posting : ${error.message}`);
         }
+    });
+
+    srv.on('READ', GetMRNAccountDetails, async (req) => {
+        const { UnitCode, MRNNumber, MRNDate  } = req._queryOptions
+        const results = await getGetMRNAccountDetails(UnitCode, MRNNumber, MRNDate);
+        if (!results) throw new Error('Unable to fetch GetMRNAccountDetails');
+        return results
     });
 };
 
@@ -262,5 +269,28 @@ async function postVoucher(invoiceData) {
     } catch (error) {
         console.error('Error in Voucher Passing:', error);
         throw error;
+    }
+}
+
+async function getGetMRNAccountDetails(UnitCode, MRNNumber, MRNDate){
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `https://imperialauto.co:84/IAIAPI.asmx/GetMRNAccountDetails?RequestBy='Manikandan'&UnitCode='${UnitCode}'&MRNNumber='${MRNNumber}'&MRNDate='${MRNDate}'`,
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.data && response.data.d) {
+            return JSON.parse(response.data.d);
+        } else {
+            console.error('Error parsing response:', response.data);
+            throw new Error('Error parsing the response from the API.');
+        }
+    } catch (error) {
+        console.error('Error in GetMRNAccountDetails API call:', error);
+        throw new Error('Unable to fetch GetMRNAccountDetails List.');
     }
 }

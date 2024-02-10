@@ -6,4 +6,5 @@ service CatalogService {
     entity GetAccountDetailsagainstMrn as projection on my.GetAccountDetailsagainstMrn;
     action PostBillPassing(invoiceData: String) returns String;
     action PostVoucher(invoiceData: String) returns String;
+    entity GetMRNAccountDetails as projection on my.GetMRNAccountDetails;
 }
