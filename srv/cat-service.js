@@ -34,6 +34,32 @@ module.exports = (srv) => {
         if (!results) throw new Error('Unable to fetch GetAccountDetailsagainstMrn');
         return results
     });
+
+    srv.on('PostBillPassing', async (req) => {
+        const asnDataString = req.data.invoiceData;
+        const asnDataParsed = JSON.parse(asnDataString);
+        const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
+        try {
+            const response = await postBillPassing(asnDataFormatted);
+            return response;
+        } catch (error) {
+            console.error('Error in PostBillPassing API call:', error);
+            throw new Error(`Error Bill posting : ${error.message}`);
+        }
+    });
+
+    srv.on('PostVoucher', async (req) => {
+        const asnDataString = req.data.invoiceData;
+        const asnDataParsed = JSON.parse(asnDataString);
+        const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
+        try {
+            const response = await postVoucher(asnDataFormatted);
+            return response;
+        } catch (error) {
+            console.error('Error in PostVoucher API call:', error);
+            throw new Error(`Error Voucher posting : ${error.message}`);
+        }
+    });
 };
 
 async function getPendingInvoiceList(params) {
@@ -190,5 +216,51 @@ async function getAccountDetailsagainstMrn(UnitCode, MRNnumber){
     } catch (error) {
         console.error('Error in GetAccountDetailsagainstMrn API call:', error);
         throw new Error('Unable to fetch GetAccountDetailsagainstMrn List.');
+    }
+}
+
+async function postBillPassing(invoiceData) {
+    try {
+        const response = await axios({
+            method: 'post',
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostBillPassing', 
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: invoiceData
+        });
+
+        if (response.data.SuccessCode) {
+            return 'Bill posted successfully';
+        } else {
+            throw new Error(response.data.ErrorDescription || 'Unknown error occurred');
+        }
+    } catch (error) {
+        console.error('Error in Bill Passing:', error);
+        throw error;
+    }
+}
+
+async function postVoucher(invoiceData) {
+    try {
+        const response = await axios({
+            method: 'post',
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucher', 
+            headers: {
+                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Content-Type': 'application/json'
+            },
+            data: invoiceData
+        });
+
+        if (response.data.SuccessCode) {
+            return 'Voucher posted successfully';
+        } else {
+            throw new Error(response.data.ErrorDescription || 'Unknown error occurred');
+        }
+    } catch (error) {
+        console.error('Error in Voucher Passing:', error);
+        throw error;
     }
 }
