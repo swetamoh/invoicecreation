@@ -18,6 +18,15 @@ entity GetPendingInvoiceList {
       MRNQuantityReceivedLocation : String;
       ASNQuantity                 : String;
       InvoiceStatus               : String;
+      SendToAccDate               : String;
+      TillDatePurchaseVal         : String;
+      DedTds                      : String;
+      TotalDebit                  : String;
+      TotalCredit                 : String;
+      VoucherType                 : String;
+      AccCode                     : String;
+      AccDesc                     : String;
+      ReceiptDate                 : String;
 }
 
 entity GetPoDetailstoCreateInvoice {
