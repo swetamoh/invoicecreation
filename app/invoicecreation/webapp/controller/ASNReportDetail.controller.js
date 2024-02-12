@@ -387,9 +387,9 @@ sap.ui.define([
 			"TotalDebit": "",
 			"TotalCredit": "",
 			"Dedtds": "",
-			"Partycode": "",
+			"Partycode": this.data.VendorCode,
 			"Trncode": this.data.DocumentRows.results[0].TRNCode,
-			"Vouchertype": "",
+			"Vouchertype": "PV",
 			"Empcode": "",
 			"Tilldatepurchasevalue": ""
 		};
