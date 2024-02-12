@@ -42,6 +42,7 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
+							that.MRNDate = that.detailModel.getData().MRNDate;
 							that.getAccDetails();
 						} else {
 							MessageBox.error("Data not found");
@@ -59,11 +60,15 @@ sap.ui.define([
 		getAccDetails: function(){
 			var that = this;
             var oModel = this.getOwnerComponent().getModel();
-			var request = "/GetAccountDetailsagainstMrn";
+			this.MRNDate =  sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "dd MMM yyyy"
+			}).format(new Date(this.MRNDate));
+			var request = "/GetMRNAccountDetails";
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
                         MRNnumber: this.MRNnumber,
+						MRNDate: this.MRNDate
                     },
 					success: function (oData) {
 						that.accdetailModel.setData(oData);
@@ -172,36 +177,46 @@ sap.ui.define([
 				"BillPassingMaterialDetails": []
 			};
 			for (var i = 0; i < this.accdata.length; i++){
-				if (this.accdata[i].Billdate) {
+				if (this.accdata[i].BillDate) {
 					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-					var date = this.accdata[i].Billdate;
+					var date = this.accdata[i].BillDate;
 					var DateInstance = new Date(date);
 					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 					pattern: "dd/MM/yyyy"
 					});
-					this.Billdate = dateFormat.format(DateInstance);
-					this.Billdate = this.formatdate(this.Billdate);
+					this.BillDate = dateFormat.format(DateInstance);
+					this.BillDate = this.formatdate(this.BillDate);
 					}
+					if (this.accdata[i].RefDate) {
+						//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+						var date = this.accdata[i].RefDate;
+						var DateInstance = new Date(date);
+						var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+						pattern: "dd/MM/yyyy"
+						});
+						this.RefDate = dateFormat.format(DateInstance);
+						this.RefDate = this.formatdate(this.RefDate);
+						}
 			var row = {
-				"Sno": i+1,
+				"Sno": this.accdata[i].Sno,
 				"AccountCode": this.accdata[i].AccountCode,
 				"AccountDescription": this.accdata[i].AccountDescription,
 				"Particulars": this.accdata[i].Particulars,
-				"Amount": "",
-				"AccType": this.accdata[i].AccountType,
-				"DedTds": "",
-				"TdsAmount": "", 
+				"Amount": this.accdata[i].Amount,
+				"AccType": this.accdata[i].AccType,
+				"DedTds": this.accdata[i].DedTds,
+				"TdsAmount": this.accdata[i].TdsAmount, 
 				"BillNumber": this.accdata[i].BillNumber,
-				"BillDate": this.Billdate,
-				"BillAmount": "",
-				"RefVoucherSlNumber": this.accdata[i].VoucherNumber,
-				"OnlineFlag": this.accdata[i].Flag,
-				"BalAmount": this.accdata[i].BalanceAmount,
-				"Flag2": "",
-				"OtherAmount": "",
-				"RefNumber": "",
-				"RefDate": "",
-				"CurrVal": "",
+				"BillDate": this.BillDate,
+				"BillAmount": this.accdata[i].Billamount,
+				"RefVoucherSlNumber": this.accdata[i].RefVoucherSlNumber,
+				"OnlineFlag": this.accdata[i].Onlineflag,
+				"BalAmount": this.accdata[i].BalAmount,
+				"Flag2": this.accdata[i].Flag2,
+				"OtherAmount": this.accdata[i].Otheramount,
+				"RefNumber": this.accdata[i].RefNumber,
+				"RefDate": this.RefDate,
+				"CurrVal": this.accdata[i].CurrVal,
 				"RefAmount": this.accdata[i].RefAmount,
 				};
 			form.BillPassingAccountDetails.push(row);
@@ -245,7 +260,7 @@ sap.ui.define([
 			"CDT": this.data.DocumentRows.results[0].CDT,
 			"CRT": this.data.DocumentRows.results[0].CRT,
 			"ExchangeRate": this.data.DocumentRows.results[0].ExchangeRate,
-			"BillRate": "",
+			"BillRate": this.data.DocumentRows.results[0].MRNLineValue,
 			"PackingOrg": this.data.DocumentRows.results[0].PakingOrg,
 			"FrieghtOrg": this.data.DocumentRows.results[0].FrieghtOrg,
 			"OthersOrg": this.data.DocumentRows.results[0].OtherOrg,
@@ -317,26 +332,36 @@ sap.ui.define([
 					this.Billdate = dateFormat.format(DateInstance);
 					this.Billdate = this.formatdate(this.Billdate);
 					}
+					if (this.accdata[i].RefDate) {
+						//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+						var date = this.accdata[i].RefDate;
+						var DateInstance = new Date(date);
+						var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+						pattern: "dd/MM/yyyy"
+						});
+						this.RefDate = dateFormat.format(DateInstance);
+						this.RefDate = this.formatdate(this.RefDate);
+						}
 			var row = {
-				"Sno": i+1,
+				"Sno": this.accdata[i].Sno,
 				"AccountCode": this.accdata[i].AccountCode,
 				"AccountDescription": this.accdata[i].AccountDescription,
 				"Particulars": this.accdata[i].Particulars,
-				"Amount": "",
-				"AccType": this.accdata[i].AccountType,
-				"DedTds": "",
-				"TdsAmount": "", 
+				"Amount": this.accdata[i].Amount,
+				"AccType": this.accdata[i].AccType,
+				"DedTds": this.accdata[i].DedTds,
+				"TdsAmount": this.accdata[i].TdsAmount, 
 				"BillNumber": this.accdata[i].BillNumber,
-				"BillDate": this.Billdate,
-				"BillAmount": "",
-				"RefVoucherSlNumber": this.accdata[i].VoucherNumber,
-				"OnlineFlag": this.accdata[i].Flag,
-				"BalAmount": this.accdata[i].BalanceAmount,
-				"Flag2": "",
-				"OtherAmount": "",
-				"RefNumber": "",
-				"RefDate": "",
-				"CurrVal": "",
+				"BillDate": this.BillDate,
+				"BillAmount": this.accdata[i].Billamount,
+				"RefVoucherSlNumber": this.accdata[i].RefVoucherSlNumber,
+				"OnlineFlag": this.accdata[i].Onlineflag,
+				"BalAmount": this.accdata[i].BalAmount,
+				"Flag2": this.accdata[i].Flag2,
+				"OtherAmount": this.accdata[i].Otheramount,
+				"RefNumber": this.accdata[i].RefNumber,
+				"RefDate": this.RefDate,
+				"CurrVal": this.accdata[i].CurrVal,
 				"RefAmount": this.accdata[i].RefAmount,
 				};
 			form.AccountDetails.push(row);
@@ -362,9 +387,9 @@ sap.ui.define([
 			"TotalDebit": "",
 			"TotalCredit": "",
 			"Dedtds": "",
-			"Partycode": "",
+			"Partycode": this.data.VendorCode,
 			"Trncode": this.data.DocumentRows.results[0].TRNCode,
-			"Vouchertype": "",
+			"Vouchertype": "PV",
 			"Empcode": "",
 			"Tilldatepurchasevalue": ""
 		};
