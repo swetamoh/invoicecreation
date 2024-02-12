@@ -108,7 +108,7 @@
 					<Table id="AccTableDataId" items="{accdetailModel>/results}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="2rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="4rem">
 								<Text text="S No"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
