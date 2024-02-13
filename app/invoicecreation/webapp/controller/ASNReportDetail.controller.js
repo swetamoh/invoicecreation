@@ -26,7 +26,15 @@ sap.ui.define([
                 this.PoNum = data.PoNum.replace(/-/g, '/');
 				this.MRNnumber = data.MRNnumber.replace(/-/g, '/');
                 this.AddressCode = data.AddressCode;
-				this.InvoiceStatus = data.Status;
+				this.SendToAccDate = data.SendToAccDate.replace(/-/g, '/');
+				this.TillDatePurchaseVal = data.TillDatePurchaseVal;
+				this.DedTds = data.DedTds;
+				this.TotalDebit = data.TotalDebit;
+				this.TotalCredit = data.TotalCredit;
+				this.VoucherType = data.VoucherType;
+				this.AccCode = data.AccCode;
+				this.AccDesc = data.AccDesc;
+				this.ReceiptDate = data.ReceiptDate.replace(/-/g, '/');
 				//this.getView().byId("pageId").setTitle("ASN Number - " + this.AsnNumber);
                 var request = "/GetPoDetailstoCreateInvoice";
 				oModel.read(request, {
@@ -42,8 +50,14 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
+							that.detailModel.getData().DocumentRows.results[0].ActualItemRate = that.detailModel.getData().DocumentRows.results[0].ItemRate;
+							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;
-							that.getAccDetails();
+							if(that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING'){
+							that.getAccDetailsBill();
+							}else if(that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR VOUCHER POSTING'){
+							that.getAccDetailsVoucher();
+							}
 						} else {
 							MessageBox.error("Data not found");
 						}
@@ -57,7 +71,27 @@ sap.ui.define([
 
 			}
 		},
-		getAccDetails: function(){
+		getAccDetailsBill: function(){
+			var that = this;
+            var oModel = this.getOwnerComponent().getModel();
+			var request = "/GetAccountDetailsagainstMrn";
+				oModel.read(request, {
+                    urlParameters: {
+                        UnitCode: this.UnitCode,
+                        MRNNumber: this.MRNnumber
+                    },
+					success: function (oData) {
+						that.accdetailModel.setData(oData);
+						that.accdetailModel.refresh(true);
+					},
+					error: function (oError) {
+						// var value = JSON.parse(oError.response.body);
+						// MessageBox.error(value.error.message.value);
+						MessageBox.error(oError.message);
+					}
+				});
+		},
+		getAccDetailsVoucher: function(){
 			var that = this;
             var oModel = this.getOwnerComponent().getModel();
 			this.MRNDate =  sap.ui.core.format.DateFormat.getDateInstance({
@@ -67,7 +101,7 @@ sap.ui.define([
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
-                        MRNnumber: this.MRNnumber,
+                        MRNNumber: this.MRNnumber,
 						MRNDate: this.MRNDate
                     },
 					success: function (oData) {
@@ -232,8 +266,8 @@ sap.ui.define([
 			this.FRMyear = this.formatdate(this.FRMyear);
 			}
 		var rowdetails = {
-			"ItemCode": 1,
-			"ItemRevNumber": this.data.DocumentRows.results[0].MaterialCode,
+			"ItemCode": this.data.DocumentRows.results[0].MaterialCode,
+			"ItemRevNumber": this.data.DocumentRows.results[0].ItemNumber,
 			"Itemdecsription": this.data.DocumentRows.results[0].MaterialDescription,
 			"ItemGroupCode": this.data.DocumentRows.results[0].ItemGroupCode,
 			"GroupAccCode": this.data.DocumentRows.results[0].GroupAccountCode,
@@ -322,15 +356,15 @@ sap.ui.define([
 				"AccountDetails": []
 			};
 			for (var i = 0; i < this.accdata.length; i++){
-				if (this.accdata[i].Billdate) {
+				if (this.accdata[i].BillDate) {
 					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-					var date = this.accdata[i].Billdate;
+					var date = this.accdata[i].BillDate;
 					var DateInstance = new Date(date);
 					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 					pattern: "dd/MM/yyyy"
 					});
-					this.Billdate = dateFormat.format(DateInstance);
-					this.Billdate = this.formatdate(this.Billdate);
+					this.BillDate = dateFormat.format(DateInstance);
+					this.BillDate = this.formatdate(this.BillDate);
 					}
 					if (this.accdata[i].RefDate) {
 						//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
@@ -376,22 +410,42 @@ sap.ui.define([
 			this.MRNDate = dateFormat.format(DateInstance);
 			this.MRNDate = this.formatdate(this.MRNDate);
 			}
+			if (this.ReceiptDate) {
+				//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+				var date = this.ReceiptDate;
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "dd/MM/yyyy"
+				});
+				this.ReceiptDate = dateFormat.format(DateInstance);
+				this.ReceiptDate = this.formatdate(this.ReceiptDate);
+				}
+				if (this.SendToAccDate) {
+					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+					var date = this.SendToAccDate;
+					var DateInstance = new Date(date);
+					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+					});
+					this.SendToAccDate = dateFormat.format(DateInstance);
+					this.SendToAccDate = this.formatdate(this.SendToAccDate);
+					}
 		var rowdetails = {
 			"Mrnnumber": this.data.DocumentRows.results[0].MRNNumber,
 			"Mrndate": this.MRNDate,
-			"AccountCode": this.data.DocumentRows.results[0].GroupAccountCode,
-			"AccountDescription": this.data.DocumentRows.results[0].GroupAccountDescription,
-			"ReceiptDate": "", 
-			"Senttoaccountdate": "",
+			"AccountCode": this.AccCode,
+			"AccountDescription": this.AccDesc,
+			"ReceiptDate": this.ReceiptDate, 
+			"Senttoaccountdate": this.SendToAccDate,
 			"Generateentry": "",
-			"TotalDebit": "",
-			"TotalCredit": "",
-			"Dedtds": "",
+			"TotalDebit": this.TotalDebit,
+			"TotalCredit": this.TotalCredit,
+			"Dedtds": this.DedTds,
 			"Partycode": this.data.VendorCode,
 			"Trncode": this.data.DocumentRows.results[0].TRNCode,
-			"Vouchertype": "PV",
+			"Vouchertype": this.VoucherType,
 			"Empcode": "",
-			"Tilldatepurchasevalue": ""
+			"Tilldatepurchasevalue": this.TillDatePurchaseVal
 		};
 		form.DetailsList.push(rowdetails);
 

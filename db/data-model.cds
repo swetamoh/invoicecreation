@@ -139,7 +139,7 @@ entity GetMRNAccountDetails {
   BillNumber: String;
   BillDate: String;
   Billamount: String;
-  RefVoucherS1Number: String;
+  RefVoucherSlNumber: String;
   Onlineflag: String;
   Flag2: String;
   BalAmount: String;

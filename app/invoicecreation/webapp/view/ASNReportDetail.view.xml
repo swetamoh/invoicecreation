@@ -48,7 +48,7 @@
                         <Label id="_IDGenLabel1" design="Bold" text="PO Number"/>
                         <Text id="_IDGenText1" text="{detailModel>/PONumber}"/>
 						<Label id="_IDGenLabel2" design="Bold" text="PO Date"/>
-                        <Text id="_IDGenText2" text="{detailModel>/PODate}"/>
+                        <Text id="_IDGenText2" text="{path:'detailModel>/PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
 						<Label id="_IDGenLabel3" design="Bold" text="Vendor Code"/>
                         <Text id="_IDGenText3" text="{detailModel>/VendorCode}"/>
 						<Label id="_IDGenLabel4" design="Bold" text="Vendor Number"/>
@@ -86,7 +86,7 @@
                         <Label id="_IDGenLabel11" design="Bold" text="MRN Number"/>
                         <Text id="_IDGenText11" text="{detailModel>/MRNnumber}"/>
 						<Label id="_IDGenLabel12" design="Bold" text="MRN Date"/>
-                        <Text id="_IDGenText12" text="{detailModel>/MRNDate}"/>
+                        <Text id="_IDGenText12" text="{path:'detailModel>/MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
 						<Label id="_IDGenLabel13" design="Bold" text="MRN Created By"/>
                         <Text id="_IDGenText13" text="{detailModel>/MRNCreatedBy}"/>
 						<Label id="_IDGenLabel14" design="Bold" text="MRN Delivery Location"/>
@@ -141,7 +141,7 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Bill Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Ref Voucher Sl Number"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
@@ -181,7 +181,7 @@
 									<Text text="{accdetailModel>DedTds}"/>
 									<Text text="{path:'accdetailModel>TdsAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{accdetailModel>BillNumber}"/>
-									<Text text="{accdetailModel>Billdate}"/>
+									<Text text="{path:'accdetailModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
 									<Text text="{path:'accdetailModel>Billamount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{accdetailModel>RefVoucherSlNumber}"/>
 									<Text text="{accdetailModel>Onlineflag}"/>
@@ -189,7 +189,7 @@
 									<Text text="{path:'accdetailModel>BalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'accdetailModel>Otheramount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{accdetailModel>RefNumber}"/>
-									<Text text="{accdetailModel>RefDate}"/>
+									<Text text="{path:'accdetailModel>RefDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
 									<Text text="{path:'accdetailModel>RefAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{accdetailModel>CurrVal}"/>
 									</cells>
