@@ -234,7 +234,7 @@ async function postBillPassing(invoiceData) {
             method: 'post',
             url: 'https://imperialauto.co:84/IAIAPI.asmx/PostBillPassing', 
             headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
             },
             data: invoiceData
@@ -257,7 +257,7 @@ async function postVoucher(invoiceData) {
             method: 'post',
             url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucher', 
             headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
             },
             data: invoiceData
