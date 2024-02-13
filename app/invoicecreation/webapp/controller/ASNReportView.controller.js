@@ -211,11 +211,22 @@ sap.ui.define([
 			//this.detailModel.setData(data);
 			this.PoNum = data.PONumber.replace(/\//g, '-');
 			this.MRNnumber = data.MRNNumber.replace(/\//g, '-');
+			this.SendToAccDate = data.SendToAccDate.replace(/\//g, '-');
+			this.ReceiptDate = data.ReceiptDate.replace(/\//g, '-');
 			this.router.navTo("ASNReportDetail", {
 				"UnitCode": data.PlantCode,
 				"PoNum": this.PoNum,
 				"MRNnumber": this.MRNnumber,
-				"AddressCode": data.VendorCode
+				"AddressCode": data.VendorCode,
+				"SendToAccDate": this.SendToAccDate,
+				"TillDatePurchaseVal": data.TillDatePurchaseVal,
+				"DedTds": data.DedTds,
+				"TotalDebit": data.TotalDebit,
+				"TotalCredit": data.TotalCredit,
+				"VoucherType": data.VoucherType,
+				"AccCode": data.AccCode,
+				"AccDesc": data.AccDesc,
+				"ReceiptDate": this.ReceiptDate
 			});
 		},
 		/////////////////////////////////////////Table Personalization////////////////////////////////
