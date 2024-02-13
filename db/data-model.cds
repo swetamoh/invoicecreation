@@ -101,14 +101,15 @@ entity DocumentRowItems {
 }
 
 entity GetAccountDetailsagainstMrn {
+  Sno                : String;
   AccountCode        : String;
   AccountDescription : String;
   BalanceAmount      : String;
   AccountType        : String;
   BillNumber         : String;
   Billdate           : String;
-  VoucherNumber      : String;
-  Trndate            : String;
+  RefNumber          : String;
+  RefDate            : String;
   RefAmount          : String;
   Particulars        : String;
   Flag               : String;
@@ -116,6 +117,14 @@ entity GetAccountDetailsagainstMrn {
   Gst                : String;
   ItemHead           : String;
   Reversecharge      : String;
+  DedTds             : String;
+  TdsAmount          : String;
+  BillAmount         : String;
+  RefVoucherSlnumber : String;
+  Onlineflag         : String;
+  Otheramount        : String;
+  CurrVal            : String;
+  Amount             : String;
 }
 
 entity GetMRNAccountDetails {

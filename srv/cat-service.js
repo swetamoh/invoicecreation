@@ -30,6 +30,8 @@ module.exports = (srv) => {
 
     srv.on('READ', GetAccountDetailsagainstMrn, async (req) => {
         const { UnitCode, MRNnumber } = req._queryOptions
+        //const UnitCode = 'P01'
+        //const MRNnumber = '22/01GEFP1/02004'
         const results = await getAccountDetailsagainstMrn(UnitCode, MRNnumber);
         if (!results) throw new Error('Unable to fetch GetAccountDetailsagainstMrn');
         return results
