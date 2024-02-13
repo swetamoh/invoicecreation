@@ -78,7 +78,7 @@ sap.ui.define([
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
-                        MRNNumber: this.MRNnumber
+                        MRNnumber: this.MRNnumber
                     },
 					success: function (oData) {
 						that.accdetailModel.setData(oData);
@@ -205,7 +205,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "Manikandan",
+				"CreatedBy": "MA017",
 				"CreatedIP": "",
 				"BillPassingAccountDetails": [],
 				"BillPassingMaterialDetails": []
@@ -350,7 +350,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "Manikandan",
+				"CreatedBy": "MA017",
 				"CreatedIP": "",
 				"DetailsList": [],
 				"AccountDetails": []
