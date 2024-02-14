@@ -437,7 +437,7 @@ sap.ui.define([
 			"AccountDescription": this.AccDesc,
 			"ReceiptDate": this.ReceiptDate, 
 			"Senttoaccountdate": this.SendToAccDate,
-			"Generateentry": "",
+			"Generateentry": "1",
 			"TotalDebit": this.TotalDebit,
 			"TotalCredit": this.TotalCredit,
 			"Dedtds": this.DedTds,
