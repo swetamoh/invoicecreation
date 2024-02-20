@@ -291,7 +291,7 @@ async function postVoucher(invoiceData) {
     try {
         const response = await axios({
             method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucher', 
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherPosting', 
             headers: {
                 'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
