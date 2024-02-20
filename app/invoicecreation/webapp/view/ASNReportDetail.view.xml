@@ -12,14 +12,14 @@
                     press="onBillBookingPress"
 					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}"
                 />
-				<!-- <Button
-                    id="postToAccountingBtnId"
-                    text="Post to Accounting"
-                    tooltip="Post to Accounting"
+				<Button
+                    id="generateVoucherBtnId"
+                    text="Generate Voucher"
+                    tooltip="Generate Voucher"
                     type="Emphasized"
-                    press="onPosttoAccountingPress"
+                    press="onGenerateVoucherPress"
 					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER GENERATION'}"
-                /> -->
+                />
 				<Button
                     id="completeInvoiceBtnId"
                     text="Complete Invoice"

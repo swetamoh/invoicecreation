@@ -20,6 +20,7 @@ sap.ui.define([
 			if (oEvent.getParameter("name") === "ASNReportDetail") {
 				var that = this;
 				//this.detailModel.refresh(true);
+				sap.ui.core.BusyIndicator.show();
                 var oModel = this.getOwnerComponent().getModel();
 				var data = oEvent.getParameter("arguments");
                 this.UnitCode = data.UnitCode;
@@ -46,6 +47,7 @@ sap.ui.define([
                         AddressCode: this.AddressCode
                     },
 					success: function (oData) {
+						sap.ui.core.BusyIndicator.hide();
 						var filteredPurchaseOrder = oData.results.find(po => po.PONumber === that.PoNum);
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
@@ -55,7 +57,7 @@ sap.ui.define([
 							that.MRNDate = that.detailModel.getData().MRNDate;
 							if(that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING'){
 							that.getAccDetailsBill();
-							}else if(that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR VOUCHER POSTING'){
+							}else if(that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR VOUCHER GENERATION' || that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR VOUCHER POSTING'){
 							that.getAccDetailsVoucher();
 							}
 						} else {
@@ -63,6 +65,7 @@ sap.ui.define([
 						}
 					},
 					error: function (oError) {
+						sap.ui.core.BusyIndicator.hide();
 						// var value = JSON.parse(oError.response.body);
 						// MessageBox.error(value.error.message.value);
 						MessageBox.error(oError.message);
@@ -72,19 +75,22 @@ sap.ui.define([
 			}
 		},
 		getAccDetailsBill: function(){
+			sap.ui.core.BusyIndicator.show();
 			var that = this;
             var oModel = this.getOwnerComponent().getModel();
-			var request = "/GetAccountDetailsagainstMrn";
+			var request = "/GetAccountDetailsagainstMrnforBillPassing";
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
                         MRNnumber: this.MRNnumber
                     },
 					success: function (oData) {
+						sap.ui.core.BusyIndicator.hide();
 						that.accdetailModel.setData(oData);
 						that.accdetailModel.refresh(true);
 					},
 					error: function (oError) {
+						sap.ui.core.BusyIndicator.hide();
 						// var value = JSON.parse(oError.response.body);
 						// MessageBox.error(value.error.message.value);
 						MessageBox.error(oError.message);
@@ -92,12 +98,13 @@ sap.ui.define([
 				});
 		},
 		getAccDetailsVoucher: function(){
+			sap.ui.core.BusyIndicator.show();
 			var that = this;
             var oModel = this.getOwnerComponent().getModel();
 			this.MRNDate =  sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "dd MMM yyyy"
 			}).format(new Date(this.MRNDate));
-			var request = "/GetMRNAccountDetails";
+			var request = "/GetMRNAccountDetailsforVoucherGeneration";
 				oModel.read(request, {
                     urlParameters: {
                         UnitCode: this.UnitCode,
@@ -105,10 +112,12 @@ sap.ui.define([
 						MRNDate: this.MRNDate
                     },
 					success: function (oData) {
+						sap.ui.core.BusyIndicator.hide();
 						that.accdetailModel.setData(oData);
 						that.accdetailModel.refresh(true);
 					},
 					error: function (oError) {
+						sap.ui.core.BusyIndicator.hide();
 						// var value = JSON.parse(oError.response.body);
 						// MessageBox.error(value.error.message.value);
 						MessageBox.error(oError.message);
@@ -199,6 +208,7 @@ sap.ui.define([
 			this.detailModel.refresh(true);
 		},
 		onBillBookingPress: function(oEvt) {
+			sap.ui.core.BusyIndicator.show();
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel();
 			this.accdata = this.accdetailModel.getData().results;
@@ -327,6 +337,7 @@ sap.ui.define([
 					}),
 					context: this,
 					success: function (textStatus, jqXHR) {
+						sap.ui.core.BusyIndicator.hide();
 						MessageBox.success("Bill Posted succesfully", {
 							actions: [sap.m.MessageBox.Action.OK],
 							icon: sap.m.MessageBox.Icon.SUCCESS,
@@ -339,11 +350,158 @@ sap.ui.define([
 						});
 					}.bind(this),
 					error: function (error) {
+						sap.ui.core.BusyIndicator.hide();
 						MessageBox.error("Bill Posting failed");
 					}
 				});
 		},
+		onGenerateVoucherPress: function(oEvt) {
+			sap.ui.core.BusyIndicator.show();
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel();
+			this.accdata = this.accdetailModel.getData().results;
+			this.data = this.detailModel.getData();
+			var form = {
+				"UnitCode": this.UnitCode,
+				"CreatedBy": "MA017",
+				"CreatedIP": "",
+				"DetailsList": [],
+				"AccountDetails": []
+			};
+			for (var i = 0; i < this.accdata.length; i++){
+				if (this.accdata[i].BillDate) {
+					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+					var date = this.accdata[i].BillDate;
+					var DateInstance = new Date(date);
+					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+					});
+					this.BillDate = dateFormat.format(DateInstance);
+					this.BillDate = this.formatdate(this.BillDate);
+					}
+					if (this.accdata[i].RefDate) {
+						//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+						var date = this.accdata[i].RefDate;
+						var DateInstance = new Date(date);
+						var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+						pattern: "dd/MM/yyyy"
+						});
+						this.RefDate = dateFormat.format(DateInstance);
+						this.RefDate = this.formatdate(this.RefDate);
+						}
+			var row = {
+				"Sno": this.accdata[i].Sno,
+				"AccountCode": this.accdata[i].AccountCode,
+				"AccountDescription": this.accdata[i].AccountDescription,
+				"Particulars": this.accdata[i].Particulars,
+				"Amount": this.accdata[i].Amount,
+				"AccType": this.accdata[i].AccType,
+				"DedTds": this.accdata[i].DedTds,
+				"TdsAmount": this.accdata[i].TdsAmount, 
+				"BillNumber": this.accdata[i].BillNumber,
+				"BillDate": this.BillDate,
+				"BillAmount": this.accdata[i].Billamount,
+				"RefVoucherSlNumber": this.accdata[i].RefVoucherSlNumber,
+				"OnlineFlag": this.accdata[i].Onlineflag,
+				"BalAmount": this.accdata[i].BalAmount,
+				"Flag2": this.accdata[i].Flag2,
+				"OtherAmount": this.accdata[i].Otheramount,
+				"RefNumber": this.accdata[i].RefNumber,
+				"RefDate": this.RefDate,
+				"CurrVal": this.accdata[i].CurrVal,
+				"RefAmount": this.accdata[i].RefAmount,
+				};
+			form.AccountDetails.push(row);
+		}
+		if (this.data.MRNDate) {
+			//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+			var date = this.data.MRNDate;
+			var DateInstance = new Date(date);
+			var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+			pattern: "dd/MM/yyyy"
+			});
+			this.MRNDate = dateFormat.format(DateInstance);
+			this.MRNDate = this.formatdate(this.MRNDate);
+			}
+			if (this.ReceiptDate) {
+				//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+				var date = this.ReceiptDate;
+				var DateInstance = new Date(date);
+				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "dd/MM/yyyy"
+				});
+				this.ReceiptDate = dateFormat.format(DateInstance);
+				this.ReceiptDate = this.formatdate(this.ReceiptDate);
+				}
+				if (this.SendToAccDate) {
+					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
+					var date = this.SendToAccDate;
+					var DateInstance = new Date(date);
+					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "dd/MM/yyyy"
+					});
+					this.SendToAccDate = dateFormat.format(DateInstance);
+					this.SendToAccDate = this.formatdate(this.SendToAccDate);
+					}
+		var rowdetails = {
+			"Mrnnumber": this.data.DocumentRows.results[0].MRNNumber,
+			"Mrndate": this.MRNDate,
+			"AccountCode": this.AccCode,
+			"AccountDescription": this.AccDesc,
+			"ReceiptDate": this.ReceiptDate, 
+			"Senttoaccountdate": this.SendToAccDate,
+			"Generateentry": "1",
+			"TotalDebit": this.TotalDebit,
+			"TotalCredit": this.TotalCredit,
+			"Dedtds": this.DedTds,
+			"Partycode": this.data.VendorCode,
+			"Trncode": this.data.DocumentRows.results[0].TRNCode,
+			"Vouchertype": this.VoucherType,
+			"Empcode": "",
+			"Tilldatepurchasevalue": this.TillDatePurchaseVal
+		};
+		form.DetailsList.push(rowdetails);
+
+			var formdatastr = JSON.stringify(form);
+				this.hardcodedURL = "";
+				// if (window.location.href.includes("launchpad")) {
+				// 	this.hardcodedURL = "https://impautosuppdev.launchpad.cfapps.ap10.hana.ondemand.com/a91d9b1c-a59b-495f-aee2-3d22b25c7a3c.schedulingagreement.sapfiorischedulingagreement-0.0.1";
+				// }
+				if (window.location.href.includes("site")) {
+					this.hardcodedURL = jQuery.sap.getModulePath("sap.fiori.invoicecreation");
+				}
+				var sPath = this.hardcodedURL + `/v2/odata/v4/catalog/VoucherGen`;
+				$.ajax({
+					type: "POST",
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					url: sPath,
+					data: JSON.stringify({
+						invoiceData: formdatastr
+					}),
+					context: this,
+					success: function (textStatus, jqXHR) {
+						sap.ui.core.BusyIndicator.hide();
+						MessageBox.success("Voucher Generation succesfully", {
+							actions: [sap.m.MessageBox.Action.OK],
+							icon: sap.m.MessageBox.Icon.SUCCESS,
+							title: "Success",
+							onClose: function (oAction) {
+								if (oAction === "OK") {
+									sap.fiori.invoicecreation.controller.formatter.onNavBack();
+								}
+							}
+						});
+					}.bind(this),
+					error: function (error) {
+						sap.ui.core.BusyIndicator.hide();
+						MessageBox.error("Voucher Generation failed");
+					}
+				});
+		},
 		onCompleteInvoicePress: function(oEvt) {
+			sap.ui.core.BusyIndicator.show();
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel();
 			this.accdata = this.accdetailModel.getData().results;
@@ -469,6 +627,7 @@ sap.ui.define([
 					}),
 					context: this,
 					success: function (textStatus, jqXHR) {
+						sap.ui.core.BusyIndicator.hide();
 						MessageBox.success("Voucher Posted succesfully", {
 							actions: [sap.m.MessageBox.Action.OK],
 							icon: sap.m.MessageBox.Icon.SUCCESS,
@@ -481,6 +640,7 @@ sap.ui.define([
 						});
 					}.bind(this),
 					error: function (error) {
+						sap.ui.core.BusyIndicator.hide();
 						MessageBox.error("Voucher Posting failed");
 					}
 				});
