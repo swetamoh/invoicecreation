@@ -118,7 +118,7 @@
 					"targetControl": "appId",
           "subroutes": [
 						{
-							"pattern": "detail/{UnitCode}/{PoNum}/{MRNnumber}/{AddressCode}/:SendToAccDate:/:TillDatePurchaseVal:/:DedTds:/:TotalDebit:/:TotalCredit:/:VoucherType:/:AccCode:/:AccDesc:/:ReceiptDate:",
+							"pattern": "detail/{UnitCode}/{PoNum}/{MRNnumber}/{AddressCode}/:SendToAccDate:/:TillDatePurchaseVal:/:DedTds:/:TotalDebit:/:TotalCredit:/:VoucherType:/:AccCode:/:AccDesc:/:ReceiptDate:/:VoucherNumber:",
 							"name": "ASNReportDetail",
 							"view": "ASNReportDetail",
 							"targetAggregation": "pages"
