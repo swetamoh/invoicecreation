@@ -10,6 +10,7 @@ entity GetPendingInvoiceList {
       POTotalAmount               : String;
       POTotalQuantity             : String;
       MRNNumber                   : String;
+      VoucherNumber               : String;
       MRNDate                     : String;
       MRNQuantity                 : String;
       MRNCurrency                 : String;
