@@ -100,7 +100,7 @@ entity DocumentRowItems {
   PNum                    : Association to GetPoDetailstoCreateInvoice;
 }
 
-entity GetAccountDetailsagainstMrn {
+entity GetAccountDetailsagainstMrnforBillPassing {
   Sno                : String;
   AccountCode        : String;
   AccountDescription : String;
@@ -127,7 +127,7 @@ entity GetAccountDetailsagainstMrn {
   Reversecharge      : String;
 }
 
-entity GetMRNAccountDetails {
+entity GetMRNAccountDetailsforVoucherGeneration {
   Sno                : String;
   AccountCode        : String;
   AccountDescription : String;
