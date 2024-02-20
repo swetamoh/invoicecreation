@@ -36,6 +36,7 @@ sap.ui.define([
 				this.AccCode = data.AccCode;
 				this.AccDesc = data.AccDesc;
 				this.ReceiptDate = data.ReceiptDate.replace(/-/g, '/');
+				this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
 				//this.getView().byId("pageId").setTitle("ASN Number - " + this.AsnNumber);
                 var request = "/GetPoDetailstoCreateInvoice";
 				oModel.read(request, {
@@ -510,103 +511,8 @@ sap.ui.define([
 				"UnitCode": this.UnitCode,
 				"CreatedBy": "MA017",
 				"CreatedIP": "",
-				"DetailsList": [],
-				"AccountDetails": []
+				"VoucherNumber": this.VoucherNumber
 			};
-			for (var i = 0; i < this.accdata.length; i++){
-				if (this.accdata[i].BillDate) {
-					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-					var date = this.accdata[i].BillDate;
-					var DateInstance = new Date(date);
-					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-					});
-					this.BillDate = dateFormat.format(DateInstance);
-					this.BillDate = this.formatdate(this.BillDate);
-					}
-					if (this.accdata[i].RefDate) {
-						//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-						var date = this.accdata[i].RefDate;
-						var DateInstance = new Date(date);
-						var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-						pattern: "dd/MM/yyyy"
-						});
-						this.RefDate = dateFormat.format(DateInstance);
-						this.RefDate = this.formatdate(this.RefDate);
-						}
-			var row = {
-				"Sno": this.accdata[i].Sno,
-				"AccountCode": this.accdata[i].AccountCode,
-				"AccountDescription": this.accdata[i].AccountDescription,
-				"Particulars": this.accdata[i].Particulars,
-				"Amount": this.accdata[i].Amount,
-				"AccType": this.accdata[i].AccType,
-				"DedTds": this.accdata[i].DedTds,
-				"TdsAmount": this.accdata[i].TdsAmount, 
-				"BillNumber": this.accdata[i].BillNumber,
-				"BillDate": this.BillDate,
-				"BillAmount": this.accdata[i].Billamount,
-				"RefVoucherSlNumber": this.accdata[i].RefVoucherSlNumber,
-				"OnlineFlag": this.accdata[i].Onlineflag,
-				"BalAmount": this.accdata[i].BalAmount,
-				"Flag2": this.accdata[i].Flag2,
-				"OtherAmount": this.accdata[i].Otheramount,
-				"RefNumber": this.accdata[i].RefNumber,
-				"RefDate": this.RefDate,
-				"CurrVal": this.accdata[i].CurrVal,
-				"RefAmount": this.accdata[i].RefAmount,
-				};
-			form.AccountDetails.push(row);
-		}
-		if (this.data.MRNDate) {
-			//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-			var date = this.data.MRNDate;
-			var DateInstance = new Date(date);
-			var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-			pattern: "dd/MM/yyyy"
-			});
-			this.MRNDate = dateFormat.format(DateInstance);
-			this.MRNDate = this.formatdate(this.MRNDate);
-			}
-			if (this.ReceiptDate) {
-				//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-				var date = this.ReceiptDate;
-				var DateInstance = new Date(date);
-				var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "dd/MM/yyyy"
-				});
-				this.ReceiptDate = dateFormat.format(DateInstance);
-				this.ReceiptDate = this.formatdate(this.ReceiptDate);
-				}
-				if (this.SendToAccDate) {
-					//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
-					var date = this.SendToAccDate;
-					var DateInstance = new Date(date);
-					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-					pattern: "dd/MM/yyyy"
-					});
-					this.SendToAccDate = dateFormat.format(DateInstance);
-					this.SendToAccDate = this.formatdate(this.SendToAccDate);
-					}
-		var rowdetails = {
-			"Mrnnumber": this.data.DocumentRows.results[0].MRNNumber,
-			"Mrndate": this.MRNDate,
-			"AccountCode": this.AccCode,
-			"AccountDescription": this.AccDesc,
-			"ReceiptDate": this.ReceiptDate, 
-			"Senttoaccountdate": this.SendToAccDate,
-			"Generateentry": "1",
-			"TotalDebit": this.TotalDebit,
-			"TotalCredit": this.TotalCredit,
-			"Dedtds": this.DedTds,
-			"Partycode": this.data.VendorCode,
-			"Trncode": this.data.DocumentRows.results[0].TRNCode,
-			"Vouchertype": this.VoucherType,
-			"Empcode": "",
-			"Tilldatepurchasevalue": this.TillDatePurchaseVal
-		};
-		form.DetailsList.push(rowdetails);
-
 			var formdatastr = JSON.stringify(form);
 				this.hardcodedURL = "";
 				// if (window.location.href.includes("launchpad")) {

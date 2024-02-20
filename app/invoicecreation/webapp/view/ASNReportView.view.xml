@@ -116,6 +116,12 @@
 							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="ASN Qty"/>
 							</Column>
+							<Column id="vchNum_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Voucher Number"/>
+							</Column>
+							<Column id="vchType_col" visible="false" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Voucher Type"/>
+							</Column>
 						</columns>
 						<items>
 							<ColumnListItem id="tableTempId" type="Navigation">
@@ -136,6 +142,8 @@
 									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
 									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
 									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
+									<Text id="vchNum" text="{DataModel>VoucherNumber}"/>
+									<Text id="vchType" text="{DataModel>VoucherType}"/>
 								</cells>
 							</ColumnListItem>
 						</items>

@@ -213,6 +213,7 @@ sap.ui.define([
 			this.MRNnumber = data.MRNNumber.replace(/\//g, '-');
 			this.SendToAccDate = data.SendToAccDate.replace(/\//g, '-');
 			this.ReceiptDate = data.ReceiptDate.replace(/\//g, '-');
+			this.VoucherNumber = data.VoucherNumber.replace(/\//g, '-');
 			this.router.navTo("ASNReportDetail", {
 				"UnitCode": data.PlantCode,
 				"PoNum": this.PoNum,
@@ -226,7 +227,8 @@ sap.ui.define([
 				"VoucherType": data.VoucherType,
 				"AccCode": data.AccCode,
 				"AccDesc": data.AccDesc,
-				"ReceiptDate": this.ReceiptDate
+				"ReceiptDate": this.ReceiptDate,
+				"VoucherNumber": this.VoucherNumber
 			});
 		},
 		/////////////////////////////////////////Table Personalization////////////////////////////////
