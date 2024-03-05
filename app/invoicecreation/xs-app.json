@@ -3,6 +3,20 @@
   "authenticationMethod": "route",
   "routes": [
     {
+      "source": "^/po/(.*)$",
+      "target": "/po/$1",
+      "destination": "PurchaseOrder_SRV",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/sa/(.*)$",
+      "target": "/sa/$1",
+      "destination": "SchedulingAgreement_SRV",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
       "source": "^/user-api(.*)",
       "target": "$1",
       "service": "sap-approuter-userapi"
