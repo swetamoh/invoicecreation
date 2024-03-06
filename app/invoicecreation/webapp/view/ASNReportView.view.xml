@@ -77,7 +77,7 @@
 							<Column id="poDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Date"/>
 							</Column>
-							<Column id="invNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<Column id="invNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Number"/>
 							</Column>
 							<Column id="invDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
@@ -119,6 +119,9 @@
 							<Column id="mrnQtyLoc_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Qty Rcvd Loc."/>
 							</Column>
+							<Column id="asnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Number"/>
+							</Column>
 							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="7rem">
 								<Text text="ASN Qty"/>
 							</Column>
@@ -149,6 +152,7 @@
 									<Text id="mrnQtyRej" text="{DataModel>MRNQuantityRejected}"/>
 									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
 									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
+									<Text id="asnNumber" text="{DataModel>ASNNumber}"/>
 									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
 									<Text id="vchNum" text="{DataModel>VoucherNumber}"/>
 									<Text id="vchType" text="{DataModel>VoucherType}"/>
