@@ -200,6 +200,8 @@
 				<upload:UploadSet
 					id="uploadSet"
 					instantUpload="false"
+					uploadButtonInvisible="true"
+					uploadEnabled="false"
                     afterItemAdded="onAfterItemAdded"
 					uploadCompleted="onUploadCompleted"
 				>

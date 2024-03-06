@@ -116,7 +116,8 @@ sap.ui.define([
 			var oModel = this.getView().getModel("catalog1");
 			var oUploadSet = this.byId("uploadSet");
 			oUploadSet.removeAllItems();
-
+			oUploadSet.setUploadEnabled(false);
+			oUploadSet.setUploadButtonInvisible(true);
 			oModel.read("/Files", {
 				filters: [new sap.ui.model.Filter("PNum_PoNum", sap.ui.model.FilterOperator.EQ, PNumAttach)],
 				success: function (oData) {
@@ -131,7 +132,7 @@ sap.ui.define([
 								new sap.m.ObjectAttribute({ title: "File Size", text: fileData.size.toString() })
 							]
 						});
-
+						oItem.setVisibleEdit(false).setVisibleRemove(false);
 						oUploadSet.addItem(oItem);
 					});
 				},
