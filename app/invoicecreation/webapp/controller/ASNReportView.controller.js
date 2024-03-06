@@ -13,6 +13,9 @@ sap.ui.define([
 			this.DataModel = new sap.ui.model.json.JSONModel();
 			this.DataModel.setSizeLimit(10000000);
 			this.getView().setModel(this.DataModel, "DataModel");
+			this.invDataModel = new sap.ui.model.json.JSONModel();
+			this.invDataModel.setSizeLimit(10000000);
+			this.getView().setModel(this.DataModel, "invDataModel");
 			this.detailModel = sap.ui.getCore().getModel("detailModel");
 			this.loginModel = sap.ui.getCore().getModel("loginModel");
 			this.getView().setModel(this.loginModel, "loginModel");
@@ -174,6 +177,7 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
+					that.getInvoiceNum();
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
@@ -183,7 +187,30 @@ sap.ui.define([
 				}
 		});
 		},
-
+		getInvoiceNum: function(){
+			var oModel = this.getView().getModel("catalog1");
+			oModel.read("/ASNListHeader", {
+				success: function (oData) {
+					var data = that.DataModel.getData();
+					for(var i=0;i<data.results.length;i++) {
+						if(oData.results.find(po => po.PNum_PoNum === data.results.PONumber)){
+							if(!data.results.BillNumber){
+							data.results.BillNumber = oData.results.BillNumber;
+							}
+							if(!data.results.BillDate){
+							data.results.BillDate = oData.results.BillDate;
+						}
+						}
+					}
+					that.DataModel.setData(data);
+					that.DataModel.refresh();
+					
+				},
+				error: function (oError) {
+					console.log("Error: "+ oError)
+				}
+			});
+		},
 		onItempress: function (oEvent) {
 			var data = oEvent.getParameter("listItem").getBindingContext("DataModel").getProperty();
 			//this.detailModel.setData(data);
@@ -192,6 +219,7 @@ sap.ui.define([
 			this.SendToAccDate = data.SendToAccDate.replace(/\//g, '-');
 			this.ReceiptDate = data.ReceiptDate.replace(/\//g, '-');
 			this.VoucherNumber = data.VoucherNumber.replace(/\//g, '-');
+			this.ASNNumber = data.ASNNumber.replace(/\//g, '-');
 			this.router.navTo("ASNReportDetail", {
 				"UnitCode": data.PlantCode,
 				"PoNum": this.PoNum,
@@ -206,7 +234,8 @@ sap.ui.define([
 				"AccCode": data.AccCode,
 				"AccDesc": data.AccDesc,
 				"ReceiptDate": this.ReceiptDate,
-				"VoucherNumber": this.VoucherNumber
+				"VoucherNumber": this.VoucherNumber,
+				"ASNNumber": this.ASNNumber
 			});
 		},
 		/////////////////////////////////////////Table Personalization////////////////////////////////
