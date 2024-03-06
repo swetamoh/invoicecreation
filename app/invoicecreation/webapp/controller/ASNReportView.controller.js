@@ -188,6 +188,7 @@ sap.ui.define([
 		});
 		},
 		getInvoiceNum: function(){
+			var that = this;
 			var oModel = this.getView().getModel("catalog1");
 			oModel.read("/ASNListHeader", {
 				success: function (oData) {
