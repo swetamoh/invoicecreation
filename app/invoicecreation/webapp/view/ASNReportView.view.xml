@@ -120,7 +120,7 @@
 								<Text text="MRN Qty Rcvd Loc."/>
 							</Column>
 							<Column id="asnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Number"/>
+								<Text text="ASN Number"/>
 							</Column>
 							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="7rem">
 								<Text text="ASN Qty"/>
