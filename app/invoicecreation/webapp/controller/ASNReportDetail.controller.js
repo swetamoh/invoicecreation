@@ -39,7 +39,7 @@ sap.ui.define([
 				this.ReceiptDate = data.ReceiptDate.replace(/-/g, '/');
 				this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
 				if (data.ASNNumber) {
-					this.ASNNum = data.ASNNumber.replace(/-/g, '/');
+					this.ASNNum = data.ASNNumber;
 				}
 				//this.getView().byId("pageId").setTitle("ASN Number - " + this.AsnNumber);
 				var request = "/GetPoDetailstoCreateInvoice";
