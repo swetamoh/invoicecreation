@@ -160,7 +160,7 @@
 					"targetControl": "appId",
           "subroutes": [
 						{
-							"pattern": "detail/{UnitCode}/{PoNum}/{MRNnumber}/{AddressCode}/:SendToAccDate:/:TillDatePurchaseVal:/:DedTds:/:TotalDebit:/:TotalCredit:/:VoucherType:/:AccCode:/:AccDesc:/:ReceiptDate:/:VoucherNumber:",
+							"pattern": "detail/{UnitCode}/{PoNum}/{MRNnumber}/{AddressCode}/:SendToAccDate:/:TillDatePurchaseVal:/:DedTds:/:TotalDebit:/:TotalCredit:/:VoucherType:/:AccCode:/:AccDesc:/:ReceiptDate:/:VoucherNumber:/:ASNNumber:",
 							"name": "ASNReportDetail",
 							"view": "ASNReportDetail",
 							"targetAggregation": "pages"

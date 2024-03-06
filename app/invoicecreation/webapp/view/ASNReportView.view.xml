@@ -77,6 +77,12 @@
 							<Column id="poDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="PO Date"/>
 							</Column>
+							<Column id="invNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Invoice Number"/>
+							</Column>
+							<Column id="invDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Date"/>
+							</Column>
 							<Column id="invoiceStatus_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Status"/>
 							</Column>
@@ -128,6 +134,8 @@
 								<cells>
 									<Text id="poNumber" text="{DataModel>PONumber}"/>
 									<Text id="poDate" text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="invNumber" text="{DataModel>BillNumber}"/>
+									<Text id="invDate" text="{path:'DataModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
 									<ObjectStatus id="invoiceStatus" text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
 									<Text id="vendorCode" text="{DataModel>VendorCode}"/>
 									<Text id="vendorName" text="{DataModel>VendorName}"/>
