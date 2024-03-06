@@ -183,7 +183,7 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 					// var value = JSON.parse(oError.response.body);
 					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.message);
+					MessageBox.error(oError.response.body);
 				}
 		});
 		},
