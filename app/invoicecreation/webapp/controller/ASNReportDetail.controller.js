@@ -457,7 +457,8 @@ sap.ui.define([
 				}.bind(this),
 				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					MessageBox.error("Bill Posting failed");
+					var errormsg = JSON.parse(error.responseText)
+					MessageBox.error(errormsg.error.message.value);
 				}
 			});
 		},
@@ -602,7 +603,8 @@ sap.ui.define([
 				}.bind(this),
 				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					MessageBox.error("Voucher Generation failed");
+					var errormsg = JSON.parse(error.responseText)
+					MessageBox.error(errormsg.error.message.value);
 				}
 			});
 		},
@@ -652,7 +654,8 @@ sap.ui.define([
 				}.bind(this),
 				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					MessageBox.error("Voucher Posting failed");
+					var errormsg = JSON.parse(error.responseText)
+					MessageBox.error(errormsg.error.message.value);
 				}
 			});
 		},
