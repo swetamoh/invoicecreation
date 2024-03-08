@@ -76,9 +76,9 @@ sap.ui.define([
 					},
 					error: function (oError) {
 						sap.ui.core.BusyIndicator.hide();
-						// var value = JSON.parse(oError.response.body);
-						// MessageBox.error(value.error.message.value);
-						MessageBox.error(oError.message);
+						var value = JSON.parse(oError.response.body);
+						MessageBox.error(value.error.message.value);
+						// MessageBox.error(oError.message);
 					}
 				});
 
@@ -197,9 +197,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					// var value = JSON.parse(oError.response.body);
-					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.message);
+					var value = JSON.parse(oError.response.body);
+					MessageBox.error(value.error.message.value);
+					// MessageBox.error(oError.message);
 				}
 			});
 		},
@@ -224,9 +224,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					// var value = JSON.parse(oError.response.body);
-					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.message);
+					var value = JSON.parse(oError.response.body);
+					MessageBox.error(value.error.message.value);
+					//MessageBox.error(oError.message);
 				}
 			});
 		},
