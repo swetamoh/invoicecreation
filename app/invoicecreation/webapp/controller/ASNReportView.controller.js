@@ -10,6 +10,7 @@ sap.ui.define([
 
 		onInit: function () {
 			this.router = sap.ui.core.UIComponent.getRouterFor(this);
+			
 			this.DataModel = new sap.ui.model.json.JSONModel();
 			this.DataModel.setSizeLimit(10000000);
 			this.getView().setModel(this.DataModel, "DataModel");
@@ -43,6 +44,8 @@ sap.ui.define([
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
+			this.router.attachRoutePatternMatched(this.onRouteMatched, this);
+			
 			/*oModel.read("/GetPendingInvoiceList", {
 				urlParameters: {
 					UnitCode: this.unitCode,
@@ -81,6 +84,16 @@ sap.ui.define([
 			// 		datePicker.$().find('INPUT').attr('disabled', true).css('color', '#000000');
 			// 	}
 			// }, datePicker);
+		},
+		onRouteMatched: function (evt) {
+			if (evt.getParameter("name") !== "ASNReportView") {
+				return;
+			}
+			var mrnstartDate = this.getView().byId("mrnstartDateId").getValue();
+			var mrnendDate = this.getView().byId("mrnendDateId").getValue();
+			if(mrnstartDate && mrnendDate){
+				this.onFilterGoPress();
+			}
 		},
 		onFilterClear: function () {
 			var data = this.localModel.getData();
@@ -179,11 +192,10 @@ sap.ui.define([
 					that.DataModel.refresh();
 					that.getInvoiceNum();
 				},
-				error: function (oError) {
+				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					// var value = JSON.parse(oError.response.body);
-					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.response.body);
+					var errormsg = JSON.parse(error.responseText)
+					MessageBox.error(errormsg.error.message.value);
 				}
 		});
 		},
