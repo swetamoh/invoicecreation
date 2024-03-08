@@ -8,7 +8,7 @@ module.exports = (srv) => {
     srv.on('READ', GetPendingInvoiceList, async (req) => {
         const params = req._queryOptions;
         const results = await getPendingInvoiceList(params);
-        if (!results) req.reject(400,'Unable to fetch Pending Invoice List.');
+        if (results.error) req.reject(500, results.error);
         return results
 
     });
@@ -16,7 +16,7 @@ module.exports = (srv) => {
     srv.on('READ', GetPoDetailstoCreateInvoice, async (req) => {
         const { UnitCode, PoNum, MRNnumber, AddressCode } = req._queryOptions
         const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode);
-        if (!results) req.reject(400,'Unable to fetch PoDetailstoCreateInvoice.');
+        if (results.error) req.reject(500, results.error);
 
         const expandDocumentRows = req.query.SELECT.columns && req.query.SELECT.columns.some(({ expand, ref }) => expand && ref[0] === "DocumentRows");
         if (expandDocumentRows) {
@@ -33,7 +33,7 @@ module.exports = (srv) => {
         //const UnitCode = 'P01'
         //const MRNnumber = '22/01GEFP1/02004'
         const results = await getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber);
-        if (!results) req.reject(400,'Unable to fetch GetAccountDetailsagainstMrn');
+        if (results.error) req.reject(500, results.error);
         return results
     });
 
@@ -82,7 +82,7 @@ module.exports = (srv) => {
     srv.on('READ', GetMRNAccountDetailsforVoucherGeneration, async (req) => {
         const { UnitCode, MRNNumber, MRNDate } = req._queryOptions
         const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate);
-        if (!results) req.reject(400,'Unable to fetch GetMRNAccountDetails');
+        if (results.error) req.reject(500, results.error);
         return results
     });
 };
