@@ -1,0 +1,22 @@
+{
+  "model/models-dbg.js": 1709885211726,
+  "manifest.json": 1709886092544,
+  "model/models.js": 1709885211726,
+  "controller/formatter.js": 1709885211726,
+  "controller/View1.controller.js": 1709885211726,
+  "controller/ASNReportView.controller.js": 1709885953574,
+  "controller/ASNReportDetail.controller.js": 1709885953574,
+  "Component.js": 1709885211726,
+  "Component-preload.js": 1709886092877,
+  "controller/ASNReportView-dbg.controller.js": 1709885953574,
+  "controller/formatter-dbg.js": 1709885211726,
+  "controller/View1-dbg.controller.js": 1709885211726,
+  "i18n/i18n.properties": 1709885211726,
+  "controller/ASNReportDetail-dbg.controller.js": 1709885953574,
+  "Component-dbg.js": 1709885211726,
+  "view/View1.view.xml": 1709885211726,
+  "view/ASNReportView.view.xml": 1709885211726,
+  "view/ASNReportDetail.view.xml": 1709885211726,
+  "css/style.css": 1709885211726,
+  "index.html": 1709885211726
+}

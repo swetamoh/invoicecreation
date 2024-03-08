@@ -1,0 +1,173 @@
+<mvc:View controllerName="sap.fiori.invoicecreation.controller.ASNReportView" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
+		<Page title="Pending Invoice List" titleAlignment="Center"
+        showNavButton="true" navButtonPress="sap.fiori.invoicecreation.controller.formatter.onNavBack"
+        class="sapUiSizeCompact">
+			<content>
+				<l:VerticalLayout width="100%">
+					<fb:FilterBar useToolbar="false" showFilterConfiguration="false" search="onFilterGoPress" showClearOnFB="true" clear="onFilterClear">
+						<fb:filterItems>
+						<fb:FilterItem name="A" label="PO Number">
+								<fb:control>
+									<Input id="poNumId" value="{localModel>/PONum}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="B" label="MRN Number">
+								<fb:control>
+									<Input id="MrnNumId" value="{localModel>/MRNNumber}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="C" label="PO Start Date" >
+								<fb:control>
+									<DatePicker id="postartDateId" valueFormat="yyyyMMdd" value="{localModel>/POStartDate}" class="disablekb"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="D" label="PO End Date">
+								<fb:control>
+									<DatePicker id="poendDateId" valueFormat="yyyyMMdd" value="{localModel>/POEndDate}" class="disablekb"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="E" label="MRN Start Date" mandatory="true">
+								<fb:control>
+									<DatePicker id="mrnstartDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNStartDate}" class="disablekb"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="F" label="MRN End Date" mandatory="true">
+								<fb:control>
+									<DatePicker id="mrnendDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNEndDate}" class="disablekb"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="G" label="Plant" mandatory="true">
+								<fb:control>
+									<Input id="PlantId" value="{localModel>/Plant}" enabled="false"/>
+								</fb:control>
+							</fb:FilterItem>
+							
+							<fb:FilterItem name="H" label="Invoice Status" mandatory="true">
+								<fb:control>
+											<Select id="InvStatusId" selectedKey="{path:'localModel>/InvStatus',type:'sap.ui.model.type.String'}" forceSelection="false">
+												<core:Item id="InvStat1Id" key="PENDING MRN" text="PENDING MRN"/>
+												<core:Item id="InvStat2Id" key="PENDING FOR SEND TO ACCOUNT" text="PENDING FOR SEND TO ACCOUNT"/>
+												<core:Item id="InvStat3Id" key="PENDING FOR BILL PASSING" text="PENDING FOR BILL PASSING"/>
+												<core:Item id="InvStat4Id" key="PENDING FOR VOUCHER GENERATION" text="PENDING FOR VOUCHER GENERATION"/>
+												<core:Item id="InvStat5Id" key="PENDING FOR VOUCHER POSTING" text="PENDING FOR VOUCHER POSTING"/>
+												<core:Item id="InvStat6Id" key="VOUCHER POSTING DONE" text="VOUCHER POSTING DONE"/>
+											</Select>
+								</fb:control>
+							</fb:FilterItem>
+							<!-- <fb:FilterItem name="J" label="Search">
+								<fb:control>
+									<SearchField id="search" liveChange="onSearch" search="onSearch" tooltip="Purchase Group, Shipment Number, IBD &amp; Plant"/>
+								</fb:control>
+							</fb:FilterItem> -->
+						</fb:filterItems>
+					</fb:FilterBar>
+				</l:VerticalLayout>
+				<OverflowToolbar asyncMode="true">
+                    <ToolbarSpacer/>
+                    <Button icon="sap-icon://action-settings" id="CreateButton" type="Emphasized" press="onColumnSelection" tooltip="Settings"/>
+                </OverflowToolbar>
+				<ScrollContainer horizontal="true">
+					<Table id="TableDataId" itemPress="onItempress" items="{path:'DataModel>/results'}" mode="SingleSelectMaster"
+						sticky="ColumnHeaders">
+						<columns>
+							<Column id="poNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="PO Number"/>
+							</Column>
+							<Column id="poDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="PO Date"/>
+							</Column>
+							<Column id="invNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Number"/>
+							</Column>
+							<Column id="invDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Date"/>
+							</Column>
+							<Column id="invoiceStatus_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Status"/>
+							</Column>
+							<Column id="vendorCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Vendor Code"/>
+							</Column>
+							<Column id="vendorName_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Vendor Name"/>
+							</Column>
+							<Column id="plantCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Plant"/>
+							</Column>
+							<Column id="poTotAmt_col" width="10rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="PO Total Amount ({DataModel>/results/0/MRNCurrency})"/>
+							</Column>
+							<Column id="poTotQty_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="PO Total Qty "/>
+							</Column>
+							<Column id="mrnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="MRN Number"/>
+							</Column>
+							<Column id="mrnDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Date"/>
+							</Column>
+							<Column id="mrnQty_col" width="6rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="MRN Qty"/>
+							</Column>
+							<Column id="mrnQtyRcvd_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Qty Rcvd"/>
+							</Column>
+							<Column id="mrnQtyRej_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Qty Rejected"/>
+							</Column>
+							<Column id="mrnQtyLoc_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="MRN Qty Rcvd Loc."/>
+							</Column>
+							<Column id="asnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="ASN Number"/>
+							</Column>
+							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="7rem">
+								<Text text="ASN Qty"/>
+							</Column>
+							<Column id="vchNum_col" minScreenWidth="Tablet" demandPopin="true" width="9rem">
+								<Text text="Voucher Number"/>
+							</Column>
+							<Column id="vchType_col" visible="false" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Voucher Type"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="tableTempId" type="Navigation">
+								<cells>
+									<Text id="poNumber" text="{DataModel>PONumber}"/>
+									<Text id="poDate" text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="invNumber" text="{DataModel>BillNumber}"/>
+									<Text id="invDate" text="{path:'DataModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<ObjectStatus id="invoiceStatus" text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
+									<Text id="vendorCode" text="{DataModel>VendorCode}"/>
+									<Text id="vendorName" text="{DataModel>VendorName}"/>
+									<Text id="plantCode" text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
+									<Text id="poTotAmt" text="{path:'DataModel>POTotalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text id="poTotQty" text="{DataModel>POTotalQuantity}"/>
+									<Text id="mrnNumber" text="{DataModel>MRNNumber}"/>
+									<Text id="mrnDate" text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="mrnQty" text="{DataModel>MRNQuantity}"/>
+									<Text id="mrnQtyRcvd" text="{DataModel>MRNQuantityReceived}"/>
+									<Text id="mrnQtyRej" text="{DataModel>MRNQuantityRejected}"/>
+									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
+									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
+									<Text id="asnNumber" text="{DataModel>ASNNumber}"/>
+									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
+									<Text id="vchNum" text="{DataModel>VoucherNumber}"/>
+									<Text id="vchType" text="{DataModel>VoucherType}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+			</content>
+			<!-- <footer>
+				<Bar>
+					<contentRight>
+						<Button text="Download" icon="sap-icon://download" press="onDataExport" type="Emphasized"/>
+					</contentRight>
+				</Bar>
+			</footer> -->
+		</Page>
+</mvc:View>

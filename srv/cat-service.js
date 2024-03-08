@@ -46,7 +46,8 @@ module.exports = (srv) => {
             return response;
         } catch (error) {
             console.error('Error in PostBillPassing API call:', error);
-            throw new Error(`Error Bill posting : ${error.message}`);
+            req.reject(400, `Error Bill posting : ${error.message}`);
+            // throw new Error(`Error Bill posting : ${error.message}`);
         }
     });
 
@@ -77,7 +78,7 @@ module.exports = (srv) => {
     });
 
     srv.on('READ', GetMRNAccountDetailsforVoucherGeneration, async (req) => {
-        const { UnitCode, MRNNumber, MRNDate  } = req._queryOptions
+        const { UnitCode, MRNNumber, MRNDate } = req._queryOptions
         const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate);
         if (!results) throw new Error('Unable to fetch GetMRNAccountDetails');
         return results
@@ -218,7 +219,7 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
     }
 }
 
-async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber){
+async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber) {
     try {
         const response = await axios({
             method: 'get',
@@ -245,7 +246,7 @@ async function postBillPassing(invoiceData) {
     try {
         const response = await axios({
             method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostBillPassing', 
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostBillPassing',
             headers: {
                 'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
@@ -268,7 +269,7 @@ async function voucherGen(invoiceData) {
     try {
         const response = await axios({
             method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherGeneration', 
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherGeneration',
             headers: {
                 'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
@@ -291,7 +292,7 @@ async function postVoucher(invoiceData) {
     try {
         const response = await axios({
             method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherPosting', 
+            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherPosting',
             headers: {
                 'Authorization': 'Bearer ibeMppBlZOk=',
                 'Content-Type': 'application/json'
@@ -310,7 +311,7 @@ async function postVoucher(invoiceData) {
     }
 }
 
-async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate){
+async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate) {
     try {
         const response = await axios({
             method: 'get',
