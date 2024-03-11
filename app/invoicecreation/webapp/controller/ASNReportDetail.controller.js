@@ -371,7 +371,8 @@ sap.ui.define([
 				};
 				form.BillPassingAccountDetails.push(row);
 			}
-			if (this.data.DocumentRows.results[0].FRMyear) {
+			for (var i = 0; i < this.data.DocumentRows.results.length; i++) {
+			if (this.data.DocumentRows.results[i].FRMyear) {
 				//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
 				var date = this.data.DocumentRows.results[0].FRMyear;
 				var DateInstance = new Date(date);
@@ -382,47 +383,47 @@ sap.ui.define([
 				this.FRMyear = this.formatdate(this.FRMyear);
 			}
 			var rowdetails = {
-				"ItemCode": this.data.DocumentRows.results[0].MaterialCode,
-				"ItemRevNumber": this.data.DocumentRows.results[0].ItemNumber,
-				"Itemdecsription": this.data.DocumentRows.results[0].MaterialDescription,
-				"ItemGroupCode": this.data.DocumentRows.results[0].ItemGroupCode,
-				"GroupAccCode": this.data.DocumentRows.results[0].GroupAccountCode,
-				"GroupAccDesc": this.data.DocumentRows.results[0].GroupAccountDescription,
-				"AcceptedQty": this.data.DocumentRows.results[0].AcceptedQty,
-				"RejectedQty": this.data.DocumentRows.results[0].RejectedQty,
-				"ActualQty": this.data.DocumentRows.results[0].ActualQty,
-				"InvoiceQty": this.data.DocumentRows.results[0].InvoiceQty,
-				"ItemUom": this.data.DocumentRows.results[0].ItemUOM,
-				"MatVal": this.data.DocumentRows.results[0].MaterialValue,
-				"CGA": this.data.DocumentRows.results[0].CGA,
-				"SGA": this.data.DocumentRows.results[0].SGA,
-				"IGA": this.data.DocumentRows.results[0].IGA,
-				"Packing": this.data.DocumentRows.results[0].Packing,
-				"Freight": this.data.DocumentRows.results[0].Freight,
-				"Others": this.data.DocumentRows.results[0].Others,
-				"Total": this.data.DocumentRows.results[0].MRNLineValue,
-				"ItemRateNew": this.data.DocumentRows.results[0].ItemRate,
-				"ItemRate": this.data.DocumentRows.results[0].ActualItemRate,
-				"CGP": this.data.DocumentRows.results[0].CGP,
-				"SGP": this.data.DocumentRows.results[0].SGP,
-				"IGP": this.data.DocumentRows.results[0].IGP,
-				"HSNCode": this.data.DocumentRows.results[0].HSNCode,
-				"CDT": this.data.DocumentRows.results[0].CDT,
-				"CRT": this.data.DocumentRows.results[0].CRT,
-				"ExchangeRate": this.data.DocumentRows.results[0].ExchangeRate,
-				"BillRate": this.data.DocumentRows.results[0].MRNLineValue,
-				"PackingOrg": this.data.DocumentRows.results[0].PakingOrg,
-				"FrieghtOrg": this.data.DocumentRows.results[0].FrieghtOrg,
-				"OthersOrg": this.data.DocumentRows.results[0].OtherOrg,
-				"VoucherNumber": this.data.DocumentRows.results[0].MRNNumber,
+				"ItemCode": this.data.DocumentRows.results[i].MaterialCode,
+				"ItemRevNumber": this.data.DocumentRows.results[i].ItemNumber,
+				"Itemdecsription": this.data.DocumentRows.results[i].MaterialDescription,
+				"ItemGroupCode": this.data.DocumentRows.results[i].ItemGroupCode,
+				"GroupAccCode": this.data.DocumentRows.results[i].GroupAccountCode,
+				"GroupAccDesc": this.data.DocumentRows.results[i].GroupAccountDescription,
+				"AcceptedQty": this.data.DocumentRows.results[i].AcceptedQty,
+				"RejectedQty": this.data.DocumentRows.results[i].RejectedQty,
+				"ActualQty": this.data.DocumentRows.results[i].ActualQty,
+				"InvoiceQty": this.data.DocumentRows.results[i].InvoiceQty,
+				"ItemUom": this.data.DocumentRows.results[i].ItemUOM,
+				"MatVal": this.data.DocumentRows.results[i].MaterialValue,
+				"CGA": this.data.DocumentRows.results[i].CGA,
+				"SGA": this.data.DocumentRows.results[i].SGA,
+				"IGA": this.data.DocumentRows.results[i].IGA,
+				"Packing": this.data.DocumentRows.results[i].Packing,
+				"Freight": this.data.DocumentRows.results[i].Freight,
+				"Others": this.data.DocumentRows.results[i].Others,
+				"Total": this.data.DocumentRows.results[i].MRNLineValue,
+				"ItemRateNew": this.data.DocumentRows.results[i].ItemRate,
+				"ItemRate": this.data.DocumentRows.results[i].ActualItemRate,
+				"CGP": this.data.DocumentRows.results[i].CGP,
+				"SGP": this.data.DocumentRows.results[i].SGP,
+				"IGP": this.data.DocumentRows.results[i].IGP,
+				"HSNCode": this.data.DocumentRows.results[i].HSNCode,
+				"CDT": this.data.DocumentRows.results[i].CDT,
+				"CRT": this.data.DocumentRows.results[i].CRT,
+				"ExchangeRate": this.data.DocumentRows.results[i].ExchangeRate,
+				"BillRate": this.data.DocumentRows.results[i].MRNLineValue,
+				"PackingOrg": this.data.DocumentRows.results[i].PakingOrg,
+				"FrieghtOrg": this.data.DocumentRows.results[i].FrieghtOrg,
+				"OthersOrg": this.data.DocumentRows.results[i].OtherOrg,
+				"VoucherNumber": this.data.DocumentRows.results[i].MRNNumber,
 				"FromYear": this.FRMyear,
-				"TRNLineNumber": this.data.DocumentRows.results[0].TRNLineNumber,
-				"TCS": this.data.DocumentRows.results[0].TCS,
-				"InvoiceRate": this.data.DocumentRows.results[0].InvoiceRate,
-				"CurrPoRate": this.data.DocumentRows.results[0].CurrPORate
+				"TRNLineNumber": this.data.DocumentRows.results[i].TRNLineNumber,
+				"TCS": this.data.DocumentRows.results[i].TCS,
+				"InvoiceRate": this.data.DocumentRows.results[i].InvoiceRate,
+				"CurrPoRate": this.data.DocumentRows.results[i].CurrPORate
 			};
 			form.BillPassingMaterialDetails.push(rowdetails);
-
+		}
 			var formdatastr = JSON.stringify(form);
 			this.hardcodedURL = "";
 			// if (window.location.href.includes("launchpad")) {
