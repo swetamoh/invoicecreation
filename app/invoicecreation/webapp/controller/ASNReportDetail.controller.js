@@ -57,7 +57,9 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
-							that.detailModel.getData().DocumentRows.results[0].ActualItemRate = that.detailModel.getData().DocumentRows.results[0].ItemRate;
+							for (var i = 0; i < that.detailModel.getData().DocumentRows.results.length; i++) {
+							that.detailModel.getData().DocumentRows.results[i].ActualItemRate = that.detailModel.getData().DocumentRows.results[i].ItemRate;
+							}
 							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;
 							if (that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING') {
