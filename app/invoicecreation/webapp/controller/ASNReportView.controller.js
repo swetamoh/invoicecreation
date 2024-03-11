@@ -207,12 +207,8 @@ sap.ui.define([
 					var data = that.DataModel.getData();
 					for(var i=0;i<data.results.length;i++) {
 						if(oData.results.find(po => po.PNum_PoNum === data.results.PONumber)){
-							if(!data.results.BillNumber){
 							data.results.BillNumber = oData.results.BillNumber;
-							}
-							if(!data.results.BillDate){
 							data.results.BillDate = oData.results.BillDate;
-						}
 						}
 					}
 					that.DataModel.setData(data);
