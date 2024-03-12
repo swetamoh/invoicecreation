@@ -194,8 +194,8 @@ sap.ui.define([
 				},
 				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					var errormsg = JSON.parse(error.response.body)
-					MessageBox.error(errormsg.error.message.value);
+					//var errormsg = JSON.parse(error.response.body)
+					MessageBox.error(error.response.body);
 				}
 		});
 		},
