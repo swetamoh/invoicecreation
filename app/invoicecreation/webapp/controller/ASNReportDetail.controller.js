@@ -413,7 +413,7 @@ sap.ui.define([
 				"CDT": this.data.DocumentRows.results[i].CDT,
 				"CRT": this.data.DocumentRows.results[i].CRT,
 				"ExchangeRate": this.data.DocumentRows.results[i].ExchangeRate,
-				"BillRate": this.data.DocumentRows.results[i].MRNLineValue,
+				"BillRate": this.data.DocumentRows.results[i].CurrPORate,
 				"PackingOrg": this.data.DocumentRows.results[i].PakingOrg,
 				"FrieghtOrg": this.data.DocumentRows.results[i].FrieghtOrg,
 				"OthersOrg": this.data.DocumentRows.results[i].OtherOrg,
