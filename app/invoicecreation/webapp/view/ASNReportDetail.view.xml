@@ -1,9 +1,15 @@
 <mvc:View controllerName="sap.fiori.invoicecreation.controller.ASNReportDetail" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:f="sap.ui.layout.form" xmlns:upload="sap.m.upload" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
-		<Page id="pageId" title="Invoice Creation" titleAlignment="Center" showHeader="true" showNavButton="true" navButtonPress="onNavPress">
-			<OverflowToolbar id="_IDGenOverflowToolbar1">
+		<Page id="pageId" titleAlignment="Center" showHeader="true" showNavButton="true" navButtonPress="onNavPress">
+			<customHeader> 
+			<Bar>
+                <contentLeft>
 			<ObjectStatus text="STATUS : {detailModel>/DocumentRows/results/0/InvoiceStatus}" state="{=${detailModel>/InvoiceStatus} === 'VOUCHER POSTING DONE' ? 'Success' : 'Warning' }"></ObjectStatus>
-               <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+               </contentLeft>
+			   <contentMiddle>
+			   <Title text="Invoice Creation"/>
+			   </contentMiddle>
+			   <contentRight>
                 <Button
                     id="billBookingBtnId"
                     text="Bill Booking"
@@ -28,7 +34,9 @@
                     press="onCompleteInvoicePress"
 					visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER POSTING'}"
                 />
-            </OverflowToolbar>
+				</contentRight>
+            </Bar>
+      </customHeader>
 			<content>
 				<Panel
                 id="_IDGenPanel1"
