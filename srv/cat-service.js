@@ -110,12 +110,13 @@ async function getPendingInvoiceList(params) {
         if (response.data && response.data.d) {
             return JSON.parse(response.data.d);
         } else {
-            console.error('Error parsing response:', response.data);
-            throw new Error('Error parsing the response from the API.');
+            return {
+                error: response.data.ErrorDescription
+            }
         }
     } catch (error) {
         console.error('Error in get Pending Invoice List API call:', error);
-        throw new Error('Unable to fetch Pending Invoice List:', error);
+        throw new Error(error);
     }
 }
 
@@ -217,7 +218,7 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
         }
     } catch (error) {
         console.error('Error in get Pending Invoice List API call:', error);
-        throw new Error('Unable to fetch Pending Invoice List:', error);
+        throw new Error(error);
     }
 }
 
@@ -235,8 +236,9 @@ async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber) {
         if (response.data && response.data.d) {
             return JSON.parse(response.data.d);
         } else {
-            console.error('Error parsing response:', response.data);
-            throw new Error('Error parsing the response from the API.');
+            return {
+                error: response.data.ErrorDescription
+            }
         }
     } catch (error) {
         console.error('Error in GetAccountDetailsagainstMrn API call:', error);
@@ -327,8 +329,9 @@ async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRN
         if (response.data && response.data.d) {
             return JSON.parse(response.data.d);
         } else {
-            console.error('Error parsing response:', response.data);
-            throw new Error('Error parsing the response from the API.');
+            return {
+                error: response.data.ErrorDescription
+            }
         }
     } catch (error) {
         console.error('Error in GetMRNAccountDetails API call:', error);
