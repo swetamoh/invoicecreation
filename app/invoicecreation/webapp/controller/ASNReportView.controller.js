@@ -205,10 +205,11 @@ sap.ui.define([
 			oModel.read("/ASNListHeader", {
 				success: function (oData) {
 					var data = that.DataModel.getData();
-					for(var i=0;i<data.results.length;i++) {
-						if(oData.results.find(po => po.PNum_PoNum === data.results[i].PONumber.replace(/\//g, '-'))){
-							data.results.BillNumber = oData.results.BillNumber;
-							data.results.BillDate = oData.results.BillDate;
+					for(var i=0;i<oData.results.length;i++) {
+						for(var j=0;j<data.results.length;j++) {
+						if(oData.results[i].PNum_PoNum === data.results[j].PONumber.replace(/\//g, '-'))
+							data.results[j].BillNumber = oData.results[i].BillNumber;
+							data.results[j].BillDate = oData.results[i].BillDate.substring(4, 6) + "/" + oData.results[i].BillDate.substring(6, 8) + "/" + oData.results[i].BillDate.substring(0, 4);
 						}
 					}
 					that.DataModel.setData(data);
