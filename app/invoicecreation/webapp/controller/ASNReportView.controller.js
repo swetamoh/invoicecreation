@@ -206,7 +206,7 @@ sap.ui.define([
 				success: function (oData) {
 					var data = that.DataModel.getData();
 					for(var i=0;i<data.results.length;i++) {
-						if(oData.results.find(po => po.PNum_PoNum === data.results.PONumber)){
+						if(oData.results.find(po => po.PNum_PoNum === data.results[s].PONumber.replace(/\//g, '-'))){
 							data.results.BillNumber = oData.results.BillNumber;
 							data.results.BillDate = oData.results.BillDate;
 						}
