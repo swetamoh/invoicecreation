@@ -1,4 +1,4 @@
-namespace my.bookshop;
+namespace my.invoicecreation;
 
 entity GetPendingInvoiceList {
   key PONumber                    : String;
