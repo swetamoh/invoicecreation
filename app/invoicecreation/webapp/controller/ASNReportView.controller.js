@@ -40,7 +40,7 @@ sap.ui.define([
 			//this.searhFilters = this.statusFilters = [];
 			var that = this;
 			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
-			this.getView().byId("PlantId").setValue(this.unitCode);
+			//this.getView().byId("PlantId").setValue(this.unitCode);
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
 			var oModel = this.getOwnerComponent().getModel();
@@ -157,11 +157,11 @@ sap.ui.define([
 			if(!data.MRNNumber){
 				data.MRNNumber = "";
 			}
-			if(!data.Plant){
-				this.Plant = this.unitCode;
-			}else if(data.Plant){
-				this.Plant = data.Plant;
-			}
+			// if(!data.Plant){
+			// 	this.Plant = this.unitCode;
+			// }else if(data.Plant){
+			// 	this.Plant = data.Plant;
+			// }
 			if(!data.POStartDate){
 				this.POStartDate = "";
 			}
@@ -177,7 +177,7 @@ sap.ui.define([
 			
 			oModel.read("/GetPendingInvoiceList" ,{
 				urlParameters: {
-					UnitCode: this.Plant,
+					UnitCode: this.unitCode,
 					PoNum: data.PONum,
 					MrnNumber: data.MRNNumber,
 					FromPOdate: this.POStartDate,
