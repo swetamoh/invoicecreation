@@ -39,7 +39,7 @@ sap.ui.define([
 			//this.getView().byId("startDateId").setValue(this.curDate);
 			//this.searhFilters = this.statusFilters = [];
 			var that = this;
-			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
+			//this.unitCode = sessionStorage.getItem("unitCode") || "P01";
 			//this.getView().byId("PlantId").setValue(this.unitCode);
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
@@ -118,6 +118,7 @@ sap.ui.define([
 			var that = this;
 			var data = this.localModel.getData();
 			var oModel = this.getOwnerComponent().getModel();
+			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
 			var dateFormat1 = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "ddMMMyyyy"
 			});
