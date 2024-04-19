@@ -31,6 +31,7 @@ entity GetPendingInvoiceList {
       AccCode                     : String;
       AccDesc                     : String;
       ReceiptDate                 : String;
+      ShortQuantity               : String;
 }
 
 entity GetPoDetailstoCreateInvoice {
@@ -101,6 +102,7 @@ entity DocumentRowItems {
   POLineValue             : String;
   InvoiceStatus           : String;
   BatchNumber             : String;
+  ShortQuantity           : String;
   PNum                    : Association to GetPoDetailstoCreateInvoice;
 }
 

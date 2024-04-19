@@ -206,6 +206,7 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
                         POLineValue: row.POLineValue,
                         InvoiceStatus: row.InvoiceStatus,
                         BatchNumber: row.BatchNumber,
+                        ShortQuantity: "",
                         PNum_PONumber: data.PONumber  // associating with the current GetPoDetailstoCreateInvoice
                     };
                 })
