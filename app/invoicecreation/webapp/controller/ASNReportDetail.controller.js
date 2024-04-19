@@ -59,6 +59,7 @@ sap.ui.define([
 							that.detailModel.refresh(true);
 							for (var i = 0; i < that.detailModel.getData().DocumentRows.results.length; i++) {
 							that.detailModel.getData().DocumentRows.results[i].ActualItemRate = that.detailModel.getData().DocumentRows.results[i].ItemRate;
+							that.detailModel.getData().DocumentRows.results[i].ShortQuantity = parseFloat(that.detailModel.getData().DocumentRows.results[i].InvoiceQty) - parseFloat(that.detailModel.getData().DocumentRows.results[i].ActualQty);
 							}
 							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;

@@ -43,6 +43,7 @@ sap.ui.define([
 			//this.getView().byId("PlantId").setValue(this.unitCode);
 			this.getView().byId("InvStatusId").setSelectedKey("PENDING FOR BILL PASSING");
 			this.InvStatus = this.getView().byId("InvStatusId").getSelectedKey();
+			this.GetPlantList();
 			var oModel = this.getOwnerComponent().getModel();
 			this.router.attachRoutePatternMatched(this.onRouteMatched, this);
 			
@@ -95,6 +96,13 @@ sap.ui.define([
 				this.onFilterGoPress();
 			}
 		},
+		GetPlantList: function () {
+			var plantData = JSON.parse(sessionStorage.getItem("CodeDetails"));
+			var oplantModel = new sap.ui.model.json.JSONModel();
+			oplantModel.setData({ items: plantData });
+			this.getView().setModel(oplantModel, "plant");
+
+		},
 		onFilterClear: function () {
 			var data = this.localModel.getData();
 			data.PONum = "";
@@ -118,7 +126,7 @@ sap.ui.define([
 			var that = this;
 			var data = this.localModel.getData();
 			var oModel = this.getOwnerComponent().getModel();
-			this.unitCode = sessionStorage.getItem("unitCode") || "P01";
+			// this.unitCode = "P01";
 			var dateFormat1 = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "ddMMMyyyy"
 			});
@@ -130,6 +138,11 @@ sap.ui.define([
 			if(!data.MRNEndDate){
 				sap.ui.core.BusyIndicator.hide();
 				MessageBox.error("Please enter MRN end date");
+				return;
+			}
+			if (!data.Plant) {
+				sap.ui.core.BusyIndicator.hide();
+				MessageBox.error("Please select Plant");
 				return;
 			}
 			this.POEndDate = this.getView().byId("poendDateId").getDateValue();
@@ -178,7 +191,7 @@ sap.ui.define([
 			
 			oModel.read("/GetPendingInvoiceList" ,{
 				urlParameters: {
-					UnitCode: this.unitCode,
+					UnitCode: data.Plant,
 					PoNum: data.PONum,
 					MrnNumber: data.MRNNumber,
 					FromPOdate: this.POStartDate,
@@ -191,12 +204,21 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
+					var oDataModel = that.getView().getModel("DataModel").getData();
+						for (var i = 0; i < oDataModel.results.length; i++) {
+							oDataModel.results[i].ShortQuantity = parseFloat(oDataModel.results[i].ASNQuantity) - parseFloat(oDataModel.results[i].MRNQuantity);
+						}
+					that.DataModel.refresh(true);
 					that.getInvoiceNum();
 				},
 				error: function (error) {
 					sap.ui.core.BusyIndicator.hide();
-					//var errormsg = JSON.parse(error.response.body)
-					MessageBox.error(error.response.body);
+					if(error.response.body === "Gateway Timeout"){
+						MessageBox.error(error.response.body);
+					}else{
+					var errormsg = JSON.parse(error.response.body)
+					MessageBox.error(errormsg.error.message.value);
+				}
 				}
 		});
 		},

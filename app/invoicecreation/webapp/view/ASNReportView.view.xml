@@ -37,11 +37,20 @@
 									<DatePicker id="mrnendDateId" valueFormat="yyyyMMdd" value="{localModel>/MRNEndDate}" class="disablekb"/>
 								</fb:control>
 							</fb:FilterItem>
-							<!-- <fb:FilterItem name="G" label="Plant" mandatory="true">
+							<fb:FilterItem name="G" label="Plant" mandatory="true">
 								<fb:control>
-									<Input id="PlantId" value="{localModel>/Plant}" enabled="false"/>
-								</fb:control>
-							</fb:FilterItem> -->
+									<ComboBox
+                                    id="PlantId"
+                                    items="{plant>/items}"
+                                    selectedKey="{localModel>/Plant}"
+                                >
+                                    <core:Item
+                                        key="{plant>code}"
+                                        text="{plant>code}"
+                                    />
+                                </ComboBox>
+									</fb:control>
+							</fb:FilterItem>
 							
 							<fb:FilterItem name="H" label="Invoice Status" mandatory="true">
 								<fb:control>
@@ -83,9 +92,6 @@
 							<Column id="invDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Date"/>
 							</Column>
-							<Column id="invoiceStatus_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Status"/>
-							</Column>
 							<Column id="vendorCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Vendor Code"/>
 							</Column>
@@ -107,14 +113,20 @@
 							<Column id="mrnDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Date"/>
 							</Column>
+							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="7rem">
+								<Text text="ASN/Invoice Qty"/>
+							</Column>
 							<Column id="mrnQty_col" width="6rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="MRN Qty"/>
 							</Column>
-							<Column id="mrnQtyRcvd_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="MRN Qty Rcvd"/>
+							<Column id="shortQty_col" width="6rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Short Qty"/>
 							</Column>
 							<Column id="mrnQtyRej_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="MRN Qty Rejected"/>
+								<Text text="MRN Rejected Qty"/>
+							</Column>
+							<Column id="mrnQtyRcvd_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Accepted Qty"/>
 							</Column>
 							<Column id="mrnQtyLoc_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="MRN Qty Rcvd Loc."/>
@@ -122,14 +134,13 @@
 							<Column id="asnNumber_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="ASN Number"/>
 							</Column>
-							<Column id="asnQty_col" minScreenWidth="Tablet" demandPopin="true" width="7rem">
-								<Text text="ASN Qty"/>
-							</Column>
 							<Column id="vchNum_col" minScreenWidth="Tablet" demandPopin="true" width="9rem">
 								<Text text="Voucher Number"/>
 							</Column>
 							<Column id="vchType_col" visible="false" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Voucher Type"/>
+							</Column><Column id="invoiceStatus_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Invoice Status"/>
 							</Column>
 						</columns>
 						<items>
@@ -139,7 +150,6 @@
 									<Text id="poDate" text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
 									<Text id="invNumber" text="{DataModel>BillNumber}"/>
 									<Text id="invDate" text="{path:'DataModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
-									<ObjectStatus id="invoiceStatus" text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'Completed' ? 'Success' : 'Error' }"></ObjectStatus>
 									<Text id="vendorCode" text="{DataModel>VendorCode}"/>
 									<Text id="vendorName" text="{DataModel>VendorName}"/>
 									<Text id="plantCode" text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
@@ -147,15 +157,17 @@
 									<Text id="poTotQty" text="{DataModel>POTotalQuantity}"/>
 									<Text id="mrnNumber" text="{DataModel>MRNNumber}"/>
 									<Text id="mrnDate" text="{path:'DataModel>MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
 									<Text id="mrnQty" text="{DataModel>MRNQuantity}"/>
-									<Text id="mrnQtyRcvd" text="{DataModel>MRNQuantityReceived}"/>
+									<Text id="shortQty" text="{DataModel>ShortQuantity}"/>
 									<Text id="mrnQtyRej" text="{DataModel>MRNQuantityRejected}"/>
-									<!-- text="{DataModel>MRNQuantityReceived}"/> -->
+									<Text id="mrnQtyRcvd" text="{DataModel>MRNQuantityReceived}"/>
 									<Text id="mrnQtyLoc" text="{DataModel>MRNQuantityReceivedLocation}"/>
 									<Text id="asnNumber" text="{DataModel>ASNNumber}"/>
-									<Text id="asnQty" text="{DataModel>ASNQuantity}"/>
 									<Text id="vchNum" text="{DataModel>VoucherNumber}"/>
 									<Text id="vchType" text="{DataModel>VoucherType}"/>
+									<ObjectStatus id="invoiceStatus" text="{DataModel>InvoiceStatus}" state="{=${DataModel>InvoiceStatus} === 'VOUCHER POSTING DONE' ? 'Success' : 'Error' }"></ObjectStatus>
+									
 								</cells>
 							</ColumnListItem>
 						</items>

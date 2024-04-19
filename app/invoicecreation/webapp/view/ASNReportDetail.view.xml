@@ -289,16 +289,19 @@
 								<Text text="Batch Number"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Quantity Received"/>
+								<Text text="ASN/Invoice Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Quantity Rejected"/>
+								<Text text="MRN Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Total Quantity"/>
+								<Text text="Short Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Quantity"/>
+								<Text text="MRN Rejected Qty"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Accepted Qty"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="TRN Line Number"/>
@@ -404,14 +407,15 @@
 									<Text text="{detailModel>GroupAccountDescription}"/>
 									<Text text="{path:'detailModel>ItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>BatchNumber}"/>
-									<Text text="{detailModel>AcceptedQty} {detailModel>ItemUOM}"/>
-									<Text text="{detailModel>RejectedQty} {detailModel>ItemUOM}"/>
-									<Text text="{detailModel>ActualQty} {detailModel>ItemUOM}"/>
 									<Text text="{detailModel>InvoiceQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>ActualQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>ShortQuantity} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>RejectedQty} {detailModel>ItemUOM}"/>
+									<Text text="{detailModel>AcceptedQty} {detailModel>ItemUOM}"/>
 									<Text text="{detailModel>TRNLineNumber}"/>
 									<Text text="{detailModel>TRNType}"/>
 									<Text text="{detailModel>HSNCode}"/>
-									<Text text="{detailModel>MaterialValue}"/>
+									<Text text="{path:'detailModel>MaterialValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{detailModel>IGP}"/>
 									<Text text="{detailModel>CGP}"/>
 									<Text text="{detailModel>SGP}"/>
