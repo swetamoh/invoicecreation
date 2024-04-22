@@ -107,148 +107,6 @@
                 </f:SimpleForm>
             </Panel>
 			<Panel
-                id="_IDGenPanel4"
-                headerText="Account Details"
-                expandable="true"
-                expanded="true"
-            >
-				<ScrollContainer horizontal="true" height="65%">
-					<Table id="AccTableDataId" items="{accdetailModel>/results}" mode="SingleSelectMaster"
-						sticky="ColumnHeaders">
-						<columns>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="4rem">
-								<Text text="S No"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Account Code"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
-								<Text text="Account Desc"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Particulars"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Account Type"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Ded Tds"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Tds Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Bill Number"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Bill Date"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Bill Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Ref Voucher Sl Number"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Online Flag"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Flag2"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
-								<Text text="Balance Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Other Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
-								<Text text="Ref Number"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Ref Date"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Ref. Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Curr. Value"/>
-							</Column>
-							</columns>
-						<items>
-							<ColumnListItem id="acctableTempId">
-								<cells>
-									<Text text="{accdetailModel>Sno}"/>
-									<Text text="{accdetailModel>AccountCode}"/>
-									<Text text="{accdetailModel>AccountDescription}"/>
-									<Text text="{accdetailModel>Particulars}"/>
-									<Text text="{path:'accdetailModel>Amount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>AccType}"/>
-									<Text text="{accdetailModel>DedTds}"/>
-									<Text text="{path:'accdetailModel>TdsAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>BillNumber}"/>
-									<Text text="{path:'accdetailModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
-									<Text text="{path:'accdetailModel>Billamount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>RefVoucherSlNumber}"/>
-									<Text text="{accdetailModel>Onlineflag}"/>
-									<Text text="{accdetailModel>Flag2}"/>
-									<Text text="{path:'accdetailModel>BalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'accdetailModel>Otheramount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>RefNumber}"/>
-									<Text text="{path:'accdetailModel>RefDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
-									<Text text="{path:'accdetailModel>RefAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{accdetailModel>CurrVal}"/>
-									</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
-				</ScrollContainer>
-				<upload:UploadSet
-					id="uploadSet"
-					instantUpload="false"
-					uploadButtonInvisible="true"
-					uploadEnabled="false"
-                    afterItemAdded="onAfterItemAdded"
-					uploadCompleted="onUploadCompleted"
-				>
-					
-					<upload:toolbar>
-					</upload:toolbar>
-					<upload:items>
-						<upload:UploadSetItem
-							fileName="{fileName}"
-							mediaType="{mediaType}"
-							url="{url}"
-							enabledEdit="false"
-							visibleEdit="false"
-							visibleRemove="false"
-							openPressed="onOpenPressed"
-						>
-                        
-							<upload:attributes>
-								<ObjectAttribute
-									title="Uploaded By"
-									text="{createdBy}"
-									active="false"
-								/>
-								<ObjectAttribute
-									title="Uploaded on"
-									text="{createdAt}"
-									active="false"
-								/>
-								<ObjectAttribute
-									title="File Size"
-									text="{size}"
-									active="false"
-								/>
-							</upload:attributes>
-						</upload:UploadSetItem>
-					</upload:items>
-				</upload:UploadSet>
-				</Panel>
-			<Panel
                 id="_IDGenPanel3"
                 headerText="Item Details"
                 expandable="true"
@@ -264,9 +122,9 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="MRN Line Number"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
 								<Text text="Item Number"/>
-							</Column>
+							</Column> -->
 							<Column minScreenWidth="Tablet" demandPopin="true" width="12rem">
 								<Text text="Material Code"/>
 							</Column>
@@ -348,18 +206,18 @@
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem" visible="false">
 								<Text text="FRM Year"/>
 							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Current PO Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
+							</Column> -->
 							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="UOM"/>
 							</Column> -->
-							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
+							<!-- <Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
 								<Text text="PO Amt as per Received Qty ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
+							</Column> -->
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Tax Rate %"/>
 							</Column>
@@ -379,7 +237,7 @@
 								<Text text="Actual Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Invoice Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+								<Text text=" Total Invoice Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Actual Tax Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
@@ -399,7 +257,7 @@
 								<cells>
 									<Text text="{detailModel>TRNCode}"/>
 									<Text text="{detailModel>MRNLineNumber}"/>
-									<Text text="{detailModel>ItemNumber}"/>
+									<!-- <Text text="{detailModel>ItemNumber}"/> -->
 									<Text text="{detailModel>MaterialCode}"/>
 									<Text text="{detailModel>MaterialDescription}"/>
 									<Text text="{detailModel>ItemGroupCode}"/>
@@ -422,23 +280,23 @@
 									<Text text="{path:'detailModel>IGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>CGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Text text="{path:'detailModel>SGA',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{detailModel>CDT}" change="onCDTChange"/>
-									<Input value="{detailModel>CRT}" change="onCRTChange"/>
-									<Input value="{detailModel>TCS}" change="onTCSChange"/>
-									<Input value="{path:'detailModel>ExchangeRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onExchRateChange"/>
+									<Input value="{detailModel>CDT}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onCDTChange"/>
+									<Input value="{detailModel>CRT}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onCRTChange"/>
+									<Input value="{detailModel>TCS}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onTCSChange"/>
+									<Input value="{path:'detailModel>ExchangeRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onExchRateChange"/>
 									<Text text="{detailModel>FRMyear}" visible="false"/>
-									<Text text="{path:'detailModel>InvoiceRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Text text="{path:'detailModel>CurrPORate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<!-- <Text text="{path:'detailModel>InvoiceRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'detailModel>CurrPORate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
 									<!-- <Text text="{detailModel>ItemUOM}"/> -->
-									<Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<!-- <Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
 									<Text text="{detailModel>TaxPercentage}"/>
 									<Text text="{path:'detailModel>Tax',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onOthChange"/>
-									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onFreightChange"/>
-									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onPackChange"/>
-									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onRateChange"/>
-									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onTotalChange"/>
-									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" change="onTaxAmtChange"/>
+									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onOthChange"/>
+									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onFreightChange"/>
+									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onPackChange"/>
+									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onRateChange"/>
+									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onTotalChange"/>
+									<Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onTaxAmtChange"/>
 									<!-- <Input value="{path:'detailModel>ActualOtherCharges',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualFrieghtAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
 									<Input value="{path:'detailModel>ActualPacking',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
@@ -447,6 +305,148 @@
 						</items>
 					</Table>
 				</ScrollContainer>
+				</Panel>
+				<Panel
+                id="_IDGenPanel4"
+                headerText="Account Details"
+                expandable="true"
+                expanded="true"
+            >
+				<ScrollContainer horizontal="true" height="65%">
+					<Table id="AccTableDataId" items="{accdetailModel>/results}" mode="SingleSelectMaster"
+						sticky="ColumnHeaders">
+						<columns>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="4rem">
+								<Text text="S No"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Account Code"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Account Desc"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Particulars"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Account Type"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Ded Tds (%)"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Tds Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Bill Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Bill Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Bill Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<!-- <Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Ref Voucher Sl Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Online Flag"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Flag2"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="10rem">
+								<Text text="Balance Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Other Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column> -->
+							<Column minScreenWidth="Tablet" demandPopin="true" width="6rem">
+								<Text text="Ref Number"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Ref Date"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Ref. Amt ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Curr. Value"/>
+							</Column>
+							</columns>
+						<items>
+							<ColumnListItem id="acctableTempId">
+								<cells>
+									<Text text="{accdetailModel>Sno}"/>
+									<Text text="{accdetailModel>AccountCode}"/>
+									<Text text="{accdetailModel>AccountDescription}"/>
+									<Text text="{accdetailModel>Particulars}"/>
+									<Text text="{path:'accdetailModel>Amount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>AccType}"/>
+									<Text text="{accdetailModel>DedTds}"/>
+									<Text text="{path:'accdetailModel>TdsAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>BillNumber}"/>
+									<Text text="{path:'accdetailModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
+									<Text text="{path:'accdetailModel>Billamount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<!-- <Text text="{accdetailModel>RefVoucherSlNumber}"/>
+									<Text text="{accdetailModel>Onlineflag}"/>
+									<Text text="{accdetailModel>Flag2}"/>
+									<Text text="{path:'accdetailModel>BalAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{path:'accdetailModel>Otheramount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
+									<Text text="{accdetailModel>RefNumber}"/>
+									<Text text="{path:'accdetailModel>RefDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
+									<Text text="{path:'accdetailModel>RefAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Text text="{accdetailModel>CurrVal}"/>
+									</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+				<upload:UploadSet
+					id="uploadSet"
+					instantUpload="false"
+					uploadButtonInvisible="true"
+					uploadEnabled="false"
+                    afterItemAdded="onAfterItemAdded"
+					uploadCompleted="onUploadCompleted"
+				>
+					
+					<upload:toolbar>
+					</upload:toolbar>
+					<upload:items>
+						<upload:UploadSetItem
+							fileName="{fileName}"
+							mediaType="{mediaType}"
+							url="{url}"
+							enabledEdit="false"
+							visibleEdit="false"
+							visibleRemove="false"
+							openPressed="onOpenPressed"
+						>
+                        
+							<upload:attributes>
+								<ObjectAttribute
+									title="Uploaded By"
+									text="{createdBy}"
+									active="false"
+								/>
+								<ObjectAttribute
+									title="Uploaded on"
+									text="{createdAt}"
+									active="false"
+								/>
+								<ObjectAttribute
+									title="File Size"
+									text="{size}"
+									active="false"
+								/>
+							</upload:attributes>
+						</upload:UploadSetItem>
+					</upload:items>
+				</upload:UploadSet>
 				</Panel>
 			</content>
 			<!-- <footer>
