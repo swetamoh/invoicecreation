@@ -2,7 +2,7 @@
 	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
 		<Page title="Pending Invoice List" titleAlignment="Center"
         showNavButton="true" navButtonPress="sap.fiori.invoicecreation.controller.formatter.onNavBack"
-        class="sapUiSizeCompact" enableScrolling="false"
+        class="sapUiSizeCompact" enableScrolling="false">
 			<content>
 				<l:VerticalLayout width="100%">
 					<fb:FilterBar useToolbar="false" showFilterConfiguration="false" search="onFilterGoPress" showClearOnFB="true" clear="onFilterClear">
