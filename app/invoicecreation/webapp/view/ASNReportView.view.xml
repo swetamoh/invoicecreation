@@ -2,7 +2,7 @@
 	xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" class="sapUiSizeCompact">
 		<Page title="Pending Invoice List" titleAlignment="Center"
         showNavButton="true" navButtonPress="sap.fiori.invoicecreation.controller.formatter.onNavBack"
-        class="sapUiSizeCompact">
+        class="sapUiSizeCompact" enableScrolling="false"
 			<content>
 				<l:VerticalLayout width="100%">
 					<fb:FilterBar useToolbar="false" showFilterConfiguration="false" search="onFilterGoPress" showClearOnFB="true" clear="onFilterClear">
@@ -76,7 +76,7 @@
                     <ToolbarSpacer/>
                     <Button icon="sap-icon://action-settings" id="CreateButton" type="Emphasized" press="onColumnSelection" tooltip="Settings"/>
                 </OverflowToolbar>
-				<ScrollContainer horizontal="true">
+				<ScrollContainer horizontal="true" vertical="true" height="60%">
 					<Table id="TableDataId" itemPress="onItempress" items="{path:'DataModel>/results'}" mode="SingleSelectMaster"
 						sticky="ColumnHeaders">
 						<columns>
