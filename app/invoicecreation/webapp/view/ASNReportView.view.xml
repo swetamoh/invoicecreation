@@ -92,6 +92,9 @@
 							<Column id="invDate_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Invoice Date"/>
 							</Column>
+							<Column id="accCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Account Code"/>
+							</Column>
 							<Column id="vendorCode_col" minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Vendor Code"/>
 							</Column>
@@ -150,6 +153,7 @@
 									<Text id="poDate" text="{path:'DataModel>PODate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
 									<Text id="invNumber" text="{DataModel>BillNumber}"/>
 									<Text id="invDate" text="{path:'DataModel>BillDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"></Text>
+									<Text id="accCode" text="{DataModel>AccCode}"/>
 									<Text id="vendorCode" text="{DataModel>VendorCode}"/>
 									<Text id="vendorName" text="{DataModel>VendorName}"/>
 									<Text id="plantCode" text="{DataModel>PlantName} ({DataModel>PlantCode})"></Text>
