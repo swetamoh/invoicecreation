@@ -204,11 +204,6 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 					that.DataModel.setData(oData);
 					that.DataModel.refresh();
-					var oDataModel = that.getView().getModel("DataModel").getData();
-						for (var i = 0; i < oDataModel.results.length; i++) {
-							oDataModel.results[i].ShortQuantity = parseFloat(oDataModel.results[i].ASNQuantity) - parseFloat(oDataModel.results[i].MRNQuantity);
-						}
-					that.DataModel.refresh(true);
 					that.getInvoiceNum();
 				},
 				error: function (error) {
