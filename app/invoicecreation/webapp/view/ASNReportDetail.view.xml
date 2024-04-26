@@ -95,6 +95,14 @@
                         <Text id="_IDGenText11" text="{detailModel>/MRNnumber}"/>
 						<Label id="_IDGenLabel12" design="Bold" text="MRN Date"/>
                         <Text id="_IDGenText12" text="{path:'detailModel>/MRNDate', formatter:'sap.fiori.invoicecreation.controller.formatter.formatDate'}"/>
+						<Label id="_IDGenLabel17" design="Bold" text="PV Number"/>
+                        <Text id="_IDGenText17" text="{detailModel>/PVNumber}"/>
+						<Label id="_IDGenLabel18" design="Bold" text="Rejection Invoice Number"/>
+                        <Text id="_IDGenText18" text=""/>
+						<Label id="_IDGenLabel19" design="Bold" text="Rejction invoice date"/>
+                        <Text id="_IDGenText19" text=""/>
+						<Label id="_IDGenLabel20" design="Bold" text="Rejection Invoice Amount"/>
+                        <Text id="_IDGenText20" text=""/>
 						<Label id="_IDGenLabel13" design="Bold" text="MRN Created By"/>
                         <Text id="_IDGenText13" text="{detailModel>/MRNCreatedBy}"/>
 						<Label id="_IDGenLabel14" design="Bold" text="MRN Delivery Location"/>
@@ -142,7 +150,7 @@
 								<Text text="Group Account Description"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+								<Text text="PO Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Batch Number"/>
@@ -173,6 +181,21 @@
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="Material value"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Other Charges ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Freight Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
+								<Text text="Packing Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Actual Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
+								<Text text="Taxable Value"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text="IGST %"/>
@@ -226,18 +249,6 @@
 								<Text text="Tax Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Other Charges ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Freight Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column width="8rem" minScreenWidth="Tablet" demandPopin="true">
-								<Text text="Packing Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
-								<Text text="Actual Item Rate ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
-							</Column>
-							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
 								<Text text=" Total Invoice Amount ({detailModel>/DocumentRows/results/0/CurrencyCode})"/>
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" width="8rem">
@@ -278,6 +289,11 @@
 									<Text text="{detailModel>TRNType}"/>
 									<Text text="{detailModel>HSNCode}"/>
 									<Text text="{path:'detailModel>MaterialValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
+									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onOthChange"/>
+									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onFreightChange"/>
+									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onPackChange"/>
+									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onRateChange"/>
+									<Text text=""/>
 									<Text text="{detailModel>IGP}"/>
 									<Text text="{detailModel>CGP}"/>
 									<Text text="{detailModel>SGP}"/>
@@ -295,10 +311,6 @@
 									<!-- <Text text="{path:'detailModel>POLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/> -->
 									<Text text="{detailModel>TaxPercentage}"/>
 									<Text text="{path:'detailModel>Tax',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}"/>
-									<Input value="{path:'detailModel>Others',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onOthChange"/>
-									<Input value="{path:'detailModel>Freight',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onFreightChange"/>
-									<Input value="{path:'detailModel>Packing',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onPackChange"/>
-									<Input value="{path:'detailModel>ActualItemRate',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onRateChange"/>
 									<Input value="{path:'detailModel>MRNLineValue',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onTotalChange"/>
 									<Input value="{detailModel>Remarks}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onRemarksChange"/>
 									<!-- <Input value="{path:'detailModel>ActualTaxAmount',formatter:'sap.fiori.invoicecreation.controller.formatter.formatAmount'}" enabled ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR BILL PASSING'}" change="onTaxAmtChange"/> -->
