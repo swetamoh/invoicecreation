@@ -103,6 +103,7 @@ entity DocumentRowItems {
   InvoiceStatus           : String;
   BatchNumber             : String;
   ShortQuantity           : String;
+  Remarks                 : String;
   PNum                    : Association to GetPoDetailstoCreateInvoice;
 }
 

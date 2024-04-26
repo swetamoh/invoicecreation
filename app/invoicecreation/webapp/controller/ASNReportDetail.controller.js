@@ -287,6 +287,14 @@ sap.ui.define([
 			data[path].TCS = val;
 			this.detailModel.refresh(true);
 		},
+		onRemarksChange: function (e) {
+			const val = e.getParameter("newValue"),
+				obj = e.getSource().getParent().getBindingContext("detailModel").getObject();
+			var path = e.getSource().getParent().getBindingContextPath().split("/")[3];
+			var data = this.detailModel.getData().DocumentRows.results;
+			data[path].Remarks = val;
+			this.detailModel.refresh(true);
+		},
 		onExchRateChange: function (e) {
 			const val = e.getParameter("newValue"),
 				obj = e.getSource().getParent().getBindingContext("detailModel").getObject();
