@@ -336,7 +336,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"BillPassingAccountDetails": [],
 				"BillPassingMaterialDetails": []
@@ -486,7 +486,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"DetailsList": [],
 				"AccountDetails": []
@@ -632,7 +632,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"VoucherNumber": this.VoucherNumber
 			};

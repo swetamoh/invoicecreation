@@ -7,15 +7,17 @@ module.exports = (srv) => {
 
     srv.on('READ', GetPendingInvoiceList, async (req) => {
         const params = req._queryOptions;
-        const results = await getPendingInvoiceList(params);
+        const loginid = req.headers.loginid;
+        const results = await getPendingInvoiceList(params,loginid);
         if (results.error) req.reject(500, results.error);
         return results
 
     });
 
     srv.on('READ', GetPoDetailstoCreateInvoice, async (req) => {
-        const { UnitCode, PoNum, MRNnumber, AddressCode } = req._queryOptions
-        const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode);
+        const { UnitCode, PoNum, MRNnumber, AddressCode } = req._queryOptions;
+        const loginid = req.headers.loginid;
+        const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode,loginid);
         if (results.error) req.reject(500, results.error);
 
         const expandDocumentRows = req.query.SELECT.columns && req.query.SELECT.columns.some(({ expand, ref }) => expand && ref[0] === "DocumentRows");
@@ -29,10 +31,11 @@ module.exports = (srv) => {
     });
 
     srv.on('READ', GetAccountDetailsagainstMrnforBillPassing, async (req) => {
-        const { UnitCode, MRNnumber } = req._queryOptions
+        const { UnitCode, MRNnumber } = req._queryOptions;
+        const loginid = req.headers.loginid;
         //const UnitCode = 'P01'
         //const MRNnumber = '22/01GEFP1/02004'
-        const results = await getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber);
+        const results = await getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber,loginid);
         if (results.error) req.reject(500, results.error);
         return results
     });
@@ -41,8 +44,9 @@ module.exports = (srv) => {
         const asnDataString = req.data.invoiceData;
         const asnDataParsed = JSON.parse(asnDataString);
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
+        const loginid = req.headers.loginid;
         try {
-            const response = await postBillPassing(asnDataFormatted);
+            const response = await postBillPassing(asnDataFormatted,loginid);
             return response;
         } catch (error) {
             console.error('Error in PostBillPassing API call:', error);
@@ -55,12 +59,13 @@ module.exports = (srv) => {
         const asnDataString = req.data.invoiceData;
         const asnDataParsed = JSON.parse(asnDataString);
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
+        const loginid = req.headers.loginid;
         try {
-            const response = await voucherGen(asnDataFormatted);
+            const response = await voucherGen(asnDataFormatted,loginid);
             return response;
         } catch (error) {
             console.error('Error in VoucherGen API call:', error);
-            req.reject(400,`Error Voucher generation : ${error.message}`);
+            req.reject(400, `Error Voucher generation : ${error.message}`);
             //throw new Error(`Error Voucher generation : ${error.message}`);
         }
     });
@@ -69,49 +74,49 @@ module.exports = (srv) => {
         const asnDataString = req.data.invoiceData;
         const asnDataParsed = JSON.parse(asnDataString);
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
+        const loginid = req.headers.loginid;
         try {
-            const response = await postVoucher(asnDataFormatted);
+            const response = await postVoucher(asnDataFormatted,loginid);
             return response;
         } catch (error) {
             console.error('Error in PostVoucher API call:', error);
-            req.reject(400,`Error Voucher posting : ${error.message}`);
+            req.reject(400, `Error Voucher posting : ${error.message}`);
             //throw new Error(`Error Voucher posting : ${error.message}`);
         }
     });
 
     srv.on('READ', GetMRNAccountDetailsforVoucherGeneration, async (req) => {
-        const { UnitCode, MRNNumber, MRNDate } = req._queryOptions
-        const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate);
+        const { UnitCode, MRNNumber, MRNDate } = req._queryOptions;
+        const loginid = req.headers.loginid;
+        const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate,loginid);
         if (results.error) req.reject(500, results.error);
         return results
     });
 };
 
-async function getPendingInvoiceList(params) {
+async function getPendingInvoiceList(params,loginid) {
     try {
         const {
             UnitCode, PoNum, MrnNumber, FromPOdate, ToPOdate,
             FromMrndate, ToMrndate, Status
         } = params;
 
-        const url = `https://imperialauto.co:84/IAIAPI.asmx/GetPendingInvoiceList?RequestBy='Manikandan'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MrnNumber='${MrnNumber}'&FromPOdate='${FromPOdate}'&ToPOdate='${ToPOdate}'&FromMrndate='${FromMrndate}'&ToMrndate='${ToMrndate}'&Status='${Status}'`;
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetPendingInvoiceList?RequestBy='${loginid}'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MrnNumber='${MrnNumber}'&FromPOdate='${FromPOdate}'&ToPOdate='${ToPOdate}'&FromMrndate='${FromMrndate}'&ToMrndate='${ToMrndate}'&Status='${Status}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-
-        const response = await axios({
-            method: 'get',
-            url: url,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
-
-        if (response.data && response.data.d) {
-            return JSON.parse(response.data.d);
+        if (response.d) {
+            return JSON.parse(response.d);
         } else {
             return {
-                error: response.data.ErrorDescription
+                error: response.ErrorDescription
             }
         }
     } catch (error) {
@@ -120,20 +125,21 @@ async function getPendingInvoiceList(params) {
     }
 }
 
-async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode) {
+async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetPoDetailstoCreateInvoice?RequestBy='Manikandan'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MRNnumber='${MRNnumber}'&AddressCode='${AddressCode}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetPoDetailstoCreateInvoice?RequestBy='${loginid}'&UnitCode='${UnitCode}'&PoNum='${PoNum}'&MRNnumber='${MRNnumber}'&AddressCode='${AddressCode}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {}
+            });
 
-        if (response.data && response.data.d) {
-            const dataArray = JSON.parse(response.data.d);
+        if (response.d) {
+            const dataArray = JSON.parse(response.d);
 
             const poDetailstoCreateInvoice = dataArray.map(data => {
                 return {
@@ -223,22 +229,23 @@ async function getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCo
     }
 }
 
-async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber) {
+async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetAccountDetailsagainstMrnforBillPassing?RequestBy='Manikandan'&UnitCode='${UnitCode}'&MRNnumber='${MRNnumber}'`,
-            headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
-                'Content-Type': 'application/json'
-            },
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetAccountDetailsagainstMrnforBillPassing?RequestBy='${loginid}'&UnitCode='${UnitCode}'&MRNnumber='${MRNnumber}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
 
-        if (response.data && response.data.d) {
-            return JSON.parse(response.data.d);
+        if (response.d) {
+            return JSON.parse(response.d);
         } else {
             return {
-                error: response.data.ErrorDescription
+                error: response.ErrorDescription
             }
         }
     } catch (error) {
@@ -247,22 +254,23 @@ async function getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber) {
     }
 }
 
-async function postBillPassing(invoiceData) {
+async function postBillPassing(invoiceData, loginid) {
     try {
-        const response = await axios({
-            method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostBillPassing',
-            headers: {
-                'Authorization': 'Bearer ibeMppBlZOk=',
-                'Content-Type': 'application/json'
-            },
-            data: invoiceData
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `POST PostBillPassing`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: invoiceData
+            });
 
-        if (response.data.SuccessCode) {
+        if (response.SuccessCode) {
             return 'Bill posted successfully';
         } else {
-            throw new Error(response.data.ErrorDescription || 'Unknown error occurred');
+            throw new Error(response.ErrorDescription || 'Unknown error occurred');
         }
     } catch (error) {
         console.error('Error in Bill Passing:', error);
@@ -270,22 +278,23 @@ async function postBillPassing(invoiceData) {
     }
 }
 
-async function voucherGen(invoiceData) {
+async function voucherGen(invoiceData, loginid) {
     try {
-        const response = await axios({
-            method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherGeneration',
-            headers: {
-                'Authorization': 'Bearer ibeMppBlZOk=',
-                'Content-Type': 'application/json'
-            },
-            data: invoiceData
-        });
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `POST PostVoucherGeneration`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: invoiceData
+            });
 
-        if (response.data.SuccessCode) {
+        if (response.SuccessCode) {
             return 'Voucher generated successfully';
         } else {
-            throw new Error(response.data.ErrorDescription || 'Unknown error occurred');
+            throw new Error(response.ErrorDescription || 'Unknown error occurred');
         }
     } catch (error) {
         console.error('Error in Voucher Generation:', error);
@@ -293,22 +302,23 @@ async function voucherGen(invoiceData) {
     }
 }
 
-async function postVoucher(invoiceData) {
+async function postVoucher(invoiceData, loginid) {
     try {
-        const response = await axios({
-            method: 'post',
-            url: 'https://imperialauto.co:84/IAIAPI.asmx/PostVoucherPosting',
+        const token = await generateToken(loginid),
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+            query: `POST PostVoucherPosting`,
             headers: {
-                'Authorization': 'Bearer ibeMppBlZOk=',
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             data: invoiceData
         });
 
-        if (response.data.SuccessCode) {
+        if (response.SuccessCode) {
             return 'Voucher posted successfully';
         } else {
-            throw new Error(response.data.ErrorDescription || 'Unknown error occurred');
+            throw new Error(response.ErrorDescription || 'Unknown error occurred');
         }
     } catch (error) {
         console.error('Error in Voucher Passing:', error);
@@ -316,26 +326,51 @@ async function postVoucher(invoiceData) {
     }
 }
 
-async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate) {
+async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate, loginid) {
     try {
-        const response = await axios({
-            method: 'get',
-            url: `https://imperialauto.co:84/IAIAPI.asmx/GetMRNAccountDetailsforVoucherGeneration?RequestBy='Manikandan'&UnitCode='${UnitCode}'&MRNNumber='${MRNNumber}'&MRNDate='${MRNDate}'`,
+        const token = await generateToken(loginid),
+        legApi = await cds.connect.to('Legacy'),
+        response = await legApi.send({
+        query: `GET GetMRNAccountDetailsforVoucherGeneration?RequestBy='${loginid}'&UnitCode='${UnitCode}'&MRNNumber='${MRNNumber}'&MRNDate='${MRNDate}'`,
             headers: {
-                'Authorization': 'Bearer IncMpsaotdlKHYyyfGiVDg==',
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
         });
 
-        if (response.data && response.data.d) {
-            return JSON.parse(response.data.d);
+        if (response.d) {
+            return JSON.parse(response.d);
         } else {
             return {
-                error: response.data.ErrorDescription
+                error: response.ErrorDescription
             }
         }
     } catch (error) {
         console.error('Error in GetMRNAccountDetails API call:', error);
         throw new Error('Unable to fetch GetMRNAccountDetails List:', error);
+    }
+}
+async function generateToken(username) {
+    try {
+        const legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+            query: `POST GenerateToken`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "InputKey": username
+            }
+        });
+
+        if (response.d) {
+            return response.d;
+        } else {
+            console.error('Error parsing token response:', response.data);
+            throw new Error('Error parsing the token response from the API.');
+        }
+    } catch (error) {
+        console.error('Error generating token:', error);
+        throw new Error('Unable to generate token.');
     }
 }
