@@ -188,7 +188,9 @@ sap.ui.define([
 			// if(!data.MRNEndDate){
 			// 	this.MRNEndDate = "";
 			// }
-			
+			that.DataModel.setData([]);
+			that.DataModel.refresh();
+
 			oModel.read("/GetPendingInvoiceList" ,{
 				urlParameters: {
 					UnitCode: data.Plant,

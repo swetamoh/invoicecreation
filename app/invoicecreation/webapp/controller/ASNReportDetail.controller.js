@@ -14,6 +14,8 @@ sap.ui.define([
 			this.getView().setModel(this.accdetailModel, "accdetailModel");
 			this.router = sap.ui.core.UIComponent.getRouterFor(this);
 			this.router.attachRouteMatched(this.handleRouteMatched, this);
+			this.byId("uploadSet").attachEvent("openPressed", this.onOpenPressed, this);
+			this.byId("uploadSet").setUploadEnabled(false);
 		},
 
 		handleRouteMatched: function (oEvent) {
@@ -107,6 +109,7 @@ sap.ui.define([
 							]
 						});
 
+						oItem.setVisibleEdit(false).setVisibleRemove(false);
 						oUploadSet.addItem(oItem);
 					});
 				},
