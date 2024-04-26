@@ -47,6 +47,7 @@ entity GetPoDetailstoCreateInvoice {
       VendorMSMEIndiactor   : String;
       MRNnumber             : String;
       MRNDate               : String;
+      PVNumber              : String;
       MRNCreatedBy          : String;
       MRNDeliveryLocation   : String;
       TotalMRNAmountAsperPO : String;
