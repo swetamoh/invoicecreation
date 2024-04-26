@@ -111,7 +111,7 @@
                 headerText="Item Details"
                 expandable="true"
                 expanded="true"
-				visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} === 'PENDING FOR VOUCHER GENERATION'}"
+				visible ="{= ${detailModel>/DocumentRows/results/0/InvoiceStatus} !== 'PENDING FOR VOUCHER GENERATION'}"
 				>
 				<ScrollContainer horizontal="true" height="65%">
 					<Table id="TableDataId" itemPress="onItempress" items="{detailModel>/DocumentRows/results}" mode="SingleSelectMaster"
