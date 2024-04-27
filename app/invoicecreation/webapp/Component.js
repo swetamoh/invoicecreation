@@ -79,7 +79,7 @@ sap.ui.define([
                 
             },
             setHeaders: function (loginId, loginType) {
-                this.getView().getModel().setHeaders({
+                this.getModel().setHeaders({
                     "loginId": loginId,
                     "loginType": loginType
                 });
