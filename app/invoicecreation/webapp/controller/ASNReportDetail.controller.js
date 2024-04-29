@@ -451,6 +451,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
@@ -597,6 +598,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
@@ -648,6 +650,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
