@@ -39,7 +39,9 @@ sap.ui.define([
 				this.AccCode = data.AccCode;
 				this.AccDesc = data.AccDesc;
 				this.ReceiptDate = data.ReceiptDate.replace(/-/g, '/');
-				this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
+				if(this.VoucherNumber !== undefined){
+					this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
+				};
 				if (data.ASNNumber) {
 					this.ASNNum = data.ASNNumber;
 				}
@@ -63,7 +65,11 @@ sap.ui.define([
 							that.detailModel.getData().DocumentRows.results[i].ActualItemRate = that.detailModel.getData().DocumentRows.results[i].ItemRate;
 							that.detailModel.getData().DocumentRows.results[i].ShortQuantity = parseFloat(that.detailModel.getData().DocumentRows.results[i].InvoiceQty) - parseFloat(that.detailModel.getData().DocumentRows.results[i].ActualQty);
 							}
-							that.detailModel.getData().PVNumber = that.VoucherNumber;
+							if(that.VoucherNumber !== undefined){
+								that.detailModel.getData().PVNumber = that.VoucherNumber;
+							}else{
+								that.detailModel.getData().PVNumber = "";
+							}
 							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;
 							if (that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING') {
