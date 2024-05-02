@@ -213,7 +213,7 @@
                 id="_IDGenScrollContainer1"
                 horizontal="true"
                 vertical="true"
-                height="70%"
+                height="60%"
             >
                 <Table
                     id="TableDataId"
