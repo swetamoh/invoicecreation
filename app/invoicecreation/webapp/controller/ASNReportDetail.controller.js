@@ -63,7 +63,7 @@ sap.ui.define([
 							that.detailModel.getData().DocumentRows.results[i].ActualItemRate = that.detailModel.getData().DocumentRows.results[i].ItemRate;
 							that.detailModel.getData().DocumentRows.results[i].ShortQuantity = parseFloat(that.detailModel.getData().DocumentRows.results[i].InvoiceQty) - parseFloat(that.detailModel.getData().DocumentRows.results[i].ActualQty);
 							}
-							that.detailModel.getData().PVNumber = this.VoucherNumber;
+							that.detailModel.getData().PVNumber = that.VoucherNumber;
 							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;
 							if (that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING') {
