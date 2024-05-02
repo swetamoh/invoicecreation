@@ -14,6 +14,8 @@ sap.ui.define([
 			this.getView().setModel(this.accdetailModel, "accdetailModel");
 			this.router = sap.ui.core.UIComponent.getRouterFor(this);
 			this.router.attachRouteMatched(this.handleRouteMatched, this);
+			this.byId("uploadSet").attachEvent("openPressed", this.onOpenPressed, this);
+			this.byId("uploadSet").setUploadEnabled(false);
 		},
 
 		handleRouteMatched: function (oEvent) {
@@ -37,7 +39,9 @@ sap.ui.define([
 				this.AccCode = data.AccCode;
 				this.AccDesc = data.AccDesc;
 				this.ReceiptDate = data.ReceiptDate.replace(/-/g, '/');
-				this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
+				if(this.VoucherNumber !== undefined){
+					this.VoucherNumber = data.VoucherNumber.replace(/-/g, '/');
+				};
 				if (data.ASNNumber) {
 					this.ASNNum = data.ASNNumber;
 				}
@@ -57,7 +61,15 @@ sap.ui.define([
 						if (filteredPurchaseOrder) {
 							that.detailModel.setData(filteredPurchaseOrder);
 							that.detailModel.refresh(true);
-							that.detailModel.getData().DocumentRows.results[0].ActualItemRate = that.detailModel.getData().DocumentRows.results[0].ItemRate;
+							for (var i = 0; i < that.detailModel.getData().DocumentRows.results.length; i++) {
+							that.detailModel.getData().DocumentRows.results[i].ActualItemRate = that.detailModel.getData().DocumentRows.results[i].ItemRate;
+							that.detailModel.getData().DocumentRows.results[i].ShortQuantity = parseFloat(that.detailModel.getData().DocumentRows.results[i].InvoiceQty) - parseFloat(that.detailModel.getData().DocumentRows.results[i].ActualQty);
+							}
+							if(that.VoucherNumber !== undefined){
+								that.detailModel.getData().PVNumber = that.VoucherNumber;
+							}else{
+								that.detailModel.getData().PVNumber = "";
+							}
 							that.detailModel.refresh(true);
 							that.MRNDate = that.detailModel.getData().MRNDate;
 							if (that.detailModel.getData().DocumentRows.results[0].InvoiceStatus === 'PENDING FOR BILL PASSING') {
@@ -76,9 +88,9 @@ sap.ui.define([
 					},
 					error: function (oError) {
 						sap.ui.core.BusyIndicator.hide();
-						// var value = JSON.parse(oError.response.body);
-						// MessageBox.error(value.error.message.value);
-						MessageBox.error(oError.message);
+						var value = JSON.parse(oError.response.body);
+						MessageBox.error(value.error.message.value);
+						// MessageBox.error(oError.message);
 					}
 				});
 
@@ -104,6 +116,7 @@ sap.ui.define([
 							]
 						});
 
+						oItem.setVisibleEdit(false).setVisibleRemove(false);
 						oUploadSet.addItem(oItem);
 					});
 				},
@@ -197,9 +210,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					// var value = JSON.parse(oError.response.body);
-					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.message);
+					var value = JSON.parse(oError.response.body);
+					MessageBox.error(value.error.message.value);
+					// MessageBox.error(oError.message);
 				}
 			});
 		},
@@ -224,9 +237,9 @@ sap.ui.define([
 				},
 				error: function (oError) {
 					sap.ui.core.BusyIndicator.hide();
-					// var value = JSON.parse(oError.response.body);
-					// MessageBox.error(value.error.message.value);
-					MessageBox.error(oError.message);
+					var value = JSON.parse(oError.response.body);
+					MessageBox.error(value.error.message.value);
+					//MessageBox.error(oError.message);
 				}
 			});
 		},
@@ -281,6 +294,14 @@ sap.ui.define([
 			data[path].TCS = val;
 			this.detailModel.refresh(true);
 		},
+		onRemarksChange: function (e) {
+			const val = e.getParameter("newValue"),
+				obj = e.getSource().getParent().getBindingContext("detailModel").getObject();
+			var path = e.getSource().getParent().getBindingContextPath().split("/")[3];
+			var data = this.detailModel.getData().DocumentRows.results;
+			data[path].Remarks = val;
+			this.detailModel.refresh(true);
+		},
 		onExchRateChange: function (e) {
 			const val = e.getParameter("newValue"),
 				obj = e.getSource().getParent().getBindingContext("detailModel").getObject();
@@ -321,7 +342,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getOwnerComponent().getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"BillPassingAccountDetails": [],
 				"BillPassingMaterialDetails": []
@@ -371,7 +392,8 @@ sap.ui.define([
 				};
 				form.BillPassingAccountDetails.push(row);
 			}
-			if (this.data.DocumentRows.results[0].FRMyear) {
+			for (var i = 0; i < this.data.DocumentRows.results.length; i++) {
+			if (this.data.DocumentRows.results[i].FRMyear) {
 				//var date = this.accdata[i].Billdate.substring(4, 6) + "/" + this.accdata[i].Billdate.substring(6, 8) + "/" + this.accdata[i].Billdate.substring(0, 4);
 				var date = this.data.DocumentRows.results[0].FRMyear;
 				var DateInstance = new Date(date);
@@ -382,47 +404,47 @@ sap.ui.define([
 				this.FRMyear = this.formatdate(this.FRMyear);
 			}
 			var rowdetails = {
-				"ItemCode": this.data.DocumentRows.results[0].MaterialCode,
-				"ItemRevNumber": this.data.DocumentRows.results[0].ItemNumber,
-				"Itemdecsription": this.data.DocumentRows.results[0].MaterialDescription,
-				"ItemGroupCode": this.data.DocumentRows.results[0].ItemGroupCode,
-				"GroupAccCode": this.data.DocumentRows.results[0].GroupAccountCode,
-				"GroupAccDesc": this.data.DocumentRows.results[0].GroupAccountDescription,
-				"AcceptedQty": this.data.DocumentRows.results[0].AcceptedQty,
-				"RejectedQty": this.data.DocumentRows.results[0].RejectedQty,
-				"ActualQty": this.data.DocumentRows.results[0].ActualQty,
-				"InvoiceQty": this.data.DocumentRows.results[0].InvoiceQty,
-				"ItemUom": this.data.DocumentRows.results[0].ItemUOM,
-				"MatVal": this.data.DocumentRows.results[0].MaterialValue,
-				"CGA": this.data.DocumentRows.results[0].CGA,
-				"SGA": this.data.DocumentRows.results[0].SGA,
-				"IGA": this.data.DocumentRows.results[0].IGA,
-				"Packing": this.data.DocumentRows.results[0].Packing,
-				"Freight": this.data.DocumentRows.results[0].Freight,
-				"Others": this.data.DocumentRows.results[0].Others,
-				"Total": this.data.DocumentRows.results[0].MRNLineValue,
-				"ItemRateNew": this.data.DocumentRows.results[0].ItemRate,
-				"ItemRate": this.data.DocumentRows.results[0].ActualItemRate,
-				"CGP": this.data.DocumentRows.results[0].CGP,
-				"SGP": this.data.DocumentRows.results[0].SGP,
-				"IGP": this.data.DocumentRows.results[0].IGP,
-				"HSNCode": this.data.DocumentRows.results[0].HSNCode,
-				"CDT": this.data.DocumentRows.results[0].CDT,
-				"CRT": this.data.DocumentRows.results[0].CRT,
-				"ExchangeRate": this.data.DocumentRows.results[0].ExchangeRate,
-				"BillRate": this.data.DocumentRows.results[0].MRNLineValue,
-				"PackingOrg": this.data.DocumentRows.results[0].PakingOrg,
-				"FrieghtOrg": this.data.DocumentRows.results[0].FrieghtOrg,
-				"OthersOrg": this.data.DocumentRows.results[0].OtherOrg,
-				"VoucherNumber": this.data.DocumentRows.results[0].MRNNumber,
+				"ItemCode": this.data.DocumentRows.results[i].MaterialCode,
+				"ItemRevNumber": this.data.DocumentRows.results[i].ItemNumber,
+				"Itemdecsription": this.data.DocumentRows.results[i].MaterialDescription,
+				"ItemGroupCode": this.data.DocumentRows.results[i].ItemGroupCode,
+				"GroupAccCode": this.data.DocumentRows.results[i].GroupAccountCode,
+				"GroupAccDesc": this.data.DocumentRows.results[i].GroupAccountDescription,
+				"AcceptedQty": this.data.DocumentRows.results[i].AcceptedQty,
+				"RejectedQty": this.data.DocumentRows.results[i].RejectedQty,
+				"ActualQty": this.data.DocumentRows.results[i].ActualQty,
+				"InvoiceQty": this.data.DocumentRows.results[i].InvoiceQty,
+				"ItemUom": this.data.DocumentRows.results[i].ItemUOM,
+				"MatVal": this.data.DocumentRows.results[i].MaterialValue,
+				"CGA": this.data.DocumentRows.results[i].CGA,
+				"SGA": this.data.DocumentRows.results[i].SGA,
+				"IGA": this.data.DocumentRows.results[i].IGA,
+				"Packing": this.data.DocumentRows.results[i].Packing,
+				"Freight": this.data.DocumentRows.results[i].Freight,
+				"Others": this.data.DocumentRows.results[i].Others,
+				"Total": this.data.DocumentRows.results[i].MRNLineValue,
+				"ItemRateNew": this.data.DocumentRows.results[i].ItemRate,
+				"ItemRate": this.data.DocumentRows.results[i].ActualItemRate,
+				"CGP": this.data.DocumentRows.results[i].CGP,
+				"SGP": this.data.DocumentRows.results[i].SGP,
+				"IGP": this.data.DocumentRows.results[i].IGP,
+				"HSNCode": this.data.DocumentRows.results[i].HSNCode,
+				"CDT": this.data.DocumentRows.results[i].CDT,
+				"CRT": this.data.DocumentRows.results[i].CRT,
+				"ExchangeRate": this.data.DocumentRows.results[i].ExchangeRate,
+				"BillRate": this.data.DocumentRows.results[i].CurrPORate,
+				"PackingOrg": this.data.DocumentRows.results[i].PakingOrg,
+				"FrieghtOrg": this.data.DocumentRows.results[i].FrieghtOrg,
+				"OthersOrg": this.data.DocumentRows.results[i].OtherOrg,
+				"VoucherNumber": this.data.DocumentRows.results[i].MRNNumber,
 				"FromYear": this.FRMyear,
-				"TRNLineNumber": this.data.DocumentRows.results[0].TRNLineNumber,
-				"TCS": this.data.DocumentRows.results[0].TCS,
-				"InvoiceRate": this.data.DocumentRows.results[0].InvoiceRate,
-				"CurrPoRate": this.data.DocumentRows.results[0].CurrPORate
+				"TRNLineNumber": this.data.DocumentRows.results[i].TRNLineNumber,
+				"TCS": this.data.DocumentRows.results[i].TCS,
+				"InvoiceRate": this.data.DocumentRows.results[i].InvoiceRate,
+				"CurrPoRate": this.data.DocumentRows.results[i].CurrPORate
 			};
 			form.BillPassingMaterialDetails.push(rowdetails);
-
+		}
 			var formdatastr = JSON.stringify(form);
 			this.hardcodedURL = "";
 			// if (window.location.href.includes("launchpad")) {
@@ -435,6 +457,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
@@ -470,7 +493,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getOwnerComponent().getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"DetailsList": [],
 				"AccountDetails": []
@@ -581,6 +604,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
@@ -616,7 +640,7 @@ sap.ui.define([
 			this.data = this.detailModel.getData();
 			var form = {
 				"UnitCode": this.UnitCode,
-				"CreatedBy": "MA017",
+				"CreatedBy": this.getOwnerComponent().getModel().getHeaders().loginId,
 				"CreatedIP": "",
 				"VoucherNumber": this.VoucherNumber
 			};
@@ -632,6 +656,7 @@ sap.ui.define([
 			$.ajax({
 				type: "POST",
 				headers: {
+					'loginid': that.getOwnerComponent().getModel().getHeaders().loginId,
 					'Content-Type': 'application/json'
 				},
 				url: sPath,
