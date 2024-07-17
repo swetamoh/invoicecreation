@@ -62,8 +62,9 @@ sap.ui.define([
                                 this.setHeaders(res.login_name[0], res.type[0].substring(0, 1).toUpperCase());
                             }
                         });
-                    }else{
-                        this.setHeaders("RA046 ", "E");
+                    } else {
+                        // this.setHeaders("RA046 ", "E");
+                        this.setHeaders("ATP-01-05", "P");
                     }
                 });
 
@@ -76,14 +77,15 @@ sap.ui.define([
                         MessageBox.error(JSON.parse(responseText).error.message.value);
                     }
                 });
-                
+
             },
             setHeaders: function (loginId, loginType) {
+                this.getModel("User").setData({ "Type": loginType });
                 this.getModel().setHeaders({
                     "loginId": loginId,
                     "loginType": loginType
                 });
-        
+
                 // enable routing
                 this.getRouter().initialize();
             },

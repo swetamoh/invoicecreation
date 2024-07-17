@@ -6,9 +6,10 @@ module.exports = (srv) => {
     const { GetPendingInvoiceList, GetPoDetailstoCreateInvoice, GetAccountDetailsagainstMrnforBillPassing, GetMRNAccountDetailsforVoucherGeneration } = srv.entities;
 
     srv.on('READ', GetPendingInvoiceList, async (req) => {
-        const params = req._queryOptions;
-        const loginid = req.headers.loginid;
-        const results = await getPendingInvoiceList(params,loginid);
+        const params = req._queryOptions,
+            loginid = req.headers.loginid,
+            logintype = req.headers.logintype;
+        const results = await getPendingInvoiceList(params, loginid, logintype);
         if (results.error) req.reject(500, results.error);
         return results
 
@@ -17,7 +18,7 @@ module.exports = (srv) => {
     srv.on('READ', GetPoDetailstoCreateInvoice, async (req) => {
         const { UnitCode, PoNum, MRNnumber, AddressCode } = req._queryOptions;
         const loginid = req.headers.loginid;
-        const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode,loginid);
+        const results = await getPoDetailstoCreateInvoice(UnitCode, PoNum, MRNnumber, AddressCode, loginid);
         if (results.error) req.reject(500, results.error);
 
         const expandDocumentRows = req.query.SELECT.columns && req.query.SELECT.columns.some(({ expand, ref }) => expand && ref[0] === "DocumentRows");
@@ -35,7 +36,7 @@ module.exports = (srv) => {
         const loginid = req.headers.loginid;
         //const UnitCode = 'P01'
         //const MRNnumber = '22/01GEFP1/02004'
-        const results = await getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber,loginid);
+        const results = await getAccountDetailsagainstMrnforBillPassing(UnitCode, MRNnumber, loginid);
         if (results.error) req.reject(500, results.error);
         return results
     });
@@ -46,7 +47,7 @@ module.exports = (srv) => {
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
         const loginid = req.headers.loginid;
         try {
-            const response = await postBillPassing(asnDataFormatted,loginid);
+            const response = await postBillPassing(asnDataFormatted, loginid);
             return response;
         } catch (error) {
             console.error('Error in PostBillPassing API call:', error);
@@ -61,7 +62,7 @@ module.exports = (srv) => {
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
         const loginid = req.headers.loginid;
         try {
-            const response = await voucherGen(asnDataFormatted,loginid);
+            const response = await voucherGen(asnDataFormatted, loginid);
             return response;
         } catch (error) {
             console.error('Error in VoucherGen API call:', error);
@@ -76,7 +77,7 @@ module.exports = (srv) => {
         const asnDataFormatted = JSON.stringify(asnDataParsed, null, 2);
         const loginid = req.headers.loginid;
         try {
-            const response = await postVoucher(asnDataFormatted,loginid);
+            const response = await postVoucher(asnDataFormatted, loginid);
             return response;
         } catch (error) {
             console.error('Error in PostVoucher API call:', error);
@@ -88,13 +89,13 @@ module.exports = (srv) => {
     srv.on('READ', GetMRNAccountDetailsforVoucherGeneration, async (req) => {
         const { UnitCode, MRNNumber, MRNDate } = req._queryOptions;
         const loginid = req.headers.loginid;
-        const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate,loginid);
+        const results = await getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate, loginid);
         if (results.error) req.reject(500, results.error);
         return results
     });
 };
 
-async function getPendingInvoiceList(params,loginid) {
+async function getPendingInvoiceList(params, loginid, logintype) {
     try {
         const {
             UnitCode, PoNum, MrnNumber, FromPOdate, ToPOdate,
@@ -113,7 +114,12 @@ async function getPendingInvoiceList(params,loginid) {
             });
 
         if (response.d) {
-            return JSON.parse(response.d);
+            const rData = JSON.parse(response.d);
+            if (logintype === 'P') {
+                return JSON.parse(response.d).filter(item => item.VendorCode === loginid);
+            } else {
+                return rData;
+            }
         } else {
             return {
                 error: response.ErrorDescription
@@ -307,13 +313,13 @@ async function postVoucher(invoiceData, loginid) {
         const token = await generateToken(loginid),
             legApi = await cds.connect.to('Legacy'),
             response = await legApi.send({
-            query: `POST PostVoucherPosting`,
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            data: invoiceData
-        });
+                query: `POST PostVoucherPosting`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data: invoiceData
+            });
 
         if (response.SuccessCode) {
             return 'Voucher posted successfully';
@@ -329,14 +335,14 @@ async function postVoucher(invoiceData, loginid) {
 async function getMRNAccountDetailsforVoucherGeneration(UnitCode, MRNNumber, MRNDate, loginid) {
     try {
         const token = await generateToken(loginid),
-        legApi = await cds.connect.to('Legacy'),
-        response = await legApi.send({
-        query: `GET GetMRNAccountDetailsforVoucherGeneration?RequestBy='${loginid}'&UnitCode='${UnitCode}'&MRNNumber='${MRNNumber}'&MRNDate='${MRNDate}'`,
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-        });
+            legApi = await cds.connect.to('Legacy'),
+            response = await legApi.send({
+                query: `GET GetMRNAccountDetailsforVoucherGeneration?RequestBy='${loginid}'&UnitCode='${UnitCode}'&MRNNumber='${MRNNumber}'&MRNDate='${MRNDate}'`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
 
         if (response.d) {
             return JSON.parse(response.d);
@@ -354,14 +360,14 @@ async function generateToken(username) {
     try {
         const legApi = await cds.connect.to('Legacy'),
             response = await legApi.send({
-            query: `POST GenerateToken`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                "InputKey": username
-            }
-        });
+                query: `POST GenerateToken`,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    "InputKey": username
+                }
+            });
 
         if (response.d) {
             return response.d;

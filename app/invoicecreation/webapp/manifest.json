@@ -134,6 +134,9 @@
             "sap-value-list": "none"
           }
         }
+      },
+      "User": {
+        "type": "sap.ui.model.json.JSONModel"
       }
     },
     "resources": {
